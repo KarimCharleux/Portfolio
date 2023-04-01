@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "utils";
+
+body {
+  font-family: "Roboto", serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  color: black;
+  background: linear-gradient(120deg, #f5f7fa, #fff3e5);
+}
