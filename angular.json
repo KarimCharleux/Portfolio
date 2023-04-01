@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "PortolioAngular": {
+    "PortfolioAngular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/portolio-angular",
+            "outputPath": "dist/portfolio-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -27,7 +27,6 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -66,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "PortolioAngular:build:production"
+              "browserTarget": "PortfolioAngular:build:production"
             },
             "development": {
-              "browserTarget": "PortolioAngular:build:development"
+              "browserTarget": "PortfolioAngular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "PortolioAngular:build"
+            "browserTarget": "PortfolioAngular:build"
           }
         },
         "test": {
@@ -90,7 +89,6 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
