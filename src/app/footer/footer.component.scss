@@ -1,0 +1,45 @@
+footer {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 0 10px 0;
+
+  img {
+    border-radius: 50%;
+  }
+
+  a {
+    color: #547387;
+    text-decoration: none;
+    transition: all 0.6s;
+
+    &:hover {
+      color: #000000;
+    }
+  }
+
+  #social-linkedin:hover {
+    color: #0077b5;
+  }
+
+  #social-insta:hover {
+    color: #e4405f;
+  }
+
+  #social-facebook:hover {
+    color: #3b5998;
+  }
+
+  #link-openclassrooms:hover {
+    color: #7451EB;
+  }
+}
+
+
+
