@@ -11,8 +11,16 @@ import * as fr from '@angular/common/locales/fr';
   ]
 })
 export class AppComponent {
+
+  loading = true;
+
   constructor() {
     registerLocaleData(fr.default);
+
+    // Simuler un chargement de 2 secondes
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
   }
 }
 

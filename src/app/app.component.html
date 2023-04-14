@@ -1,3 +1,4 @@
-<app-header></app-header>
-<app-insta-feed></app-insta-feed>
-<app-footer></app-footer>
+<app-loading *ngIf="loading"></app-loading>
+<app-header *ngIf="!loading"></app-header>
+<app-insta-feed *ngIf="!loading"></app-insta-feed>
+<!-- <app-footer *ngIf="!loading"></app-footer> -->

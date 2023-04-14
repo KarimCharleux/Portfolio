@@ -7,6 +7,7 @@ import {InstaFeedComponent} from './insta-feed/insta-feed.component';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { LoadingComponent } from './loading/loading.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     PosteInstaComponent,
     InstaFeedComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,0 +1,13 @@
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: FadeOut 0.75s ease-in-out;
+  animation-delay: 0.75s;
+  animation-fill-mode: forwards;
+
+  .loadingLogo{
+    animation: ZoomIn 1.5s ease-in;
+  }
+}
