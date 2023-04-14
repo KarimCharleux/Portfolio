@@ -34,9 +34,10 @@ export class PosteInsta {
   }
 }
 
+// Don't work actually
 function makeHashtagsClickable(text: string): string {
   return text.replace(
     /#(\w+)/g,
-    '<span class="hashtags">#$1</span>'
+    '<span class="hastags">#$1</span>'
   );
 }

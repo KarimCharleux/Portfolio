@@ -10,7 +10,7 @@
   margin: 10px 0 10px 0;
   cursor: default;
   opacity: 0;
-  animation: slideToUp 1s ease-out forwards;
+  animation: SlideToUp 1s ease-out forwards;
 
   .post-insta-location {
     font-size: 12px;
@@ -89,13 +89,10 @@
     text-decoration: none;
   }
 
-  .hashtags {
+  .hastags {
     color: #8f8f8f;
     text-decoration: none;
-  }
-
-  .hashtags:visited {
-    color: #8f8f8f;
+    cursor: pointer;
   }
 
   .post-insta-description {
