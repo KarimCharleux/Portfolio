@@ -1,4 +1,4 @@
-<app-loading *ngIf="loading"></app-loading>
-<app-header *ngIf="!loading"></app-header>
-<app-insta-feed *ngIf="!loading"></app-insta-feed>
-<!-- <app-footer *ngIf="!loading"></app-footer> -->
+<app-loading *ngIf="isLoading"></app-loading>
+<app-header *ngIf="!isLoading"></app-header>
+<router-outlet></router-outlet>
+<app-insta-feed *ngIf="!isLoading"></app-insta-feed>

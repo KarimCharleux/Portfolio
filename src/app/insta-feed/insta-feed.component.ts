@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {PosteInsta} from "../class/PosteInsta";
+import { Component } from '@angular/core';
+import { PosteInsta } from "../class/PosteInsta";
 
 @Component({
   selector: 'app-insta-feed',

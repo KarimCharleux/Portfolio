@@ -1,44 +1,44 @@
-<div class="post-insta" [style.animation-delay]="posteInsta.id * 0.5 +'s'">
-  <p class="post-insta-location" *ngIf="posteInsta.location"><i
+<div [style.animation-delay]="posteInsta.id * 0.5 +'s'" class="post-insta">
+  <p *ngIf="posteInsta.location" class="post-insta-location"><i
     class="bi bi-geo-alt"></i> {{ posteInsta.location | titlecase  }}</p>
-  <img class="post-insta-image" [src]="posteInsta.image" [alt]="posteInsta.message">
+  <img [alt]="posteInsta.message" [src]="posteInsta.image" class="post-insta-image">
 
   <div class="post-insta-btn-container">
-    <button class="post-insta-btn" (click)="onAddLike()" [ngClass]="{clicked: posteInsta.clicked}">
+    <button (click)="onAddLike()" [ngClass]="{clicked: posteInsta.clicked}" class="post-insta-btn">
       <lord-icon
-        src="https://cdn.lordicon.com/{{posteInsta.likeType}}.json"
-        trigger="hover"
         colors="primary:{{ posteInsta.likeColor }}"
-        style="width:27px;height:27px">
+        src="https://cdn.lordicon.com/{{posteInsta.likeType}}.json"
+        style="width:27px;height:27px"
+        trigger="hover">
       </lord-icon>
     </button>
 
     <button class="post-insta-btn">
       <lord-icon
         src="https://cdn.lordicon.com/hpivxauj.json"
-        trigger="hover"
-        style="width:27px;height:27px">
+        style="width:27px;height:27px"
+        trigger="hover">
       </lord-icon>
     </button>
 
-    <button class="post-insta-btn" (click)="onClickSave()">
+    <button (click)="onClickSave()" class="post-insta-btn">
       <lord-icon
         src="https://cdn.lordicon.com/{{posteInsta.saveType}}.json"
-        trigger="hover"
-        style="width:27px;height:27px">
+        style="width:27px;height:27px"
+        trigger="hover">
       </lord-icon>
     </button>
   </div>
 
 
-  <p class="post-insta-message" [innerHTML]="posteInsta.message"></p>
+  <p [innerHTML]="posteInsta.message" class="post-insta-message"></p>
 
 
   <div class="post-insta-description">
 
     <div class="post-insta-desc-container">
       <div class="user">
-        <img [src]="posteInsta.userImage" [alt]="posteInsta.userName" class="user-image">
+        <img [alt]="posteInsta.userName" [src]="posteInsta.userImage" class="user-image">
         <div>
           <span class="user-name">{{ posteInsta.userName | titlecase }}</span> <br>
           <span class="user-follower"> {{ posteInsta.followers }} followers</span>
