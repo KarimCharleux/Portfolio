@@ -1,0 +1,11 @@
+<div class="stories-container">
+  <div class="stories">
+    <div *ngFor="let story of allStories; let index = index" [style.animation-delay]="(index * 0.25) + 0.5 + 's'"
+         class="story">
+      <div class="story-picture-border"></div>
+      <img alt="Story of {{story}}" class="story-picture" height="70" ngSrc="https://picsum.photos/70/70?random={{index}}"
+           width="70">
+      <p class="story-name">{{story}}</p>
+    </div>
+  </div>
+</div>

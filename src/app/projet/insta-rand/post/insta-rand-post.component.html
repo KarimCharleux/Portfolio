@@ -1,0 +1,62 @@
+<div [style.animation-delay]="postInsta.id * 0.5 +'s'" class="post-insta">
+  <p *ngIf="postInsta.location" class="post-insta-location"><i
+    class="bi bi-geo-alt"></i> {{ postInsta.location | titlecase  }}</p>
+  <img [alt]="postInsta.message" class="post-insta-image" height="{{postInsta.imageSize}}" ngSrc="{{postInsta.image}}"
+       width="{{postInsta.imageSize}}">
+
+  <div class="post-insta-btn-container">
+    <button (click)="onAddLike()" [ngClass]="{'clicked btn-bubble': postInsta.clicked}" aria-label="Like"
+            class="post-insta-btn">
+      <lord-icon
+        colors="primary:{{ postInsta.likeColor }}"
+        src="https://cdn.lordicon.com/{{postInsta.likeType}}.json"
+        style="width:27px;height:27px"
+        trigger="hover">
+      </lord-icon>
+    </button>
+
+    <button aria-label="Comment" class="post-insta-btn">
+      <lord-icon
+        src="https://cdn.lordicon.com/hpivxauj.json"
+        style="width:27px;height:27px"
+        trigger="hover">
+      </lord-icon>
+    </button>
+
+    <button (click)="onClickSave()" aria-label="Save" class="post-insta-btn">
+      <lord-icon
+        src="https://cdn.lordicon.com/{{postInsta.saveType}}.json"
+        style="width:27px;height:27px"
+        trigger="hover">
+      </lord-icon>
+    </button>
+  </div>
+
+
+  <p [innerHTML]="postInsta.message" class="post-insta-message"></p>
+
+
+  <div class="post-insta-description">
+
+    <div class="post-insta-desc-container">
+      <div class="user">
+        <img [alt]="postInsta.userName" class="user-image" height="{{postInsta.userImageSize}}"
+             ngSrc="{{postInsta.userImage}}" width="{{postInsta.userImageSize}}">
+        <div>
+          <span class="user-name">{{ postInsta.userName | titlecase }}</span> <br>
+          <span class="user-follower"> {{ postInsta.followers }} followers</span>
+        </div>
+      </div>
+
+      <span class="post-insta-stat">
+        <span [ngStyle]={color:postInsta.likeColor}>{{ postInsta.likes }}  <i class="bi bi-heart"></i></span>
+        {{postInsta.comments}} <i class="bi bi-chat"></i>
+      </span>
+
+    </div>
+
+  </div>
+
+  <p class="post-insta-date">À {{ postInsta.date | date: 'HH:mm le dd/MM/YY' }}</p>
+
+</div>

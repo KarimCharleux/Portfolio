@@ -1,0 +1,103 @@
+@font-face {
+  font-family: "texte";
+  src: url('../../../../font/RobotoCondensed-Regular.ttf');
+}
+
+.header {
+  background: right / cover url(../../../../assets/VTT/header.jpg) no-repeat;
+  height: 700px;
+}
+
+#bonjour {
+  font-size: 30px;
+  position: absolute;
+  margin: 400px 0px 0px 4%;
+  display: flex;
+  animation: slideDown 1s;
+  transition: margin-left 0.5s;
+}
+
+#bonjour:hover {
+  transition: all 0.5s;
+  margin-left: 10%;
+}
+
+.section1 {
+  height: 320px;
+  background-color: rgb(34, 34, 34);
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  font-size: 1.5em;
+}
+
+.conteneur_image_vtt {
+  color: white;
+  display: flex;
+  position: relative;
+
+  a {
+    text-decoration: none;
+    color: white;
+
+    &:visited {
+      color: white;
+    }
+  }
+
+  span {
+    cursor: pointer;
+  }
+}
+
+.image_vtt {
+  display: block;
+  width: 100%;
+}
+
+
+#xc_text:hover, #dh_text:hover, #trial_text:hover {
+  opacity: 1;
+  backdrop-filter: blur(3px);
+}
+
+#xc_text, #dh_text, #trial_text {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  top: 0;
+  left: 0;
+  width: 33.3%;
+  height: 100%;
+  font-size: 60px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.452);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+#dh_text {
+  margin-left: 33.3%;
+}
+
+#trial_text {
+  margin-left: 66.66%;
+}
+
+@media screen and (max-width: 1280px) {
+  #xc_text {
+    font-size: 40px;
+  }
+  #dh_text {
+    font-size: 40px;
+  }
+  #trial_text {
+    font-size: 40px;
+  }
+
+
+}

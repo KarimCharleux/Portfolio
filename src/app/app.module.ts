@@ -2,31 +2,47 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { PosteInstaComponent } from './poste-insta/poste-insta.component';
-import { InstaFeedComponent } from './insta-feed/insta-feed.component';
-import { HeaderComponent } from './header/header.component';
+import { InstaRandPostComponent } from './projet/insta-rand/post/insta-rand-post.component';
+import { InstaRandFeedComponent } from './projet/insta-rand/feed/insta-rand-feed.component';
+import { InstaRandHeaderComponent } from './projet/insta-rand/header/insta-rand-header.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { LoadingComponent } from './loading/loading.component';
-import { InstaRandComponent } from './insta-rand/insta-rand.component';
+import { InstaRandLoadingComponent } from './projet/insta-rand/loading/insta-rand-loading.component';
+import { InstaRandComponent } from './projet/insta-rand/insta-rand.component';
 import { HomeComponent } from './home/home.component';
 import { RouterOutlet } from "@angular/router";
-import { StoriesComponent } from './stories/stories.component';
+import { InstaRandStoriesComponent } from './projet/insta-rand/stories/insta-rand-stories.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LeMondeDuVttComponent } from './projet/le-monde-du-vtt/le-monde-du-vtt.component';
+import { SnchessComponent } from './projet/snchess/snchess.component';
+import { NgOptimizedImage } from "@angular/common";
+import { VttHeaderComponent } from './projet/le-monde-du-vtt/vtt-header/vtt-header.component';
+import { VttFooterComponent } from './projet/le-monde-du-vtt/vtt-footer/vtt-footer.component';
+import { VttHomeComponent } from './projet/le-monde-du-vtt/vtt-home/vtt-home.component';
+import { VttContactComponent } from './projet/le-monde-du-vtt/vtt-contact/vtt-contact.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PosteInstaComponent,
-    InstaFeedComponent,
-    HeaderComponent,
-    LoadingComponent,
+    InstaRandPostComponent,
+    InstaRandFeedComponent,
+    InstaRandHeaderComponent,
+    InstaRandLoadingComponent,
     InstaRandComponent,
     HomeComponent,
-    StoriesComponent
+    InstaRandStoriesComponent,
+    LeMondeDuVttComponent,
+    SnchessComponent,
+    VttHeaderComponent,
+    VttFooterComponent,
+    VttHomeComponent,
+    VttContactComponent
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     RouterOutlet,
+    AppRoutingModule,
+    NgOptimizedImage,
   ],
   providers: [],
   bootstrap: [AppComponent],

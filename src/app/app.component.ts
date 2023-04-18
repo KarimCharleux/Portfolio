@@ -1,7 +1,6 @@
 import { Component, LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import * as fr from '@angular/common/locales/fr';
-import '../variables.scss';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-root',
@@ -11,18 +10,10 @@ import '../variables.scss';
     { provide: LOCALE_ID, useValue: 'en-EN' }
   ]
 })
+
 export class AppComponent {
-
-  isLoading = true;
-  loadingDuration = 2000;
-
-  constructor() {
-    registerLocaleData(fr.default);
-
-    // Simuler un chargement de 2 secondes
-    setTimeout(() => {
-      this.isLoading = false;
-    }, this.loadingDuration);
+  constructor(private titleService: Title) {
+    this.titleService.setTitle("Karim CHARLEUX - Portfolio");
   }
 }
 
