@@ -1,0 +1,6 @@
+@import '../../../scss/_variables';
+
+main {
+  background: linear-gradient(0deg, #f5f7fa, #fff3e5);
+  animation: rotateGradient 10s linear infinite;
+}

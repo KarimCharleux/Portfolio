@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "texte";
+  src: url('../../../font/RobotoCondensed-Regular.ttf');
+}
+
+main{
+  font-family: "texte", 'Roboto', arial;
+  margin: 0;
+  color: white;
+  background: linear-gradient(to bottom,rgb(224, 224, 224),rgb(121, 121, 121));
+}

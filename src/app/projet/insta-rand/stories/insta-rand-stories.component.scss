@@ -1,0 +1,70 @@
+@import "../../../../scss/_variables";
+
+.stories-container {
+
+  .stories {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 10px 0;
+
+    .story {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      padding: 10px;
+      opacity: 0;
+      animation: FadeIn 1.5s ease-out forwards;
+
+      &:hover {
+        .story-picture {
+          scale: 1.05;
+        }
+      }
+
+      &:active {
+        .story-picture {
+          scale: 0.95;
+        }
+      }
+
+      .story-name {
+        cursor: pointer;
+        font-size: 0.9em;
+        margin-top: 8px;
+        color: $text-color-dark;
+      }
+
+      .story-picture {
+        z-index: 1;
+        margin: 4px;
+        cursor: pointer;
+        background-color: $background-color;
+        border-radius: 50%;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .story-picture-border {
+        z-index: 0;
+        position: absolute;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        border: 2.2px solid $border-color;
+        top: 40px;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .story:last-child {
+    display: none !important;
+  }
+}

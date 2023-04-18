@@ -1,0 +1,39 @@
+footer {
+  margin: 0%;
+  padding: 4% 0 0 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(34, 34, 34);
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:visited {
+      color: white;
+    }
+  }
+}
+
+.titre {
+  font-family: titre;
+}
+
+.bloc_footer_titre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bloc_footer {
+  text-align: center;
+}
+
+.liste_rapide {
+  padding: 0;
+  list-style: none;
+}
+
+.liste_rapide li:hover {
+  opacity: 0.8;
+}
