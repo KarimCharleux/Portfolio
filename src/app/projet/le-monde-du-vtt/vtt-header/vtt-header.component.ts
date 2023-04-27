@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class VttHeaderComponent {
 
+  showMenu() {
+    const menu = document.querySelector('nav');
+    if (menu === null) return;
+    menu.classList.toggle('show');
+  }
+
+  disableMenu() {
+    const menu = document.querySelector('nav');
+    if (menu === null) return;
+    menu.classList.remove('show');
+  }
 }

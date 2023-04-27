@@ -1,221 +1,110 @@
-/* =============== CSS Commun ================= */
-@font-face {
-  font-family: "titre";
-  src: url('../../../../font/ProcrastinatingPixie.ttf');
-}
+@import "../../../../scss/utils";
+@import "../../../../scss/variables";
 
-@font-face {
-  font-family: "texte";
-  src: url('../../../../font/RobotoCondensed-Regular.ttf');
-}
-
-body {
-  background: linear-gradient(to bottom, rgb(224, 224, 224), rgb(121, 121, 121));
-}
-
-img[class="image_champion"] {
-  display: block;
-  margin: auto;
-  padding: 2%;
-  width: 70%;
-  transition: all 0.5s;
-}
-
-img[class="image_champion"]:hover {
-  background-color: rgb(187, 187, 187, 0.2);
-  border-radius: 5px;
-}
-
-a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.856);
-}
-
-/* ================== En-tête ================== */
-h2 {
-  margin: 8px 0 0 10px;
-  position: fixed;
-  z-index: 2;
-  font-family: "titre";
-  text-shadow: black 2px 2px 5px;
-  font-size: 40px;
-  animation: slideDown 2s;
-}
-
-div[id="en-tete"] {
+header {
   position: fixed;
   background-color: rgba(34, 34, 34, 0.5);
   backdrop-filter: blur(2px);
-  width: 100%;
-  height: 60px;
-  animation: slideUp 1.8s;
-  z-index: 1;
-  margin: 0;
-  justify-content: right;
   display: flex;
-}
-
-nav {
   width: 100%;
-}
+  align-items: center;
+  padding: 0.3vw 2vw;
+  z-index: 1000;
+  animation: SlideToDown 1.5s ease-out forwards;
 
-nav ul {
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  text-align: center;
-}
-
-nav li {
-  margin-left: 5%;
-  font-size: 20px;
-  font-weight: bold;
-  transition: all 0.2s;
-  display: inline-block;
-  text-shadow: black 1px 1px;
-}
-
-nav #icon {
-  margin: 2% 2% 0 90%;
-  color: white;
-  font-size: 40px;
-  cursor: pointer;
-  position: absolute;
-  z-index: 2;
-  display: none;
-}
-
-input[value="Contact"] {
-  background-color: #01899bda;
-  padding: 10px;
-  border-radius: 10%;
-  border: 0;
-  font-size: 20px;
-  margin-left: 40%;
-  color: rgba(255, 255, 255, 0.856);
-  transition: all 0.5s;
-  margin: 5px;
-}
-
-input[value="Contact"]:hover {
-  color: rgb(255, 255, 255);
-  background-color: #018A9B;
-  transition: all 0.3s;
-  box-shadow: black 2px 2px 2px;
-}
-
-nav a:hover {
-  transition: all 0.3s;
-  color: white;
-}
-
-/* ============================================= */
-
-
-/* ============ Les Animations ================= */
-
-@keyframes slideDown {
-  from {
-    transform: translateX(200px);
-    opacity: 0;
+  #header-title {
+    position: absolute;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: white;
+    font-family: 'Procrastinating Pixie', serif;
+    text-shadow: black 2px 2px 5px;
+    animation: SlideToRight 2s ease-out forwards;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+
+  nav {
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    width: 45%;
+    margin: auto;
+
+    .header-link {
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.856);
+      transition: all 0.2s ease-in-out;
+      text-shadow: black 1px 1px;
+
+      &.active {
+        color: white !important;
+      }
+
+      &:hover {
+        color: white;
+      }
+    }
+
+    #header-link-contact {
+      cursor: pointer;
+      background-color: #01899bda;
+      padding: 7px 17px;
+      border-radius: 10px;
+      border: 0;
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.856);
+      transition: all 0.5s;
+      margin: 5px;
+    }
+  }
+
+  #header-icon-list {
+    margin-right: 20px;
+    font-size: 40px;
+    cursor: pointer;
+    position: absolute;
+    display: none;
+    right: 0;
   }
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(-200px);
-    opacity: 0;
-  }
+@media screen and (max-width: 1200px) {
+  header {
+    flex-direction: column;
 
-  to {
-    transform: translateY(0);
-    opacity: 1;
+    #header-title {
+      position: initial;
+    }
+
+    nav {
+      width: 100%;
+    }
   }
 }
 
-@keyframes glisse {
-  0% {
-    transform: translateX(0);
+@media screen and (max-width: 800px) {
+  header {
+    padding: 0;
   }
-  10% {
-    transform: translateX(0);
-  }
-  20% {
-    transform: translateX(-700px);
-  }
-  30% {
-    transform: translateX(-700px);
-  }
-  40% {
-    transform: translateX(-1400px);
-  }
-  50% {
-    transform: translateX(-1400px);
-  }
-  60% {
-    transform: translateX(-2100px);
-  }
-  70% {
-    transform: translateX(-2100px);
-  }
-  80% {
-    transform: translateX(-2800px);
-  }
-  90% {
-    transform: translateX(-2800px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
 
-/* ================================== */
-
-
-@media screen and (max-width: 1280px) {
-  #en-tete {
-    height: 90px;
-  }
-  input[value="Contact"] {
-    margin-left: 0%;
-  }
-  h2 {
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 45px;
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  h2 {
-    margin-top: 20px;
-  }
-  nav #icon {
-    display: block;
-  }
-  nav ul {
-    padding-top: 5%;
-    position: fixed;
-    width: 100%;
+  nav {
     height: 100vh;
     background: rgb(34, 34, 34);;
-    left: -120%;
+    left: -100%;
     text-align: center;
     transition: all 0.5s;
+    flex-direction: column;
+    position: absolute;
+
+    &.show {
+      left: 0 !important;
+    }
   }
-  nav li {
-    display: block;
-    margin: 70px 0;
-    font-size: 2.5em;
-  }
-  input[value="Contact"] {
-    font-size: 1em;
-  }
-  nav ul.show {
-    left: 0;
+
+  #header-icon-list {
+    display: initial !important;
+    position: absolute;
   }
 }
