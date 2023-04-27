@@ -7,12 +7,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: top left;
-  animation: FadeOut $loading-duration/2 ease-in-out;
-  animation-delay: $loading-duration/2;
+  animation: FadeOut calc($loading-duration / 2) ease-in-out;
+  animation-delay: calc($loading-duration / 2);
   animation-fill-mode: forwards;
 
   .loadingLogo {
-    animation: ZoomIn $loading-duration ease-in;
+    animation: ZoomInBlur $loading-duration ease-in;
     height: auto;
     width: 100%;
   }

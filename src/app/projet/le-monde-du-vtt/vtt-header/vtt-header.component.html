@@ -1,17 +1,11 @@
 <header>
-  <h2>LE MONDE DU VTT</h2>
-  <div id="en-tete">
-    <nav>
-      <label id="icon">
-        <i class="fas fa-bars"></i>
-      </label>
-      <ul>
-        <li><a href="main.html">Accueil</a></li>
-        <li><a href="xc.html">Cross Country</a></li>
-        <li><a href="dh.html">VTT de descente</a></li>
-        <li><a href="trial.html">VTT Trial</a></li>
-        <li><a href="le-monde-du-vtt/contact"><input type="button" value="Contact"></a></li>
-      </ul>
-    </nav>
-  </div>
+  <a id="header-title" routerLink=".">LE MONDE DU VTT</a>
+  <nav>
+    <a (click)="disableMenu()" class="header-link" routerLink="." routerLinkActive="active">Accueil</a>
+    <a (click)="disableMenu()" class="header-link" routerLink="xc" routerLinkActive="active">Cross Country</a>
+    <a (click)="disableMenu()" class="header-link" routerLink="dh" routerLinkActive="active">Downhill</a>
+    <a (click)="disableMenu()" class="header-link" routerLink="trial" routerLinkActive="active">Trial</a>
+    <button (click)="disableMenu()" id="header-link-contact" routerLink="contact">Contact</button>
+  </nav>
+  <i (click)="showMenu()" class="bi bi-list" id="header-icon-list"></i>
 </header>

@@ -19,6 +19,9 @@ import { VttHeaderComponent } from './projet/le-monde-du-vtt/vtt-header/vtt-head
 import { VttFooterComponent } from './projet/le-monde-du-vtt/vtt-footer/vtt-footer.component';
 import { VttHomeComponent } from './projet/le-monde-du-vtt/vtt-home/vtt-home.component';
 import { VttContactComponent } from './projet/le-monde-du-vtt/vtt-contact/vtt-contact.component';
+import { VttXcComponent } from './projet/le-monde-du-vtt/vtt-xc/vtt-xc.component';
+import { VttDhComponent } from './projet/le-monde-du-vtt/vtt-dh/vtt-dh.component';
+import { VttTrialComponent } from './projet/le-monde-du-vtt/vtt-trial/vtt-trial.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { VttContactComponent } from './projet/le-monde-du-vtt/vtt-contact/vtt-co
     VttHeaderComponent,
     VttFooterComponent,
     VttHomeComponent,
-    VttContactComponent
+    VttContactComponent,
+    VttXcComponent,
+    VttDhComponent,
+    VttTrialComponent
   ],
   imports: [
     BrowserAnimationsModule,

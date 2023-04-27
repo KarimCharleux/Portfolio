@@ -1,45 +1,39 @@
-<main>
+<div id="background_image">
+  <div id="contenu">
+    <h1>CONTACT</h1>
+    <form action="mailto:karim.charleux@hotmail.fr" method="POST">
+      <table>
+        <tr>
+          <td class="TD_Label"><label for="Nom">Nom </label></td>
+          <td class="TD_Label"><label for="Prenom">Prénom </label></td>
+        </tr>
 
+        <tr>
+          <td><input id="Nom" name="Nom" placeholder="Saisissez votre nom" required type="text"></td>
+          <td><input id="Prenom" name="Prenom" placeholder="Saisissez votre prenom" required type="text"></td>
+        </tr>
 
-  <app-vtt-header></app-vtt-header>
-  <div id="background_image">
-    <div id="contenu">
-      <h1>CONTACT</h1>
-      <form action="mailto:karim.charleux@hotmail.fr" method="POST">
-        <table>
-          <tr>
-            <td class="TD_Label"><label for="Nom">Nom </label></td>
-            <td class="TD_Label"><label for="Prenom">Prénom </label></td>
-          </tr>
+        <tr>
+          <td class="TD_Label"><label for="Email">Email</label></td>
+          <td class="TD_Label"><label for="tel">Téléphone</label></td>
+        </tr>
 
-          <tr>
-            <td><input id="Nom" name="Nom" placeholder="Saisissez votre nom" required type="text"></td>
-            <td><input id="Prenom" name="Prenom" placeholder="Saisissez votre prenom" required type="text"></td>
-          </tr>
-
-          <tr>
-            <td class="TD_Label"><label for="Email">Email</label></td>
-            <td class="TD_Label"><label for="tel">Téléphone</label></td>
-          </tr>
-
-          <tr>
-            <td><input id="Email" name="Email" placeholder="Saisissez votre e-mail" type="email"></td>
-            <td><input id="tel" maxlength="10" minlength="10" name="tel" placeholder="Saisissez votre téléphone"
-                       type="tel"></td>
-          </tr>
-          <tr>
-            <td class="TD_Label"><label for="message">Message</label></td>
-          </tr>
-          <tr>
-            <td colspan="2"><textarea id="message" placeholder="Saisisser votre message" rows="5"></textarea></td>
-          </tr>
-        </table>
-        <div class="bouton_conteneur">
-          <input class="bouton" type="submit" value="Envoyer">
-          <input class="bouton" type="reset" value="Annuler">
-        </div>
-      </form>
-    </div>
+        <tr>
+          <td><input id="Email" name="Email" placeholder="Saisissez votre e-mail" type="email"></td>
+          <td><input id="tel" maxlength="10" minlength="10" name="tel" placeholder="Saisissez votre téléphone"
+                     type="tel"></td>
+        </tr>
+        <tr>
+          <td class="TD_Label"><label for="message">Message</label></td>
+        </tr>
+        <tr>
+          <td colspan="2"><textarea id="message" placeholder="Saisisser votre message" rows="5"></textarea></td>
+        </tr>
+      </table>
+      <div class="bouton_conteneur">
+        <input class="bouton" type="submit" value="Envoyer">
+        <input class="bouton" type="reset" value="Annuler">
+      </div>
+    </form>
   </div>
-  <app-vtt-footer></app-vtt-footer>
-</main>
+</div>
