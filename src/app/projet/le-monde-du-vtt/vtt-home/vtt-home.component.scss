@@ -1,36 +1,43 @@
-.header {
+#home-background {
   background: right / cover url(../../../../assets/VTT/header.jpg) no-repeat;
-  height: 700px;
+  height: 800px;
+
+  #home-subtitle {
+    font-size: 30px;
+    position: absolute;
+    margin: 400px 0 0 4%;
+    display: flex;
+    animation: slideDown 1s;
+    cursor: default;
+    transition: all 0.5s ease-out;
+
+    &:hover {
+      transform: translateX(10%);
+    }
+  }
 }
 
-#bonjour {
-  font-size: 30px;
-  position: absolute;
-  margin: 400px 0px 0px 4%;
-  display: flex;
-  animation: slideDown 1s;
-  transition: margin-left 0.5s;
-}
-
-#bonjour:hover {
-  transition: all 0.5s;
-  margin-left: 10%;
-}
-
-.section1 {
-  height: 320px;
+#home-section-text {
+  padding: 2vw;
   background-color: rgb(34, 34, 34);
   justify-content: center;
   text-align: center;
   align-items: center;
+  flex-direction: column;
   display: flex;
   font-size: 1.5em;
 }
 
-.conteneur_image_vtt {
+#home-vtt-image-container {
   color: white;
   display: flex;
   position: relative;
+
+  .home-image-vtt {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 
   a {
     text-decoration: none;
@@ -46,54 +53,37 @@
   }
 }
 
-.image_vtt {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-
-#xc_text:hover, #dh_text:hover, #trial_text:hover {
-  opacity: 1;
-  backdrop-filter: blur(3px);
-}
-
-#xc_text, #dh_text, #trial_text {
+.home-vtt-text {
   display: flex;
   position: absolute;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-weight: bold;
-  top: 0;
-  left: 0;
-  width: 33.3%;
+  width: calc(100% / 3);
   height: 100%;
-  font-size: 60px;
+  font-size: 10vh;
   color: white;
   background-color: rgba(0, 0, 0, 0.452);
   opacity: 0;
   transition: opacity 0.5s;
-}
+  backdrop-filter: blur(3px);
 
-#dh_text {
-  margin-left: 33.3%;
-}
-
-#trial_text {
-  margin-left: 66.66%;
-}
-
-@media screen and (max-width: 1280px) {
-  #xc_text {
-    font-size: 40px;
-  }
-  #dh_text {
-    font-size: 40px;
-  }
-  #trial_text {
-    font-size: 40px;
+  &:hover {
+    opacity: 1;
   }
 
+  &:nth-child(3) {
+    margin-left: calc(100% / 3);
+  }
 
+  &:nth-child(4) {
+    margin-left: calc((100% / 3) * 2);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .home-vtt-text {
+    font-size: 5vh;
+  }
 }

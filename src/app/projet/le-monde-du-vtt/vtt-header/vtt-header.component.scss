@@ -48,7 +48,7 @@ header {
       }
     }
 
-    #header-link-contact {
+    #header-btn-contact {
       cursor: pointer;
       background-color: #01899bda;
       padding: 7px 17px;
@@ -58,6 +58,20 @@ header {
       color: rgba(255, 255, 255, 0.856);
       transition: all 0.5s;
       margin: 5px;
+      font-weight: bold;
+      font-family: "Roboto Condensed", "Roboto", serif;
+
+      &:hover {
+        background-color: #01899b;
+        color: white;
+        scale: 1.02;
+      }
+
+      &:active {
+        background-color: #01899b;
+        color: white;
+        scale: 0.98;
+      }
     }
   }
 
@@ -124,7 +138,7 @@ header {
 
     nav {
       height: 100vh;
-      background: rgb(34, 34, 34);;
+      background-color: rgb(34, 34, 34);
       left: -100%;
       text-align: center;
       transition: all 0.5s;

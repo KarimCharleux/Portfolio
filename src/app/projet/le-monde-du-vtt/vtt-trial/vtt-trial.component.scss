@@ -1,57 +1,44 @@
-
-#image_fond{
+#trial-background-image {
+  position: absolute;
   width: 100%;
   height: auto;
-  position: absolute;
 }
-h1{
+
+#trial-title {
   animation: slideDown 0.8s;
   position: absolute;
-  font-style: titre;
   font-size: 5em;
   justify-content: center;
   padding: 10%;
   margin-top: 200px;
   text-shadow: black 2px 2px 5px;
 }
-article{
-  background-color: rgb(255, 255, 255);
-  padding: 7%;
-  font-size: 1.2em;
-}
-section{
+
+#trial-page {
   position: relative;
-  padding-top: 40%;
+  padding-top: 50%;
+  padding-bottom: 5%;
   color: rgb(0, 0, 0);
-  margin:auto;
   text-align: justify;
   width: 80%;
   height: 100%;
-  margin-bottom: 5%;
-}
-#image_versus{
-  height: auto;
-  width: 100%;
-  padding: 2%;
+  margin: auto;
+
+  #trial-container-text {
+    background-color: rgb(255, 255, 255);
+    padding: 7%;
+    font-size: 1.2em;
+  }
 }
 
-#trial_img{
+#trial-bike-image {
   display: block;
   margin: auto;
   height: auto;
   width: 40%;
 }
 
-#aurelien_lien{
-  color: black;
-  text-decoration: underline;
-}
-
-#aurelien_lien:hover{
-  color: rgb(212, 36, 36)
-}
-
-.image_champion {
+.trial-champion-image {
   width: 100%;
   height: auto;
   transition: 0.5s ease;
@@ -61,19 +48,13 @@ section{
   }
 }
 
-/* ================================== */
-
-
-@media screen and (max-width: 1280px){
-  h1{
+@media screen and (max-width: 1280px) {
+  #trial-title {
     margin-top: 100px;
   }
-  section{
+
+  #trial-page {
     width: 90%;
     font-size: 1.2em;
   }
-}
-
-@media screen and (max-width: 780px){
-
 }

@@ -1,6 +1,5 @@
-<main>
-  <app-vtt-header></app-vtt-header>
-  <router-outlet></router-outlet>
-  <app-vtt-footer></app-vtt-footer>
+<app-vtt-header></app-vtt-header>
+<main [@routeAnimations]="prepareRoute(outlet)" class="content">
+  <router-outlet #outlet="outlet" (activate)="onActivate()"></router-outlet>
 </main>
-
+<app-vtt-footer></app-vtt-footer>
