@@ -18,11 +18,11 @@ const appRouteList: Routes = [
     path: 'le-monde-du-vtt',
     component: LeMondeDuVttComponent,
     children: [
-      { path: '', component: VttHomeComponent },
-      { path: 'contact', component: VttContactComponent },
-      { path: 'xc', component: VttXcComponent },
-      { path: 'dh', component: VttDhComponent },
-      { path: 'trial', component: VttTrialComponent }
+      { path: '', component: VttHomeComponent, data: { animation: 'isHome' } },
+      { path: 'xc', component: VttXcComponent , data: { animation: 'isFirst' }},
+      { path: 'dh', component: VttDhComponent , data: { animation: 'isSecond' }},
+      { path: 'trial', component: VttTrialComponent , data: { animation: 'isThird' }},
+      { path: 'contact', component: VttContactComponent, data: { animation: 'isContact' } }
     ]
   },
   { path: '**', redirectTo: '' }

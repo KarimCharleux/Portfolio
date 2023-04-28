@@ -1,20 +1,12 @@
-#image_fond {
+#xc-background-image {
   position: absolute;
   width: 100%;
   height: auto;
 }
 
-video {
-  width: 80%;
-  display: block;
-  padding: 2%;
-  margin: auto;
-}
-
-h1 {
+#xc-title {
   animation: slideDown 0.8s;
   position: absolute;
-  font-style: titre;
   font-size: 5em;
   justify-content: center;
   padding: 10%;
@@ -22,87 +14,80 @@ h1 {
   text-shadow: black 2px 2px 5px;
 }
 
-.contenu_text {
-  background-color: rgb(255, 255, 255);
-  padding: 7% 7% 0% 7%;
-  font-size: 1.2em;
-  margin-bottom: 0;
-}
-
-section {
+#xc-page {
   position: relative;
   padding-top: 50%;
+  padding-bottom: 5%;
   color: rgb(0, 0, 0);
-  margin: auto;
   text-align: justify;
   width: 80%;
   height: 100%;
-  margin-bottom: 5%;
-}
-
-#image_versus {
-  height: auto;
-  width: 100%;
-  padding: 2%;
-}
-
-.image_champion {
-  width: 100%;
-  height: auto;
-  transition: 0.5s ease;
-
-  &:hover {
-    background-color: #ececec;
-  }
-}
-
-
-article {
-  padding: 2% 7% 2% 7%;
-  background-color: rgb(255, 255, 255);
-}
-
-.slider {
-  width: 700px;
-  overflow: hidden;
   margin: auto;
 
-  .slides {
-    width: 3500px;
-    animation: slideSmooth 20s infinite ease;
+  #xc-text-container {
+    background-color: rgb(255, 255, 255);
+    padding: 7%;
+    font-size: 1.2em;
 
-    .slide {
-      float: left;
+    video {
+      width: 80%;
+      display: block;
+      padding: 2%;
+      margin: auto;
+    }
 
-      .image_slide {
-        width: 700px;
-        height: auto;
+    #xc-image-versus {
+      height: auto;
+      width: 100%;
+      padding: 2%;
+    }
+
+    .xc-champion-image {
+      width: 100%;
+      height: auto;
+      transition: 0.5s ease;
+
+      &:hover {
+        background-color: #ececec;
+      }
+    }
+  }
+
+  article {
+    padding: 2% 7% 6% 7%;
+    background-color: rgb(255, 255, 255);
+  }
+
+  #xc-slider {
+    width: 100%;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+
+    #xc-slides-container {
+      width: 500%;
+      display: flex;
+      height: auto;
+      animation: slideStepSmooth 20s infinite ease;
+
+      .xc-slide {
+        float: left;
+
+        .xc-image_slide {
+          width: 100%;
+          height: auto;
+        }
       }
     }
   }
 }
 
-
 @media screen and (max-width: 1280px) {
-  h1 {
+  #xc-title {
     margin-top: 100px;
   }
-  section {
+
+  #xc-page {
     width: 90%;
     font-size: 1.2em;
   }
-}
-
-@keyframes slideSmooth{
-  0% {transform: translateX(0);}
-  10% {transform: translateX(0);}
-  20% {transform: translateX(-700px);}
-  30% {transform: translateX(-700px);}
-  40% {transform: translateX(-1400px);}
-  50% {transform: translateX(-1400px);}
-  60% {transform: translateX(-2100px);}
-  70% {transform: translateX(-2100px);}
-  80% {transform: translateX(-2800px);}
-  90% {transform: translateX(-2800px);}
-  100% {transform: translateX(0);}
 }

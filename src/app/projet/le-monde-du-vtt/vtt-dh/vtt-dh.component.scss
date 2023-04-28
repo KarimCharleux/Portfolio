@@ -1,14 +1,12 @@
-
-#image_fond{
+#dh-background-image {
   width: 100%;
   height: auto;
   position: absolute;
 }
 
-h1{
+#dh-title {
   animation: slideDown 0.8s;
   position: absolute;
-  font-style: titre;
   font-size: 5em;
   justify-content: center;
   padding: 10%;
@@ -16,72 +14,55 @@ h1{
   text-shadow: black 2px 2px 5px;
 }
 
-article{
-  background-color: rgb(255, 255, 255);
-  padding: 7%;
-  font-size: 1.2em;
-}
-
-video{
-  width: 80%;
-  display: block;
-  padding: 2%;
-  margin: auto;
-}
-
-#img_canyon{
-  display: block;
-  margin: auto;
-  width: 60%;
-  padding: 2%;
-}
-
-#A_L_img{
-  width: 80%;
-}
-
-.A_L{
-  display: flex;
-  padding: 2% 0 2% 0;
-  margin-right: 10%;
-  margin-left: 10%;
-}
-
-
-section{
+#dh-page {
   position: relative;
   padding-top: 50%;
+  padding-bottom: 5%;
   color: rgb(0, 0, 0);
-  margin:auto;
+  margin: auto;
   text-align: justify;
   width: 80%;
   height: 100%;
-  margin-bottom: 5%;
-}
 
-.image_champion {
-  width: 100%;
-  height: auto;
-  transition: 0.5s ease;
+  #dh-container-text {
+    background-color: rgb(255, 255, 255);
+    padding: 7%;
+    font-size: 1.2em;
 
-  &:hover {
-    background-color: #ececec;
+    video {
+      width: 80%;
+      display: block;
+      padding: 2%;
+      margin: auto;
+    }
+
+    #img-canyon {
+      display: block;
+      margin: auto;
+      width: 60%;
+      height: auto;
+      padding: 2%;
+    }
+
+    .dh-champion-image {
+      width: 100%;
+      height: auto;
+      transition: 0.5s ease;
+
+      &:hover {
+        background-color: #ececec;
+      }
+    }
   }
 }
 
-/* ================================== */
-
-
-@media screen and (max-width: 1280px){
-  h1{
+@media screen and (max-width: 1280px) {
+  #dh-title {
     margin-top: 100px;
   }
-  section{
+
+  #dh-container-text {
     width: 90%;
     font-size: 1.2em;
   }
-}
-
-@media screen and (max-width: 780px){
-
 }
