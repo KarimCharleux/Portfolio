@@ -22,6 +22,7 @@ import { VttContactComponent } from './projet/le-monde-du-vtt/vtt-contact/vtt-co
 import { VttXcComponent } from './projet/le-monde-du-vtt/vtt-xc/vtt-xc.component';
 import { VttDhComponent } from './projet/le-monde-du-vtt/vtt-dh/vtt-dh.component';
 import { VttTrialComponent } from './projet/le-monde-du-vtt/vtt-trial/vtt-trial.component';
+import { TreejsComponent } from './projet/threeJS/treejs.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { VttTrialComponent } from './projet/le-monde-du-vtt/vtt-trial/vtt-trial.
     VttContactComponent,
     VttXcComponent,
     VttDhComponent,
-    VttTrialComponent
+    VttTrialComponent,
+    TreejsComponent
   ],
   imports: [
     BrowserAnimationsModule,

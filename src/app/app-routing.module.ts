@@ -9,11 +9,13 @@ import { VttXcComponent } from "./projet/le-monde-du-vtt/vtt-xc/vtt-xc.component
 import { VttDhComponent } from "./projet/le-monde-du-vtt/vtt-dh/vtt-dh.component";
 import { VttTrialComponent } from "./projet/le-monde-du-vtt/vtt-trial/vtt-trial.component";
 import { VttHomeComponent } from "./projet/le-monde-du-vtt/vtt-home/vtt-home.component";
+import { TreejsComponent } from "./projet/threeJS/treejs.component";
 
 const appRouteList: Routes = [
   { path: '', component: HomeComponent },
   { path: 'instarand', component: InstaRandComponent },
   { path: 'snchess', component: SnchessComponent },
+  { path: 'treejs', component: TreejsComponent },
   {
     path: 'le-monde-du-vtt',
     component: LeMondeDuVttComponent,
