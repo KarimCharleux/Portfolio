@@ -23,6 +23,8 @@ import { VttXcComponent } from './projet/le-monde-du-vtt/vtt-xc/vtt-xc.component
 import { VttDhComponent } from './projet/le-monde-du-vtt/vtt-dh/vtt-dh.component';
 import { VttTrialComponent } from './projet/le-monde-du-vtt/vtt-trial/vtt-trial.component';
 import { TreejsComponent } from './projet/threeJS/treejs.component';
+import { CardEffectComponent } from './projet/card-effect/card-effect.component';
+import { VanlifeComponent } from './projet/vanlife/vanlife.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { TreejsComponent } from './projet/threeJS/treejs.component';
     VttXcComponent,
     VttDhComponent,
     VttTrialComponent,
-    TreejsComponent
+    TreejsComponent,
+    CardEffectComponent,
+    VanlifeComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -10,12 +10,16 @@ import { VttDhComponent } from "./projet/le-monde-du-vtt/vtt-dh/vtt-dh.component
 import { VttTrialComponent } from "./projet/le-monde-du-vtt/vtt-trial/vtt-trial.component";
 import { VttHomeComponent } from "./projet/le-monde-du-vtt/vtt-home/vtt-home.component";
 import { TreejsComponent } from "./projet/threeJS/treejs.component";
+import { VanlifeComponent } from "./projet/vanlife/vanlife.component";
+import { CardEffectComponent } from "./projet/card-effect/card-effect.component";
 
 const appRouteList: Routes = [
   { path: '', component: HomeComponent },
   { path: 'instarand', component: InstaRandComponent },
   { path: 'snchess', component: SnchessComponent },
   { path: 'treejs', component: TreejsComponent },
+  { path: 'vanlife', component: VanlifeComponent },
+  { path: 'card-effect', component: CardEffectComponent },
   {
     path: 'le-monde-du-vtt',
     component: LeMondeDuVttComponent,

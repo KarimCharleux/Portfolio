@@ -14,6 +14,34 @@ export const slider =
     transition('isThird => isSecond', slideTo('left'))
   ]);
 
+
+function fade() {
+  return [
+    query(':enter, :leave', [
+        style({
+            position: 'absolute',
+            width: '100%',
+            opacity: 0,
+            transform: 'scale(0) translateY(100%)',
+          }
+        ),
+      ],
+      { optional: true }
+    ),
+    query(':enter', [
+        animate('600ms ease',
+          style({
+              opacity: 1,
+              transform: 'scale(1) translateY(0)'
+            }
+          ),
+        ),
+      ],
+      { optional: true }
+    )
+  ];
+}
+
 function slideTo(direction: any) {
   const optional = { optional: true };
   return [
