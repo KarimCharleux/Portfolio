@@ -1,0 +1,24 @@
+<header>
+  <a routerLink=".">
+    <img alt="Logo SNCHESS" height="400" id="img_logo" ngSrc="assets/snchess/logo.png" width="732">
+  </a>
+  <div id="barre_recherche">
+    <img alt="Rechercher" height="1024" id="barre_recherche_loupe" ngSrc="assets/snchess/image_loupe.png" width="1024">
+    <input id="barre_recherche_input" placeholder="Recherche" type="text">
+  </div>
+  <div id="mon_compte_AND_mon_panier">
+    <span id="mon_compte">
+      <a routerLink="connexion">
+        <img alt="Connexion" height="496" ngSrc="assets/snchess/perso.png" width="535">
+      </a>
+      <a id="mon_compte_text" routerLink="connexion">
+        Mon Compte
+      </a>
+    </span>
+    <span id="mon_panier">
+      <a id="nombre_billet_panier" routerLink="panier">Joueur 1 à votre tour</a>
+      <a routerLink="panier"><img alt="Panier" height="496" ngSrc="assets/snchess/cart.png" width="535"></a>
+      <a id="mon_panier_text" routerLink="panier">Mon panier</a>
+    </span>
+  </div>
+</header>

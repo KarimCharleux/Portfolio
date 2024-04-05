@@ -1,0 +1,99 @@
+header {
+  background-color: #EBEBEB;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1% 11% 1% 11%;
+
+  span img {
+    height: 30px;
+    width: auto;
+    margin: 7px;
+    vertical-align: middle;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    text-shadow: #15152F 0 0 3px;
+    padding: 10% 5px 5px;
+  }
+}
+
+#img_logo {
+  width: 140px;
+  height: auto;
+}
+
+#barre_recherche:active, #barre_recherche_input:active {
+  background-color: rgb(240, 240, 240);
+}
+
+#barre_recherche {
+  box-shadow: 11px 11px 42px #cccccc,
+  -11px -11px 42px #ffffff;
+  transition: all 0.5s;
+  display: flex;
+  background-color: white;
+  border-radius: 14px;
+  padding: 7px;
+  width: 25%;
+}
+
+#barre_recherche_loupe {
+  width: 25px;
+  height: 25px;
+}
+
+#barre_recherche_input {
+  transition: all 0.5s;
+  border: 0;
+  padding-left: 8px;
+  height: 25px;
+  text-align: center;
+  width: 100%;
+}
+
+#mon_compte_AND_mon_panier {
+  font-family: Fack_Normal, serif;
+  display: flex;
+  flex-direction: column;
+}
+
+#mon_panier:hover, #mon_compte:hover {
+  background-color: #e4e3e3;
+  border-radius: 20px;
+}
+
+#mon_panier, #mon_compte {
+  transition: all 0.3s;
+}
+
+#nombre_billet_panier {
+  position: absolute;
+  background-color: #f7646b;
+  width: 20px;
+  margin: -4px 0 0 40px;
+  font-size: 0.9em;
+  height: 20px;
+  border-radius: 50px;
+  font-family: fack_bold, serif;
+  color: #ffffff;
+  text-align: center;
+  padding: 0;
+  font-weight: normal;
+  display: none;
+  text-shadow: none;
+}
+
+@media screen and (max-width: 1280px) {
+  #img_logo {
+    width: 120px;
+  }
+
+  #barre_recherche {
+    display: none;
+  }
+}
