@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as THREE from 'three';
 
 @Component({
@@ -6,7 +6,7 @@ import * as THREE from 'three';
   templateUrl: './treejs.component.html',
   styleUrls: ['./treejs.component.scss']
 })
-export class TreejsComponent implements OnInit{
+export class TreejsComponent implements OnInit {
   ngOnInit(): void {
     this.createThreeJsBox();
   }

@@ -1,4 +1,4 @@
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import {animate, group, query, style, transition, trigger} from '@angular/animations';
 
 export const slider =
   trigger('routeAnimations', [
@@ -14,36 +14,8 @@ export const slider =
     transition('isThird => isSecond', slideTo('left'))
   ]);
 
-
-function fade() {
-  return [
-    query(':enter, :leave', [
-        style({
-            position: 'absolute',
-            width: '100%',
-            opacity: 0,
-            transform: 'scale(0) translateY(100%)',
-          }
-        ),
-      ],
-      { optional: true }
-    ),
-    query(':enter', [
-        animate('600ms ease',
-          style({
-              opacity: 1,
-              transform: 'scale(1) translateY(0)'
-            }
-          ),
-        ),
-      ],
-      { optional: true }
-    )
-  ];
-}
-
 function slideTo(direction: any) {
-  const optional = { optional: true };
+  const optional = {optional: true};
   return [
     query(':enter, :leave', [
         style({
@@ -57,20 +29,20 @@ function slideTo(direction: any) {
       optional
     ),
     query(':enter', [
-        style({ [direction]: '-100%' })
+        style({[direction]: '-100%'})
       ],
       optional
     ),
     group([
       query(':leave', [
           animate('600ms ease',
-            style({ [direction]: '100%' }))
+            style({[direction]: '100%'}))
         ],
         optional
       ),
       query(':enter', [
           animate('600ms ease',
-            style({ [direction]: '0%' }))
+            style({[direction]: '0%'}))
         ],
         optional
       )

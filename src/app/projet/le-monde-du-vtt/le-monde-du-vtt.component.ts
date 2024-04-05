@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { slider } from './route-animation'
-import { RouterOutlet } from "@angular/router";
+import {Component} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {slider} from './route-animation'
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-le-monde-du-vtt',
