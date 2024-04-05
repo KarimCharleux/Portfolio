@@ -1,6 +1,6 @@
 <div [style.animation-delay]="postInsta.id * 0.5 +'s'" class="post-insta">
   <p *ngIf="postInsta.location" class="post-insta-location"><i
-    class="bi bi-geo-alt"></i> {{ postInsta.location | titlecase  }}</p>
+    class="bi bi-geo-alt"></i> {{ postInsta.location | titlecase }}</p>
   <img [alt]="postInsta.message" class="post-insta-image" height="{{postInsta.imageSize}}" ngSrc="{{postInsta.image}}"
        width="{{postInsta.imageSize}}">
 
@@ -50,7 +50,7 @@
 
       <span class="post-insta-stat">
         <span [ngStyle]={color:postInsta.likeColor}>{{ postInsta.likes }}  <i class="bi bi-heart"></i></span>
-        {{postInsta.comments}} <i class="bi bi-chat"></i>
+        {{ postInsta.comments }} <i class="bi bi-chat"></i>
       </span>
 
     </div>

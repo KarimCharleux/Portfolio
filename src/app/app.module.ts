@@ -32,7 +32,6 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFireAnalyticsModule} from "@angular/fire/compat/analytics";
 import {ScreenTrackingService, UserTrackingService} from "@angular/fire/analytics";
-import {ChocolateBarComponent} from './projet/chocolate-bar/chocolate-bar.component';
 
 
 @NgModule({
@@ -60,7 +59,6 @@ import {ChocolateBarComponent} from './projet/chocolate-bar/chocolate-bar.compon
     SnchessHeaderComponent,
     SnchessFooterComponent,
     SnchessHomeComponent,
-    ChocolateBarComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),

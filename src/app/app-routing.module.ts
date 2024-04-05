@@ -13,12 +13,10 @@ import {TreejsComponent} from "./projet/threeJS/treejs.component";
 import {VanlifeComponent} from "./projet/vanlife/vanlife.component";
 import {CardEffectComponent} from "./projet/card-effect/card-effect.component";
 import {SnchessHomeComponent} from "./projet/snchess/snchess-home/snchess-home.component";
-import {ChocolateBarComponent} from "./projet/chocolate-bar/chocolate-bar.component";
 
 const appRouteList: Routes = [
   {path: '', component: HomeComponent},
   {path: 'instarand', component: InstaRandComponent},
-  {path: 'chocolate-bar', component: ChocolateBarComponent},
   {path: 'treejs', component: TreejsComponent},
   {path: 'vanlife', component: VanlifeComponent},
   {path: 'card-effect', component: CardEffectComponent},

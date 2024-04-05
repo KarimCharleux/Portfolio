@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { PostInsta } from "./PostInsta";
+import {Component, Input} from '@angular/core';
+import {PostInsta} from "./PostInsta";
 
 @Component({
   selector: 'app-insta-rand-post',
