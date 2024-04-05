@@ -1,0 +1,63 @@
+<main>
+  <section>
+    <br>
+    <div id="erreur_section">
+      <p id="erreur_title">VOTRE RECHERCHE CONTIENT UNE OU PLUSIEURS ERREUR(S)</p>
+      <ul>
+
+      </ul>
+    </div>
+    <div id="main_recherche">
+      <div class="recherche_section">
+<span>
+<img alt="Ville de départ" class="img_label" height="110" ngSrc="assets/snchess/maps2.png" width="110">
+<label for="ville_depart">Gare de départ</label>
+</span>
+        <input id="ville_depart" list="select1" placeholder="Entrer votre gare de départ" type="text">
+        <datalist id="select1">
+          <!--Création des options avec la fonction creerOptionRechercheBillet()-->
+        </datalist>
+        <span>
+<img alt="" class="img_label" height="110" ngSrc="assets/snchess/date2.png" width="110">
+<label for="date_depart">Date de départ</label>
+</span>
+        <input id="date_depart" type="date">
+      </div>
+      <div class="recherche_section">
+<span>
+<img alt="Ville de départ" class="img_label" height="110" ngSrc="assets/snchess/maps2.png" width="110">
+<label for="ville_arrive">Gare d'arrivée</label>
+</span>
+        <input id="ville_arrive" list="select2" placeholder="Entrer votre gare d'arrivée" type="text">
+        <datalist id="select2">
+          <!--Création des options avec la fonction creerOptionRechercheBillet()-->
+        </datalist>
+        <span>
+<img alt="" class="img_label" height="110" ngSrc="assets/snchess/time2.png" width="110">
+<label for="horaire_arrivee">Horaire d'arrivée</label>
+</span>
+        <input id="horaire_arrivee" type="time">
+      </div>
+
+      <button id="bouton_rechercher">Rechercher</button>
+    </div>
+
+    <div id="rechercheMaps">
+      <div>
+        <label for="address">Liste des gares à proximité de </label>
+        <input id="address" list="select" placeholder="Entrer une adresse" type="text"/>
+        <datalist id="select">
+          <!--Création des options à partir de la fonction creerOptionRechercheMaps()-->
+        </datalist>
+        <button onclick="rechercherAdresse()"><img alt="" height="1024" ngSrc="assets/snchess/image_loupe_blanche.png"
+                                                   width="1024"></button>
+      </div>
+
+      <div id="resultatRechercheMaps">
+        <!-- Resultat afficher avec la fonction rechercherAdresse() -->
+      </div>
+    </div>
+
+    <div class="map" id="map"></div>
+  </section>
+</main>

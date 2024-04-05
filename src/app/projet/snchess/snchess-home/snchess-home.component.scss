@@ -1,0 +1,240 @@
+main {
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../../assets/snchess/fond.jpg);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: cover;
+}
+
+section {
+  border-radius: 30px;
+  width: 60%;
+  box-shadow: rgba(0, 0, 0, 0.356) 0 0 50px;
+  margin: 5% auto 5% auto;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: cover;
+}
+
+label {
+  margin-left: 2px;
+  text-align: left;
+}
+
+#erreur_title {
+  font-family: Fack_Bold;
+  text-align: center;
+}
+
+#erreur_section {
+  display: none;
+  background-color: rgb(255, 235, 235);
+  border-radius: 30px;
+  background-color: #ed4343de;
+  color: white;
+  margin: 0 27px;
+  padding: 5px;
+}
+
+#erreur_section ul li {
+  margin-top: 3px;
+}
+
+.img_label {
+  vertical-align: middle;
+  margin: 0;
+  height: 20px;
+}
+
+span {
+  margin: 0;
+  text-align: start;
+}
+
+#main_recherche {
+  padding: 2%;
+  width: 100%;
+  justify-content: space-around;
+  display: flex;
+}
+
+
+#bouton_rechercher {
+  margin-top: 60px;
+  z-index: 1;
+  vertical-align: middle;
+  font: bold 1.2em Fack_Bold;
+  width: 170px;
+  height: 80px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: 0px;
+  background: transparent;
+  position: relative;
+  transition: all .2s;
+  overflow: hidden;
+  color: white;
+  border-radius: 30px;
+  box-shadow: 0px -0px 0px 0px #fa747a85, 0px 0px 0px 0px #ee3a43a6;
+}
+
+#bouton_rechercher::after {
+  content: '';
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  background-image: linear-gradient(225deg, #fcbdc0 0%, #ff9095 50%, #b13e46 100%);
+  z-index: -1;
+  transition: all .5s;
+}
+
+#bouton_rechercher:hover::after {
+  transform: rotate(150deg);
+}
+
+#bouton_rechercher:hover {
+  transform: translate(0, -6px);
+  box-shadow: 10px -10px 25px 0px #fcbdc0a6, -10px 10px 25px 0px #bda7a8a6;
+}
+
+#bouton_rechercher:active {
+  transform: translate(0, 0);
+  box-shadow: 2px -2px 25px 0px #fcbdc0a6, -2px 2px 25px 0px #bda7a8a6;
+}
+
+#main_recherche input {
+  text-align: center;
+  border-radius: 50px;
+  width: 240px;
+  height: 30px;
+  border: 0;
+  padding: 4%;
+  transition: all 0.4s;
+  margin: 4% 0;
+}
+
+input[type="time"], input[type="date"] {
+  cursor: text;
+}
+
+.recherche_section input:hover {
+  background-color: rgb(243, 243, 243);
+}
+
+.recherche_section input:active {
+  background-color: rgb(224, 224, 224);
+}
+
+.recherche_section {
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+}
+
+#rechercheMaps {
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+#address {
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #ff000d7c;
+  background-color: #f7f7f7;
+  border: 0;
+  border-bottom: #ff000d7c solid 1px;
+  width: 180px;
+  padding-right: 10px;
+  height: 19px;
+  padding: 5px;
+  transition: all 0.4s;
+}
+
+#address::placeholder {
+  font-weight: normal;
+}
+
+#resultatRechercheMaps img {
+  width: 20px;
+  margin: 0 5px 4px 0;
+  vertical-align: middle;
+}
+
+#resultatRechercheMaps p {
+  width: 260px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+
+#rechercheMaps button img {
+  width: 18px;
+  height: 18px;
+}
+
+#rechercheMaps button {
+  vertical-align: middle;
+  cursor: pointer;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  margin-left: -24px;
+  border-radius: 20px;
+  transition: all 0.3s;
+  background-color: #F5797F;
+}
+
+#rechercheMaps button:hover {
+  box-shadow: rgba(0, 0, 0, 0.322) 0 0 5px;
+  background-color: #FA9FA4;
+}
+
+#rechercheMaps button:active {
+  background-color: #f76d74;
+}
+
+.map {
+  box-shadow: rgba(0, 0, 0, 0.185) 0 -10px 40px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-top: 5%;
+  height: 300px;
+  width: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+  main {
+    width: 80%;
+  }
+
+  #main_recherche {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  main {
+    width: 90%;
+  }
+
+  #main_recherche input {
+    width: 280px;
+    height: 40px;
+  }
+
+  #bouton_rechercher {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #main_recherche {
+    flex-direction: column;
+    align-items: center;
+  }
+}
