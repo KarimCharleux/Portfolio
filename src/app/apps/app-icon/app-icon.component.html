@@ -3,20 +3,31 @@
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <defs>
         <linearGradient id="notesGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFE566" />
-          <stop offset="1" stop-color="#FFC300" />
+          <stop offset="0" stop-color="#FFEB7A" />
+          <stop offset="0.55" stop-color="#FFD400" />
+          <stop offset="1" stop-color="#FFB300" />
         </linearGradient>
         <radialGradient id="notesSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.4" />
+          <stop offset="0" stop-color="#fff" stop-opacity="0.45" />
           <stop offset="1" stop-color="#fff" stop-opacity="0" />
         </radialGradient>
+        <linearGradient id="notesFold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#FFE066" stop-opacity="0.9" />
+        </linearGradient>
+        <clipPath id="notesTile">
+          <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" />
+        </clipPath>
       </defs>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#notesGrad)" />
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#notesSheen)" />
-      <rect x="5.5" y="5.5" width="13" height="4" rx="1" fill="#fff" />
-      <line x1="5.5" y1="12" x2="18.5" y2="12" stroke="#B5850A" stroke-width="1.3" stroke-linecap="round" />
-      <line x1="5.5" y1="15.2" x2="18.5" y2="15.2" stroke="#B5850A" stroke-width="1.3" stroke-linecap="round" />
-      <line x1="5.5" y1="18.4" x2="13.5" y2="18.4" stroke="#B5850A" stroke-width="1.3" stroke-linecap="round" />
+      <g clip-path="url(#notesTile)">
+        <rect x="0.5" y="0.5" width="23" height="23" fill="url(#notesGrad)" />
+        <rect x="0.5" y="0.5" width="23" height="23" fill="url(#notesSheen)" />
+        <rect x="4.8" y="5.2" width="14.4" height="4.4" rx="1" fill="#fff" />
+        <line x1="4.8" y1="12.2" x2="19.2" y2="12.2" stroke="#B5850A" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
+        <line x1="4.8" y1="15.4" x2="19.2" y2="15.4" stroke="#B5850A" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
+        <line x1="4.8" y1="18.6" x2="13.5" y2="18.6" stroke="#B5850A" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
+        <polygon points="17.5,0.5 23.5,0.5 23.5,6.5" fill="url(#notesFold)" />
+      </g>
     </svg>
   }
   @case ('mail') {
@@ -82,6 +93,10 @@
         <clipPath id="finderRightHalf">
           <rect x="12" y="0.5" width="11.5" height="23" />
         </clipPath>
+        <radialGradient id="finderSheen" cx="50%" cy="0%" r="80%">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.3" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </radialGradient>
       </defs>
       <g clip-path="url(#finderTile)">
         <rect x="0.5" y="0.5" width="11.5" height="23" fill="url(#finderBlue)" />
@@ -97,6 +112,7 @@
           <circle cx="15.4" cy="9.6" r="1.35" fill="#0A56D6" />
           <path d="M6.6 14.6 Q12 18.4 17.4 14.6" fill="none" stroke="#0A56D6" stroke-width="1.5" stroke-linecap="round" />
         </g>
+        <rect x="0.5" y="0.5" width="23" height="23" fill="url(#finderSheen)" />
       </g>
       <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.5" />
     </svg>
@@ -127,9 +143,17 @@
           <stop offset="0" stop-color="#4DBBFF" />
           <stop offset="1" stop-color="#0A66C2" />
         </linearGradient>
+        <radialGradient id="psSheen" cx="50%" cy="0%" r="80%">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.28" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </radialGradient>
+        <clipPath id="psTile">
+          <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" />
+        </clipPath>
       </defs>
       <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="#ffffff" />
       <path [attr.d]="photoshopPath" fill="url(#psGrad)" fill-rule="evenodd" />
+      <rect x="0.5" y="0.5" width="23" height="23" fill="url(#psSheen)" clip-path="url(#psTile)" />
     </svg>
   }
   @case ('figma') {
@@ -154,8 +178,16 @@
           <stop offset="0" stop-color="#FF4E45" />
           <stop offset="1" stop-color="#D6000B" />
         </linearGradient>
+        <radialGradient id="ytSheen" cx="50%" cy="0%" r="80%">
+          <stop offset="0" stop-color="#fff" stop-opacity="0.25" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </radialGradient>
+        <clipPath id="ytTile">
+          <rect x="0" y="3.5" width="24" height="17" rx="4.5" />
+        </clipPath>
       </defs>
       <path [attr.d]="youtubePath" fill="url(#ytGrad)" />
+      <rect x="0" y="3.5" width="24" height="17" fill="url(#ytSheen)" clip-path="url(#ytTile)" />
     </svg>
   }
 }

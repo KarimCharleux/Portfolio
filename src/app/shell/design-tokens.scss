@@ -1,4 +1,8 @@
 :root {
+  --font-system:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', system-ui,
+    sans-serif;
+
   --menu-bar-height: 24px;
   --menu-bar-item-size: 22px;
 
@@ -14,10 +18,10 @@
   --window-radius: 12px;
   --window-titlebar-height: 28px;
 
-  --dock-icon-size: 58px;
-  --dock-gap: 8px;
-  --dock-padding: 8px;
-  --dock-radius: 20px;
+  --dock-icon-size: 56px;
+  --dock-gap: 6px;
+  --dock-padding: 7px;
+  --dock-radius: 22px;
   --icon-radius: 22%;
 
   --ios-status-bar-height: 47px;
@@ -46,9 +50,9 @@
   --text-secondary: #6e6e73;
   --hairline: rgba(0, 0, 0, 0.08);
 
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-strong: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.65);
-  --glass-highlight: rgba(255, 255, 255, 0.5);
+  --glass-bg: rgba(240, 240, 242, 0.42);
+  --glass-bg-strong: rgba(246, 246, 248, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-highlight: rgba(255, 255, 255, 0.4);
   --shadow-color: rgba(0, 0, 0, 0.28);
 }
