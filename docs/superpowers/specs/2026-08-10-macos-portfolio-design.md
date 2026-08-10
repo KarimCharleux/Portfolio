@@ -62,20 +62,35 @@ Real, multi-window management — not a full-screen content swap:
 
 Fixed set of 8 apps for this pass:
 
-| App | Icon style | Content (placeholder for now) |
+| App | Icon | Content (placeholder for now) |
 |---|---|---|
-| Notes | yellow, ruled lines | About me / bio / timeline |
-| VS Code | blue | Code projects — custom UI, not a real VS Code UI clone |
-| Photos | multicolor pinwheel | Photo gallery |
-| Design app | purple/black (Figma-like) | Design/UI work |
-| QuickTime / Video | gray/purple | Video projects |
+| Notes | yellow, ruled lines (Apple Notes style) | About me / bio / timeline |
+| VS Code | real VS Code logo | Code projects — custom UI, not a real VS Code UI clone |
+| Photoshop | real Photoshop "Ps" logo | Photo gallery |
+| Figma | real Figma logo | Design/UI work |
+| YouTube | real YouTube logo | Video projects |
 | Mail | blue envelope | Contact form |
 | Safari | blue compass | Social links |
 | Finder | blue/gray face | Global index of all projects across categories |
 
-Each app's window content is a **custom, simplified UI** inspired by the real app (not a
-pixel clone of VS Code's or Notes' actual interface) — the window *chrome* is pixel-accurate
-macOS, the window *content* is a portfolio-appropriate layout.
+Icon choice favors **universal recognizability over macOS purity**: QuickTime and a generic
+Photos icon were dropped because they only mean something to macOS users. VS Code, Photoshop,
+Figma, and YouTube are recognized regardless of platform, while still reading as legitimate
+"apps" in the dock. Each app's window content is a **custom, simplified UI** inspired by the
+real app (not a pixel clone of VS Code's, Photoshop's, or Figma's actual interface) — the
+window *chrome* is pixel-accurate macOS, the window *content* is a portfolio-appropriate
+layout. Real app logos (VS Code/Photoshop/Figma/YouTube) are used as icon marks only — no
+attempt to replicate those apps' internal UI or branding beyond the dock icon itself.
+
+### Desktop wallpaper
+
+An original, high-quality abstract wallpaper in the visual spirit of recent macOS default
+wallpapers (soft gradient/wave artwork, e.g. Big Sur/Sonoma style) fills the background behind
+the dock and windows. **Not a reproduction of an actual Apple wallpaper asset** — that artwork
+is Apple's copyrighted property and won't be sourced/embedded here, even with permission
+assumed. The original piece targets the same mood (calm gradient, generous negative space)
+without copying specific Apple artwork. Swappable later if the user wants to license or
+commission something else.
 
 ## Mobile shell (iOS-like)
 
