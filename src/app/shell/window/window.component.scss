@@ -1,0 +1,76 @@
+.window {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--window-radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.window--focused {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+}
+
+.window__titlebar {
+  height: var(--window-titlebar-height);
+  min-height: var(--window-titlebar-height);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--surface-secondary);
+  cursor: grab;
+  user-select: none;
+  gap: 12px;
+}
+
+.window__traffic-lights {
+  display: flex;
+  gap: var(--traffic-light-gap);
+  flex-shrink: 0;
+}
+
+.window__traffic-light {
+  width: var(--traffic-light-diameter);
+  height: var(--traffic-light-diameter);
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.window__traffic-light--close {
+  background: var(--traffic-light-close);
+}
+
+.window__traffic-light--minimize {
+  background: var(--traffic-light-minimize);
+}
+
+.window__traffic-light--zoom {
+  background: var(--traffic-light-zoom);
+}
+
+.window__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  text-align: center;
+  margin-right: calc(var(--traffic-light-diameter) * 3 + var(--traffic-light-gap) * 2);
+}
+
+.window__body {
+  flex: 1;
+  overflow: auto;
+  color: var(--text-primary);
+}
+
+.window__resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+}
