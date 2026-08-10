@@ -1,0 +1,7 @@
+<app-topbar />
+@for (win of openWindows(); track win.id) {
+  <app-window [state]="win">
+    <app-host [appId]="win.appId" />
+  </app-window>
+}
+<app-dock />
