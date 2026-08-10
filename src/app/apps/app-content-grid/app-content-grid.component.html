@@ -1,0 +1,11 @@
+<div class="content-grid">
+  <h2 class="content-grid__heading">{{ heading() }}</h2>
+  <div class="content-grid__tiles">
+    @for (item of items(); track item.id) {
+      <div class="content-grid__tile" [style.backgroundColor]="item.accentColor">
+        <span class="content-grid__title">{{ item.title }}</span>
+        <span class="content-grid__caption">{{ item.caption }}</span>
+      </div>
+    }
+  </div>
+</div>

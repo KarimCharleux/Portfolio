@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.icon--mail path,
+.icon--mail rect:last-of-type {
+  vector-effect: non-scaling-stroke;
+}

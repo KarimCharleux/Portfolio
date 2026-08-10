@@ -1,0 +1,17 @@
+<div class="content-list">
+  <h2 class="content-list__heading">{{ heading() }}</h2>
+  <ul class="content-list__items">
+    @for (item of items(); track item.id) {
+      <li class="content-list__item">
+        @if (item.url) {
+          <a class="content-list__title" [href]="item.url" target="_blank" rel="noopener">{{
+            item.title
+          }}</a>
+        } @else {
+          <span class="content-list__title">{{ item.title }}</span>
+        }
+        <p class="content-list__subtitle">{{ item.subtitle }}</p>
+      </li>
+    }
+  </ul>
+</div>
