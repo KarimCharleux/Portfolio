@@ -374,7 +374,14 @@ git commit -m "Rewrite README for the Angular 22 rewrite"
 
 **Why interactive:** `firebase init hosting` auto-detects the Angular SSR build via the CLI's web-frameworks integration and regenerates `firebase.json` (and optionally the GitHub Actions workflows) to match — its exact output format is Firebase-tooling-version-dependent, so hand-guessing it in this plan would likely be wrong. This step needs the user's live `firebase` CLI login/session and answers to its interactive prompts, so it cannot be run by a headless dispatched subagent.
 
-- [ ] **Step 1: Run `firebase init hosting` from the repo root**
+**Actual outcome (deviated from the steps below):** running `npx firebase-tools@latest init hosting` (CLI 15.26.0 — the locally installed 13.29.1 was outdated) showed that Firebase's hosting init now routes any framework-detected app (Angular included) to **Firebase App Hosting**, not the classic Hosting + web-frameworks integration this plan assumed. App Hosting requires the Blaze (pay-as-you-go) billing plan; `karimagine-c1afb` is on the free Spark plan, and the init failed with `Error: Firebase App Hosting requires billing to be enabled`. Asked the user: enable Blaze billing (their account, their call), or fall back to classic static Hosting. User chose classic static Hosting. Since the app's single route is `RenderMode.Prerender` (set in `src/app/app.routes.server.ts` by the Task 2 scaffold), `ng build` already emits a fully static `dist/portfolio-angular/browser/index.html` — no server process is needed to serve a blank prerendered page, so this loses nothing today. Real SSR (dynamic routes) would need Blaze billing revisited later. Applied by hand instead of via `firebase init` (config is simple/stable, no need to fight the CLI's new App-Hosting-first flow):
+- `firebase.json`: `"public": "dist"` → `"public": "dist/portfolio-angular/browser"`, rewrites unchanged (SPA fallback still correct for prerendered output)
+- `package.json`: added `"deploy": "ng build && firebase deploy --only hosting"`
+- Both workflow files: added the Step 3 `actions/setup-node@v4` + `.nvmrc` step below (still applies as written)
+
+Steps 1-2 and 4 below (as originally written, assuming frameworks-aware hosting) were superseded by the above. Step 3 (Node pin in CI) and Step 5 (build verification) were carried out as written.
+
+- [ ] **Step 1 (superseded, see Actual outcome above): Run `firebase init hosting` from the repo root**
 
 ```bash
 cd /Users/karimcharleux/Developer/PortfolioAngular
