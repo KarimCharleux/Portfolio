@@ -1,14 +1,19 @@
-import { Component, afterNextRender } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, afterNextRender, inject } from '@angular/core';
 import { getFirebaseApp } from './core/firebase-app';
+import { BreakpointService } from './core/breakpoint/breakpoint.service';
+import { WallpaperComponent } from './shell/wallpaper/wallpaper.component';
+import { DesktopShellComponent } from './shell/desktop-shell/desktop-shell.component';
+import { MobileShellComponent } from './shell/mobile-shell/mobile-shell.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [WallpaperComponent, DesktopShellComponent, MobileShellComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
+  protected readonly isMobile = inject(BreakpointService).isMobile;
+
   constructor() {
     afterNextRender(async () => {
       try {

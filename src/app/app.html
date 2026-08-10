@@ -1,1 +1,6 @@
-<router-outlet />
+<app-wallpaper />
+@if (isMobile()) {
+  <app-mobile-shell />
+} @else {
+  <app-desktop-shell />
+}
