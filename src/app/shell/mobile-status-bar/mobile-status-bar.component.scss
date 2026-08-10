@@ -1,0 +1,21 @@
+.mobile-status-bar {
+  height: var(--ios-status-bar-height);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 20px 6px;
+  box-sizing: border-box;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mobile-status-bar__icons {
+  display: flex;
+  gap: 6px;
+}
+
+.mobile-status-bar__icon {
+  width: 18px;
+  height: 18px;
+}
