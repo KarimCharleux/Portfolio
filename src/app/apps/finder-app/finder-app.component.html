@@ -1,0 +1,13 @@
+<div class="finder">
+  <h2 class="finder__heading">All projects</h2>
+  <ul class="finder__list">
+    @for (category of categories; track category.id) {
+      <li class="finder__row">
+        <button type="button" class="finder__row-button" (click)="open(category.id, category.label)">
+          <span class="finder__row-label">{{ category.label }}</span>
+          <span class="finder__row-count">{{ category.count }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+</div>

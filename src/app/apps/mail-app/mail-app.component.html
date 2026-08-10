@@ -1,0 +1,21 @@
+<div class="mail">
+  <h2 class="mail__heading">Get in touch</h2>
+  <form class="mail__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label class="mail__field">
+      <span>Name</span>
+      <input type="text" formControlName="name" />
+    </label>
+    <label class="mail__field">
+      <span>Email</span>
+      <input type="email" formControlName="email" />
+    </label>
+    <label class="mail__field">
+      <span>Message</span>
+      <textarea rows="5" formControlName="message"></textarea>
+    </label>
+    <button type="submit" class="mail__submit">Send</button>
+    @if (submitted()) {
+      <p class="mail__confirmation">Thanks — your email client should open shortly.</p>
+    }
+  </form>
+</div>
