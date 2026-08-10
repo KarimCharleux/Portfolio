@@ -6,7 +6,7 @@
   display: flex;
   align-items: flex-end;
   gap: var(--dock-gap);
-  padding: var(--dock-padding) 10px;
+  padding: var(--dock-padding) 9px;
   border-radius: var(--dock-radius);
   background: var(--glass-bg);
   backdrop-filter: blur(30px) saturate(180%);
