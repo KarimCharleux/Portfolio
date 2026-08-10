@@ -1,0 +1,11 @@
+<div class="mobile-shell">
+  <app-mobile-status-bar />
+  @if (frontmost(); as win) {
+    <div class="mobile-shell__app">
+      <button type="button" class="mobile-shell__back" (click)="back()">‹ Back</button>
+      <app-host [appId]="win.appId" />
+    </div>
+  } @else {
+    <app-mobile-home-screen />
+  }
+</div>

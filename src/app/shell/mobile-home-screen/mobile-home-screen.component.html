@@ -1,0 +1,17 @@
+<div class="mobile-home">
+  <div class="mobile-home__grid">
+    @for (app of gridApps; track app.id) {
+      <button type="button" class="mobile-home__icon" [attr.aria-label]="app.label" (click)="open(app)">
+        <app-icon [icon]="app.icon" />
+        <span class="mobile-home__label">{{ app.label }}</span>
+      </button>
+    }
+  </div>
+  <div class="mobile-home__dock">
+    @for (app of pinnedApps; track app.id) {
+      <button type="button" class="mobile-home__icon" [attr.aria-label]="app.label" (click)="open(app)">
+        <app-icon [icon]="app.icon" />
+      </button>
+    }
+  </div>
+</div>
