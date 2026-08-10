@@ -4,12 +4,19 @@
   flex-direction: column;
   background: var(--surface);
   border-radius: var(--window-radius);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.14),
+    0 20px 48px rgba(0, 0, 0, 0.22);
   overflow: hidden;
+  transition: box-shadow 0.15s ease-out;
 }
 
 .window--focused {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    0 32px 64px rgba(0, 0, 0, 0.36);
 }
 
 .window__titlebar {
@@ -18,10 +25,15 @@
   display: flex;
   align-items: center;
   padding: 0 12px;
-  background: var(--surface-secondary);
+  background: linear-gradient(180deg, var(--surface-secondary), color-mix(in srgb, var(--surface-secondary) 92%, black));
+  border-bottom: 0.5px solid var(--hairline);
   cursor: grab;
   user-select: none;
   gap: 12px;
+}
+
+.window--focused .window__titlebar {
+  background: linear-gradient(180deg, var(--surface-secondary), color-mix(in srgb, var(--surface-secondary) 96%, black));
 }
 
 .window__traffic-lights {
@@ -34,21 +46,23 @@
   width: var(--traffic-light-diameter);
   height: var(--traffic-light-diameter);
   border-radius: 50%;
-  border: none;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
   padding: 0;
   cursor: pointer;
+  background-blend-mode: overlay;
+  box-shadow: inset 0 0.5px 0.5px rgba(255, 255, 255, 0.4);
 }
 
 .window__traffic-light--close {
-  background: var(--traffic-light-close);
+  background: radial-gradient(circle at 30% 30%, #ff7b6f, var(--traffic-light-close));
 }
 
 .window__traffic-light--minimize {
-  background: var(--traffic-light-minimize);
+  background: radial-gradient(circle at 30% 30%, #ffd166, var(--traffic-light-minimize));
 }
 
 .window__traffic-light--zoom {
-  background: var(--traffic-light-zoom);
+  background: radial-gradient(circle at 30% 30%, #5bdb7f, var(--traffic-light-zoom));
 }
 
 .window__title {

@@ -8,53 +8,63 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: var(--surface);
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   color: var(--text-primary);
   font-size: 13px;
+  font-weight: 400;
   z-index: 10000;
-  box-shadow: 0 1px 0 var(--hairline);
+  box-shadow: 0 0.5px 0 var(--hairline);
 }
 
 .topbar__left,
 .topbar__right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   flex: 1;
 }
 
 .topbar__right {
   justify-content: flex-end;
+  gap: 12px;
 }
 
 .topbar__apple-logo {
-  width: var(--menu-bar-item-size);
-  height: var(--menu-bar-item-size);
+  width: 15px;
+  height: 15px;
 }
 
 .topbar__app-name {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .topbar__notch {
   width: var(--notch-width);
   height: var(--notch-height);
   background: #000;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 14px 14px;
   flex-shrink: 0;
 }
 
 .topbar__icon {
-  width: var(--menu-bar-item-size);
-  height: var(--menu-bar-item-size);
+  width: 16px;
+  height: 16px;
+  opacity: 0.9;
 }
 
 .topbar__theme-toggle {
-  width: var(--menu-bar-item-size);
-  height: var(--menu-bar-item-size);
+  width: 16px;
+  height: 16px;
   background: none;
   border: none;
   cursor: pointer;
   color: inherit;
   padding: 0;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
 }
