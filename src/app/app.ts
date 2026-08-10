@@ -1,6 +1,5 @@
 import { Component, afterNextRender } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { getAnalytics, logEvent } from 'firebase/analytics';
 import { getFirebaseApp } from './core/firebase-app';
 
 @Component({
@@ -11,8 +10,12 @@ import { getFirebaseApp } from './core/firebase-app';
 })
 export class App {
   constructor() {
-    afterNextRender(() => {
+    afterNextRender(async () => {
       try {
+        const { getAnalytics, isSupported, logEvent } = await import('firebase/analytics');
+        if (!(await isSupported())) {
+          return;
+        }
         const analytics = getAnalytics(getFirebaseApp());
         logEvent(analytics, 'page_view', { page_path: window.location.pathname });
       } catch (err) {
