@@ -1,0 +1,17 @@
+<nav class="dock" (pointerleave)="onDockLeave()">
+  @for (app of apps; track app.id; let i = $index) {
+    <button
+      type="button"
+      class="dock__icon"
+      [style.transform]="'scale(' + scaleFor(i) + ')'"
+      [attr.aria-label]="app.label"
+      (pointerenter)="onIconEnter(i)"
+      (click)="open(app)"
+    >
+      <app-icon [icon]="app.icon" />
+      @if (isOpen(app.id)) {
+        <span class="dock__indicator"></span>
+      }
+    </button>
+  }
+</nav>
