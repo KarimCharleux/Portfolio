@@ -1,0 +1,60 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--menu-bar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 13px;
+  z-index: 10000;
+  box-shadow: 0 1px 0 var(--hairline);
+}
+
+.topbar__left,
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.topbar__right {
+  justify-content: flex-end;
+}
+
+.topbar__apple-logo {
+  width: var(--menu-bar-item-size);
+  height: var(--menu-bar-item-size);
+}
+
+.topbar__app-name {
+  font-weight: 600;
+}
+
+.topbar__notch {
+  width: var(--notch-width);
+  height: var(--notch-height);
+  background: #000;
+  border-radius: 0 0 10px 10px;
+  flex-shrink: 0;
+}
+
+.topbar__icon {
+  width: var(--menu-bar-item-size);
+  height: var(--menu-bar-item-size);
+}
+
+.topbar__theme-toggle {
+  width: var(--menu-bar-item-size);
+  height: var(--menu-bar-item-size);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+}
