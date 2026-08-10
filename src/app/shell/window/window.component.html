@@ -1,0 +1,41 @@
+<section
+  class="window"
+  [class.window--focused]="isFocused()"
+  [style.left.px]="state().x"
+  [style.top.px]="state().y"
+  [style.width.px]="state().width"
+  [style.height.px]="state().height"
+  [style.zIndex]="state().zIndex"
+  (pointerdown)="focus()"
+>
+  <header class="window__titlebar" (pointerdown)="onTitleBarPointerDown($event)">
+    <div class="window__traffic-lights">
+      <button
+        type="button"
+        class="window__traffic-light window__traffic-light--close"
+        aria-label="Close"
+        (pointerdown)="stopPropagation($event)"
+        (click)="close()"
+      ></button>
+      <button
+        type="button"
+        class="window__traffic-light window__traffic-light--minimize"
+        aria-label="Minimize"
+        (pointerdown)="stopPropagation($event)"
+        (click)="minimize()"
+      ></button>
+      <button
+        type="button"
+        class="window__traffic-light window__traffic-light--zoom"
+        aria-label="Zoom"
+        disabled
+        (pointerdown)="stopPropagation($event)"
+      ></button>
+    </div>
+    <span class="window__title">{{ state().title }}</span>
+  </header>
+  <div class="window__body">
+    <ng-content />
+  </div>
+  <div class="window__resize-handle" (pointerdown)="onResizeHandlePointerDown($event)"></div>
+</section>
