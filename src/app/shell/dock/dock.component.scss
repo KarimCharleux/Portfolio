@@ -14,10 +14,6 @@
   animation: dock-in 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.dock::before {
-  @include glass.liquid-glass-sheen;
-}
-
 @keyframes dock-in {
   from {
     opacity: 0;
@@ -79,6 +75,8 @@
 }
 
 .dock__tooltip {
+  --tooltip-glass-bg: rgba(40, 40, 44, 0.72);
+  @include glass.liquid-glass('--tooltip-glass-bg', 16px, 180%);
   position: absolute;
   z-index: 10;
   bottom: calc(100% + 14px);
@@ -90,12 +88,6 @@
   font-size: 12px;
   font-weight: 500;
   color: #fff;
-  background: rgba(40, 40, 44, 0.75) padding-box,
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.05) 60%) border-box;
-  border: 1px solid transparent;
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   pointer-events: none;
   animation: dock-tooltip-in 0.12s ease-out;
 }

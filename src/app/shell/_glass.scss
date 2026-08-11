@@ -1,43 +1,18 @@
 @use 'sass:string';
 
-// Shared "Liquid Glass" material — the real Apple language: a translucent
-// fill blurred over whatever sits behind it, wrapped in a soft diagonal
-// specular rim that reads as light catching the edge of glass, plus a top
-// sheen for depth. Every glass surface in the shell (dock, topbar, windows,
-// tooltips) shares this exact recipe so the material feels like one system.
+// Shared "Liquid Glass" material — a flat translucent fill blurred over
+// whatever sits behind it. Every glass surface in the shell (dock, topbar,
+// windows, tooltips) shares this exact recipe so the material feels like
+// one system. No gradients — just a solid tinted fill plus blur.
 @mixin liquid-glass($fill-var, $blur: 40px, $saturate: 200%) {
   $filter: string.unquote('blur(' + $blur + ') saturate(' + $saturate + ')');
 
   position: relative;
-  // background-color is only valid in the LAST layer of a multi-layer
-  // background — putting the solid fill first (as an earlier version of
-  // this mixin did) silently invalidates the whole declaration in some
-  // browsers, leaving the surface fully transparent. Gradient first, fill
-  // (with its implicit color) last.
-  background:
-    linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.55),
-        rgba(255, 255, 255, 0.08) 45%,
-        rgba(255, 255, 255, 0) 75%
-      )
-      border-box,
-    var(#{$fill-var}) padding-box;
-  border: 1px solid transparent;
+  background: var(#{$fill-var});
+  border: 1px solid var(--glass-border);
   backdrop-filter: #{$filter};
   -webkit-backdrop-filter: #{$filter};
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.22),
     0 12px 32px var(--shadow-color);
-}
-
-// Optional soft radial sheen overlay — drop a ::before with this mixin
-// inside a `position: relative` glass surface for an extra top highlight.
-@mixin liquid-glass-sheen {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(ellipse 120% 60% at 50% -10%, rgba(255, 255, 255, 0.16), transparent 60%);
-  pointer-events: none;
 }

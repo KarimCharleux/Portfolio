@@ -5,7 +5,7 @@
       type="button"
       class="mobile-status-bar__lang"
       (click)="toggleLang()"
-      [attr.aria-label]="i18n.t('langToggleLabel')"
+      [attr.aria-label]="(i18n.lang() === 'fr' ? 'FR' : 'EN') + ' — ' + i18n.t('langToggleLabel')"
     >
       {{ i18n.lang() === 'fr' ? 'FR' : 'EN' }}
     </button>

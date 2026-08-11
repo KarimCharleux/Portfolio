@@ -3,7 +3,7 @@ import { Lang, TRANSLATIONS, TranslationKey } from './translations';
 
 @Injectable({ providedIn: 'root' })
 export class I18nService {
-  private readonly langSignal = signal<Lang>('en');
+  private readonly langSignal = signal<Lang>('fr');
   readonly lang = this.langSignal.asReadonly();
 
   setLang(lang: Lang): void {

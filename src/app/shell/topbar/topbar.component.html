@@ -1,6 +1,6 @@
 <header class="topbar">
   <div class="topbar__left">
-    <button type="button" class="topbar__apple-button" (click)="openAbout()" aria-label="About This Portfolio">
+    <button type="button" class="topbar__apple-button" (click)="openAbout()" [attr.aria-label]="i18n.t('aboutPortfolio')">
       <svg class="topbar__apple-logo" viewBox="0 0 24 24" aria-hidden="true">
         <path
           fill="currentColor"
@@ -30,11 +30,11 @@
       type="button"
       class="topbar__lang-toggle"
       (click)="toggleLang()"
-      [attr.aria-label]="i18n.t('langToggleLabel')"
+      [attr.aria-label]="(i18n.lang() === 'fr' ? 'FR' : 'EN') + ' — ' + i18n.t('langToggleLabel')"
     >
       {{ i18n.lang() === 'fr' ? 'FR' : 'EN' }}
     </button>
-    <button type="button" class="topbar__theme-toggle" (click)="toggleTheme()" aria-label="Toggle dark mode">
+    <button type="button" class="topbar__theme-toggle" (click)="toggleTheme()" [attr.aria-label]="i18n.t('toggleDarkMode')">
       @if (darkMode()) {
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path

@@ -15,7 +15,7 @@
       <button
         type="button"
         class="window__traffic-light window__traffic-light--close"
-        aria-label="Close"
+        [attr.aria-label]="i18n.t('windowClose')"
         (pointerdown)="stopPropagation($event)"
         (click)="close()"
       >
@@ -28,7 +28,7 @@
         class="window__traffic-light window__traffic-light--minimize"
         [class.window__traffic-light--disabled]="isFixedChrome()"
         [disabled]="isFixedChrome()"
-        aria-label="Minimize"
+        [attr.aria-label]="i18n.t('windowMinimize')"
         (pointerdown)="stopPropagation($event)"
         (click)="minimize()"
       >
@@ -42,7 +42,7 @@
         type="button"
         class="window__traffic-light window__traffic-light--zoom"
         [class.window__traffic-light--disabled]="isFixedChrome()"
-        aria-label="Zoom"
+        [attr.aria-label]="i18n.t('windowZoom')"
         disabled
         (pointerdown)="stopPropagation($event)"
       >
