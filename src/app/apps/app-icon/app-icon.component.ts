@@ -1,6 +1,7 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { siFigma, siYoutube } from 'simple-icons';
 import { AppId } from '../../core/window-manager/window.model';
+import { ThemeService } from '../../core/theme/theme.service';
 
 /**
  * VS Code and Photoshop marks aren't in the installed simple-icons version
@@ -19,7 +20,11 @@ const PHOTOSHOP_PATH =
   styleUrl: './app-icon.component.scss',
 })
 export class AppIconComponent {
+  private readonly theme = inject(ThemeService);
+
   readonly icon = input.required<AppId>();
+
+  protected readonly dark = this.theme.isDark;
 
   protected readonly vscodePath = VSCODE_PATH;
   protected readonly photoshopPath = PHOTOSHOP_PATH;

@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ClockService } from '../../core/clock/clock.service';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
+import { ThemeService } from '../../core/theme/theme.service';
 
 @Component({
   selector: 'app-topbar',
@@ -10,8 +11,9 @@ import { WindowManagerService } from '../../core/window-manager/window-manager.s
 export class TopbarComponent {
   private readonly clock = inject(ClockService);
   private readonly windowManager = inject(WindowManagerService);
+  private readonly theme = inject(ThemeService);
 
-  protected readonly darkMode = signal(false);
+  protected readonly darkMode = this.theme.isDark;
 
   protected readonly activeAppName = computed(
     () => this.windowManager.frontmost()?.title ?? 'Karim Charleux',
@@ -28,7 +30,6 @@ export class TopbarComponent {
   );
 
   toggleTheme(): void {
-    this.darkMode.update((value) => !value);
-    document.documentElement.dataset['theme'] = this.darkMode() ? 'dark' : 'light';
+    this.theme.toggle();
   }
 }
