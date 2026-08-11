@@ -48,3 +48,6 @@ Thumbs.db
 
 # Subagent-driven-development scratch
 /.superpowers/
+
+# Claude Code local tool config/cache
+/.claude/

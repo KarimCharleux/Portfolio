@@ -79,7 +79,7 @@
   @include glass.liquid-glass('--tooltip-glass-bg', 16px, 180%);
   position: absolute;
   z-index: 10;
-  bottom: calc(100% + 14px);
+  bottom: calc(100% + 24px);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
