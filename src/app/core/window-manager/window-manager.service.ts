@@ -21,7 +21,7 @@ export class WindowManagerService {
     return open.reduce((top, w) => (w.zIndex > top.zIndex ? w : top));
   });
 
-  open(appId: AppId, title: string): void {
+  open(appId: AppId, title: string, size?: { width: number; height: number }): void {
     const existing = this.windowsSignal().find((w) => w.appId === appId);
     if (existing) {
       this.restore(existing.id);
@@ -36,8 +36,8 @@ export class WindowManagerService {
       title,
       x: INITIAL_X + count * CASCADE_OFFSET,
       y: INITIAL_Y + count * CASCADE_OFFSET,
-      width: DEFAULT_WIDTH,
-      height: DEFAULT_HEIGHT,
+      width: size?.width ?? DEFAULT_WIDTH,
+      height: size?.height ?? DEFAULT_HEIGHT,
       zIndex: this.nextZIndex++,
       minimized: false,
     };

@@ -58,6 +58,30 @@ export const TRANSLATIONS = {
   },
 
   langToggleLabel: { en: 'Switch language', fr: 'Changer de langue' },
+
+  aboutPortfolio: { en: 'About This Portfolio', fr: 'À propos de ce portfolio' },
+  aboutPortfolioOS: { en: 'Portfolio OS 1.0', fr: 'Portfolio OS 1.0' },
+  aboutPortfolioRole: { en: 'Role', fr: 'Rôle' },
+  aboutPortfolioRoleValue: {
+    en: 'Full-Stack Developer',
+    fr: 'Développeur Full-Stack',
+  },
+  aboutPortfolioFocus: { en: 'Focus', fr: 'Spécialité' },
+  aboutPortfolioFocusValue: {
+    en: 'Angular · TypeScript · Design',
+    fr: 'Angular · TypeScript · Design',
+  },
+  aboutPortfolioLocation: { en: 'Based in', fr: 'Basé à' },
+  aboutPortfolioLocationValue: {
+    en: 'Placeholder — swap with a real location.',
+    fr: 'Temporaire — à remplacer par un vrai lieu.',
+  },
+  aboutPortfolioContact: { en: 'Contact', fr: 'Contact' },
+  aboutPortfolioContactValue: {
+    en: 'Placeholder — swap with a real contact.',
+    fr: 'Temporaire — à remplacer par un vrai contact.',
+  },
+  aboutPortfolioMoreInfo: { en: 'More Info…', fr: "Plus d'infos…" },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type TranslationKey = keyof typeof TRANSLATIONS;

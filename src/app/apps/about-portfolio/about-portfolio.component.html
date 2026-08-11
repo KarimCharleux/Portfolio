@@ -1,0 +1,35 @@
+<div class="about">
+  <div class="about__portrait">
+    <img src="/memoji.jpeg" alt="" />
+  </div>
+
+  <div class="about__details">
+    <h2 class="about__name">Karim Charleux</h2>
+    <p class="about__os">{{ i18n.t('aboutPortfolioOS') }}</p>
+
+    <dl class="about__specs">
+      <div class="about__spec">
+        <dt>{{ i18n.t('aboutPortfolioRole') }}</dt>
+        <dd>{{ i18n.t('aboutPortfolioRoleValue') }}</dd>
+      </div>
+      <div class="about__spec">
+        <dt>{{ i18n.t('aboutPortfolioFocus') }}</dt>
+        <dd>{{ i18n.t('aboutPortfolioFocusValue') }}</dd>
+      </div>
+      <div class="about__spec">
+        <dt>{{ i18n.t('aboutPortfolioLocation') }}</dt>
+        <dd>{{ i18n.t('aboutPortfolioLocationValue') }}</dd>
+      </div>
+      <div class="about__spec">
+        <dt>{{ i18n.t('aboutPortfolioContact') }}</dt>
+        <dd>{{ i18n.t('aboutPortfolioContactValue') }}</dd>
+      </div>
+    </dl>
+
+    <button type="button" class="about__more" (click)="openMoreInfo()">
+      {{ i18n.t('aboutPortfolioMoreInfo') }}
+    </button>
+
+    <p class="about__legal">TM &amp; © {{ year }} Karim Charleux</p>
+  </div>
+</div>
