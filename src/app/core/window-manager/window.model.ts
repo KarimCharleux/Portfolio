@@ -4,9 +4,10 @@ export type AppId =
   | 'photoshop'
   | 'figma'
   | 'youtube'
-  | 'mail'
   | 'safari'
   | 'finder'
+  | 'terminal'
+  | 'trash'
   | 'about';
 
 export interface WindowState {

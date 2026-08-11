@@ -6,18 +6,10 @@ export const TRANSLATIONS = {
   photos: { en: 'Photos', fr: 'Photos' },
   designWork: { en: 'Design Work', fr: 'Travaux de design' },
   videoProjects: { en: 'Video Projects', fr: 'Projets vidéo' },
-  getInTouch: { en: 'Get in Touch', fr: 'Me contacter' },
   links: { en: 'Links', fr: 'Liens' },
   allProjects: { en: 'All Projects', fr: 'Tous les projets' },
-
-  mailName: { en: 'Name', fr: 'Nom' },
-  mailEmail: { en: 'Email', fr: 'E-mail' },
-  mailMessage: { en: 'Message', fr: 'Message' },
-  mailSend: { en: 'Send', fr: 'Envoyer' },
-  mailConfirmation: {
-    en: 'Thanks — your email client should open shortly.',
-    fr: "Merci — votre client mail devrait s'ouvrir sous peu.",
-  },
+  terminal: { en: 'Terminal', fr: 'Terminal' },
+  trash: { en: 'Trash', fr: 'Corbeille' },
 
   placeholderProject: { en: 'Placeholder project', fr: 'Projet temporaire' },
   placeholderProjectDesc: {

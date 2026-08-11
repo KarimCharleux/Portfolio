@@ -17,6 +17,7 @@ export class MobileHomeScreenComponent {
   protected readonly gridApps = DOCK_APPS.filter((app) => !app.pinnedMobile);
 
   open(app: DockAppDef): void {
+    if (app.noWindow) return;
     this.windowManager.open(app.id, app.label);
   }
 }

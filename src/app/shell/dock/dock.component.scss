@@ -36,6 +36,13 @@
   }
 }
 
+.dock__divider {
+  align-self: stretch;
+  width: 1px;
+  margin: 4px 4px 4px 0;
+  background: rgba(127, 127, 127, 0.35);
+}
+
 .dock__slot {
   position: relative;
   z-index: 1;
