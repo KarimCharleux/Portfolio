@@ -82,6 +82,7 @@ export const TRANSLATIONS = {
     fr: 'Temporaire — à remplacer par un vrai contact.',
   },
   aboutPortfolioMoreInfo: { en: 'More Info…', fr: "Plus d'infos…" },
+  allRightsReserved: { en: 'All Rights Reserved.', fr: 'Tous droits réservés.' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type TranslationKey = keyof typeof TRANSLATIONS;

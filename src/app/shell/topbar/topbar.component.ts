@@ -40,6 +40,10 @@ export class TopbarComponent {
   }
 
   openAbout(): void {
-    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), { width: 620, height: 360 });
+    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), {
+      width: 380,
+      height: 540,
+      centered: true,
+    });
   }
 }

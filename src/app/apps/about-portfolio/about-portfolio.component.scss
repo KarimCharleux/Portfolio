@@ -1,18 +1,20 @@
 .about {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 28px;
   height: 100%;
   box-sizing: border-box;
-  padding: 32px;
+  padding: 28px 32px 22px;
+  text-align: center;
 }
 
 .about__portrait {
   flex-shrink: 0;
-  width: 128px;
-  height: 128px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   overflow: hidden;
+  margin-bottom: 16px;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.15) inset,
     0 12px 28px rgba(0, 0, 0, 0.3);
@@ -25,32 +27,29 @@
   display: block;
 }
 
-.about__details {
-  flex: 1;
-  min-width: 0;
-}
-
 .about__name {
   margin: 0;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .about__os {
-  margin: 2px 0 18px;
-  font-size: 14px;
+  margin: 2px 0 0;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .about__specs {
-  margin: 0 0 18px;
+  margin: 20px 0 0;
   display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 14px;
-  row-gap: 6px;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 7px;
+  padding-top: 16px;
   border-top: 1px solid var(--hairline);
-  padding-top: 14px;
+  width: 100%;
 }
 
 .about__spec {
@@ -59,7 +58,7 @@
   dt {
     grid-column: 1;
     text-align: right;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text-secondary);
     white-space: nowrap;
@@ -68,14 +67,17 @@
   dd {
     grid-column: 2;
     margin: 0;
-    font-size: 13px;
+    text-align: left;
+    font-size: 12.5px;
     color: var(--text-primary);
+    max-width: 190px;
   }
 }
 
 .about__more {
+  margin-top: 22px;
   font-size: 12px;
-  padding: 5px 12px;
+  padding: 6px 16px;
   border-radius: 6px;
   border: 0.5px solid var(--hairline);
   background: var(--surface-secondary);
@@ -88,8 +90,10 @@
 }
 
 .about__legal {
-  margin: 14px 0 0;
+  margin-top: auto;
+  padding-top: 16px;
   font-size: 10px;
+  line-height: 1.5;
   color: var(--text-secondary);
   opacity: 0.7;
 }
