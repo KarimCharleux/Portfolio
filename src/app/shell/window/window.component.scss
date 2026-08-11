@@ -18,6 +18,18 @@
   @include glass.liquid-glass-sheen;
 }
 
+// Extra flat white wash on top of the glass fill so dark body text stays
+// readable over a busy/bright wallpaper — the sheen above only lights the
+// top edge, this covers the whole pane. Light theme only: dark theme text
+// is already light-on-dark and doesn't need this.
+:root:not([data-theme='dark']) .window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
 .window--focused {
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.28),
