@@ -12,3 +12,13 @@ body {
 * {
   box-sizing: border-box;
 }
+
+// Form controls don't inherit `font` from the page by default in any
+// browser — without this they fall back to the OS's generic UI font
+// instead of the SF Pro stack set above.
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

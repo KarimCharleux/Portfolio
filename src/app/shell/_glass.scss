@@ -9,15 +9,20 @@
   $filter: string.unquote('blur(' + $blur + ') saturate(' + $saturate + ')');
 
   position: relative;
+  // background-color is only valid in the LAST layer of a multi-layer
+  // background — putting the solid fill first (as an earlier version of
+  // this mixin did) silently invalidates the whole declaration in some
+  // browsers, leaving the surface fully transparent. Gradient first, fill
+  // (with its implicit color) last.
   background:
-    var(#{$fill-var}) padding-box,
     linear-gradient(
         135deg,
         rgba(255, 255, 255, 0.55),
         rgba(255, 255, 255, 0.08) 45%,
         rgba(255, 255, 255, 0) 75%
       )
-      border-box;
+      border-box,
+    var(#{$fill-var}) padding-box;
   border: 1px solid transparent;
   backdrop-filter: #{$filter};
   -webkit-backdrop-filter: #{$filter};
