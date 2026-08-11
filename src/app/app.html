@@ -1,6 +1,6 @@
 <app-wallpaper />
 @if (!booted()) {
-  <app-boot-screen (finished)="booted.set(true)" />
+  <app-boot-screen (finished)="onBooted()" />
 } @else {
   @if (isMobile()) {
     <app-mobile-shell />

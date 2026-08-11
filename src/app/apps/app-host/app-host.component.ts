@@ -5,6 +5,7 @@ import { AppContentListComponent } from '../app-content-list/app-content-list.co
 import { AppContentGridComponent } from '../app-content-grid/app-content-grid.component';
 import { MailAppComponent } from '../mail-app/mail-app.component';
 import { FinderAppComponent } from '../finder-app/finder-app.component';
+import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { NOTES } from '../../content/notes.data';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
@@ -28,12 +29,20 @@ const GRID_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: 
 
 @Component({
   selector: 'app-host',
-  imports: [AppContentListComponent, AppContentGridComponent, MailAppComponent, FinderAppComponent],
+  imports: [
+    AppContentListComponent,
+    AppContentGridComponent,
+    MailAppComponent,
+    FinderAppComponent,
+    AboutPortfolioComponent,
+  ],
   template: `
     @if (appId() === 'mail') {
       <app-mail />
     } @else if (appId() === 'finder') {
       <app-finder />
+    } @else if (appId() === 'about') {
+      <app-about-portfolio />
     } @else if (listContent(); as list) {
       <app-content-list [heading]="list.heading" [items]="list.items" />
     } @else if (gridContent(); as grid) {

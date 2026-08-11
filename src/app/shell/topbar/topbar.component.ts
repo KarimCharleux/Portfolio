@@ -38,4 +38,8 @@ export class TopbarComponent {
   toggleLang(): void {
     this.i18n.toggle();
   }
+
+  openAbout(): void {
+    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), { width: 620, height: 360 });
+  }
 }

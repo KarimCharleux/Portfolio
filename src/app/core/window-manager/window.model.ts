@@ -6,7 +6,8 @@ export type AppId =
   | 'youtube'
   | 'mail'
   | 'safari'
-  | 'finder';
+  | 'finder'
+  | 'about';
 
 export interface WindowState {
   id: string;
