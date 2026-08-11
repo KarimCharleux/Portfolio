@@ -3,7 +3,7 @@
     @if (app.separatorBefore) {
       <div class="dock__divider"></div>
     }
-    <div class="dock__slot">
+    <div class="dock__slot" [class.dock__slot--hovered]="isHovered(i)">
       @if (hoveredApp() === app.id) {
         <div class="dock__tooltip">{{ i18n.t(app.tooltip) }}</div>
       }

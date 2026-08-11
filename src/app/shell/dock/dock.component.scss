@@ -48,6 +48,10 @@
   z-index: 1;
   display: flex;
   align-items: flex-end;
+
+  &--hovered {
+    z-index: 2;
+  }
 }
 
 .dock__icon {
@@ -58,15 +62,9 @@
   background: none;
   padding: 0;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    margin 0.2s ease;
+  transition: transform 0.2s ease;
   transform-origin: bottom center;
   will-change: transform;
-
-  &:hover {
-    margin: 0 10px;
-  }
 }
 
 .dock__indicator {
