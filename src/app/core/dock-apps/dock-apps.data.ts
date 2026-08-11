@@ -21,6 +21,14 @@ export const DOCK_APPS: DockAppDef[] = [
   { id: 'safari', label: 'Safari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
   { id: 'finder', label: 'Finder', icon: 'finder', pinnedMobile: true, tooltip: 'allProjects' },
   {
+    id: 'messages',
+    label: 'Messages',
+    icon: 'messages',
+    pinnedMobile: false,
+    tooltip: 'messages',
+    noWindow: true,
+  },
+  {
     id: 'terminal',
     label: 'Terminal',
     icon: 'terminal',
