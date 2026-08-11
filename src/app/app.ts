@@ -9,7 +9,7 @@ import { BootScreenComponent } from './shell/boot-screen/boot-screen.component';
 import { DesktopShellComponent } from './shell/desktop-shell/desktop-shell.component';
 import { MobileShellComponent } from './shell/mobile-shell/mobile-shell.component';
 
-const ABOUT_WINDOW_SIZE = { width: 620, height: 360 };
+const ABOUT_WINDOW_OPTIONS = { width: 380, height: 540, centered: true };
 
 @Component({
   selector: 'app-root',
@@ -42,6 +42,6 @@ export class App {
 
   onBooted(): void {
     this.booted.set(true);
-    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), ABOUT_WINDOW_SIZE);
+    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), ABOUT_WINDOW_OPTIONS);
   }
 }

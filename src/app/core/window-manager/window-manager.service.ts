@@ -21,7 +21,11 @@ export class WindowManagerService {
     return open.reduce((top, w) => (w.zIndex > top.zIndex ? w : top));
   });
 
-  open(appId: AppId, title: string, size?: { width: number; height: number }): void {
+  open(
+    appId: AppId,
+    title: string,
+    options?: { width: number; height: number; centered?: boolean },
+  ): void {
     const existing = this.windowsSignal().find((w) => w.appId === appId);
     if (existing) {
       this.restore(existing.id);
@@ -30,14 +34,22 @@ export class WindowManagerService {
     }
     const count = this.windowsSignal().length;
     const id = `win-${this.nextInstanceId++}`;
+    const width = options?.width ?? DEFAULT_WIDTH;
+    const height = options?.height ?? DEFAULT_HEIGHT;
+    const position = options?.centered
+      ? {
+          x: Math.max((window.innerWidth - width) / 2, 0),
+          y: Math.max((window.innerHeight - height) / 2, 0),
+        }
+      : { x: INITIAL_X + count * CASCADE_OFFSET, y: INITIAL_Y + count * CASCADE_OFFSET };
     const win: WindowState = {
       id,
       appId,
       title,
-      x: INITIAL_X + count * CASCADE_OFFSET,
-      y: INITIAL_Y + count * CASCADE_OFFSET,
-      width: size?.width ?? DEFAULT_WIDTH,
-      height: size?.height ?? DEFAULT_HEIGHT,
+      x: position.x,
+      y: position.y,
+      width,
+      height,
       zIndex: this.nextZIndex++,
       minimized: false,
     };

@@ -16,26 +16,54 @@
         aria-label="Close"
         (pointerdown)="stopPropagation($event)"
         (click)="close()"
-      ></button>
+      >
+        <svg class="window__traffic-glyph" viewBox="0 0 8 8" aria-hidden="true">
+          <path d="M2 2L6 6M6 2L2 6" stroke="rgba(70,0,0,0.7)" stroke-width="1.2" stroke-linecap="round" />
+        </svg>
+      </button>
       <button
         type="button"
         class="window__traffic-light window__traffic-light--minimize"
+        [class.window__traffic-light--disabled]="isFixedChrome()"
+        [disabled]="isFixedChrome()"
         aria-label="Minimize"
         (pointerdown)="stopPropagation($event)"
         (click)="minimize()"
-      ></button>
+      >
+        @if (!isFixedChrome()) {
+          <svg class="window__traffic-glyph" viewBox="0 0 8 8" aria-hidden="true">
+            <path d="M1.5 4H6.5" stroke="rgba(70,50,0,0.7)" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        }
+      </button>
       <button
         type="button"
         class="window__traffic-light window__traffic-light--zoom"
+        [class.window__traffic-light--disabled]="isFixedChrome()"
         aria-label="Zoom"
         disabled
         (pointerdown)="stopPropagation($event)"
-      ></button>
+      >
+        @if (!isFixedChrome()) {
+          <svg class="window__traffic-glyph" viewBox="0 0 8 8" aria-hidden="true">
+            <path
+              d="M1.4 3.2V1.4H3.2M6.6 4.8V6.6H4.8"
+              stroke="rgba(0,40,0,0.7)"
+              stroke-width="1.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            />
+          </svg>
+        }
+      </button>
     </div>
     <span class="window__title">{{ state().title }}</span>
   </header>
   <div class="window__body">
     <ng-content />
   </div>
-  <div class="window__resize-handle" (pointerdown)="onResizeHandlePointerDown($event)"></div>
+  @if (!isFixedChrome()) {
+    <div class="window__resize-handle" (pointerdown)="onResizeHandlePointerDown($event)"></div>
+  }
 </section>

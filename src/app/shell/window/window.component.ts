@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { WindowState } from '../../core/window-manager/window.model';
 
@@ -16,6 +16,10 @@ export class WindowComponent {
 
   readonly state = input.required<WindowState>();
 
+  // The About panel is a fixed macOS-style utility window: no minimize, no
+  // resize, matching how the real "About This Mac" panel behaves.
+  protected readonly isFixedChrome = computed(() => this.state().appId === 'about');
+
   isFocused(): boolean {
     return this.windowManager.frontmost()?.id === this.state().id;
   }
@@ -29,6 +33,7 @@ export class WindowComponent {
   }
 
   minimize(): void {
+    if (this.isFixedChrome()) return;
     this.windowManager.minimize(this.state().id);
   }
 
