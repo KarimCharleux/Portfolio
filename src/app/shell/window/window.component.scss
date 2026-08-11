@@ -1,7 +1,7 @@
 @use '../glass';
 
 .window {
-  @include glass.liquid-glass('--glass-window-bg', 32px, 110%);
+  @include glass.liquid-glass('--glass-window-bg', 60px, 130%);
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -12,6 +12,53 @@
     0 20px 48px rgba(0, 0, 0, 0.22);
   overflow: hidden;
   transition: box-shadow 0.15s ease-out;
+  animation: window-open 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+// Regular windows: quick, utilitarian scale + fade.
+@keyframes window-open {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// The About panel gets its own, more deliberate entrance — a slower
+// focus-in with a gentle overshoot, since it's the first thing anyone
+// sees and deserves to feel like an occasion rather than a utility popup.
+.window--about {
+  animation: window-open-about 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes window-open-about {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(18px);
+    filter: blur(10px);
+  }
+  55% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  70% {
+    transform: scale(1.025) translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window,
+  .window--about {
+    animation: none;
+  }
 }
 
 .window::before {

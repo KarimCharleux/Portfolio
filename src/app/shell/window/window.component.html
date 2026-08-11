@@ -1,6 +1,7 @@
 <section
   class="window"
   [class.window--focused]="isFocused()"
+  [class.window--about]="isFixedChrome()"
   [style.left.px]="state().x"
   [style.top.px]="state().y"
   [style.width.px]="state().width"
