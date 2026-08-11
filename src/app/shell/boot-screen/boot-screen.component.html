@@ -1,0 +1,19 @@
+<div class="boot" [class.boot--fading]="fading()">
+  <div class="boot__scrim"></div>
+
+  <div class="boot__content">
+    <div class="boot__avatar">
+      @if (!avatarFailed()) {
+        <img class="boot__avatar-img" src="/memoji.jpeg" alt="" (error)="onAvatarError()" />
+      } @else {
+        <div class="boot__avatar-fallback">KC</div>
+      }
+    </div>
+
+    <span class="boot__name">Karim Charleux</span>
+
+    <div class="boot__progress-track">
+      <div class="boot__progress-fill" [style.width.%]="progress()"></div>
+    </div>
+  </div>
+</div>
