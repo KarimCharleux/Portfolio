@@ -52,6 +52,7 @@ export class DockComponent {
   }
 
   open(app: DockAppDef): void {
+    if (app.noWindow) return;
     this.windowManager.open(app.id, app.label);
   }
 }

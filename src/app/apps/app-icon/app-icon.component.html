@@ -1,216 +1,29 @@
 @switch (icon()) {
   @case ('notes') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="notesGradLight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FFEB7A" />
-          <stop offset="0.55" stop-color="#FFD400" />
-          <stop offset="1" stop-color="#FFB300" />
-        </linearGradient>
-        <linearGradient id="notesGradDark" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#5C4A1C" />
-          <stop offset="0.55" stop-color="#3A2E10" />
-          <stop offset="1" stop-color="#221A08" />
-        </linearGradient>
-        <radialGradient id="notesSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.45" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-        <linearGradient id="notesFold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.9" />
-          <stop offset="1" stop-color="#FFE066" stop-opacity="0.9" />
-        </linearGradient>
-        <clipPath id="notesTile">
-          <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" />
-        </clipPath>
-      </defs>
-      <g clip-path="url(#notesTile)">
-        <rect x="0.5" y="0.5" width="23" height="23" [attr.fill]="dark() ? 'url(#notesGradDark)' : 'url(#notesGradLight)'" />
-        <rect x="0.5" y="0.5" width="23" height="23" fill="url(#notesSheen)" />
-        <rect x="4.8" y="5.2" width="14.4" height="4.4" rx="1" [attr.fill]="dark() ? '#E8D9A0' : '#fff'" />
-        <line x1="4.8" y1="12.2" x2="19.2" y2="12.2" [attr.stroke]="dark() ? '#C9A85C' : '#B5850A'" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
-        <line x1="4.8" y1="15.4" x2="19.2" y2="15.4" [attr.stroke]="dark() ? '#C9A85C' : '#B5850A'" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
-        <line x1="4.8" y1="18.6" x2="13.5" y2="18.6" [attr.stroke]="dark() ? '#C9A85C' : '#B5850A'" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
-        @if (!dark()) {
-          <polygon points="17.5,0.5 23.5,0.5 23.5,6.5" fill="url(#notesFold)" />
-        }
-      </g>
-    </svg>
-  }
-  @case ('mail') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="mailGradLight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#6FC3FF" />
-          <stop offset="1" stop-color="#0A5CFF" />
-        </linearGradient>
-        <linearGradient id="mailGradDark" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#1B4E8F" />
-          <stop offset="1" stop-color="#08234A" />
-        </linearGradient>
-        <radialGradient id="mailSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.35" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" [attr.fill]="dark() ? 'url(#mailGradDark)' : 'url(#mailGradLight)'" />
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#mailSheen)" />
-      <rect x="4.2" y="7" width="15.6" height="10.5" rx="1.6" [attr.fill]="dark() ? '#D7E6FA' : '#fff'" />
-      <path d="M4.6 7.6l7.4 5.6 7.4-5.6" fill="none" [attr.stroke]="dark() ? '#0B2C56' : '#0A5CFF'" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+    <img [src]="dark() ? '/apps/notes-dark.png' : '/apps/notes-light.png'" alt="" />
   }
   @case ('safari') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <radialGradient id="safariFaceLight" cx="50%" cy="35%" r="70%">
-          <stop offset="0" stop-color="#ffffff" />
-          <stop offset="1" stop-color="#DCEEFF" />
-        </radialGradient>
-        <radialGradient id="safariFaceDark" cx="50%" cy="35%" r="70%">
-          <stop offset="0" stop-color="#2B3540" />
-          <stop offset="1" stop-color="#151C24" />
-        </radialGradient>
-        <linearGradient id="safariRingLight" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#39C2FF" />
-          <stop offset="1" stop-color="#0A6CFF" />
-        </linearGradient>
-        <linearGradient id="safariRingDark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#155A94" />
-          <stop offset="1" stop-color="#062544" />
-        </linearGradient>
-      </defs>
-      <circle cx="12" cy="12" r="11.3" [attr.fill]="dark() ? 'url(#safariRingDark)' : 'url(#safariRingLight)'" />
-      <circle cx="12" cy="12" r="9.6" [attr.fill]="dark() ? 'url(#safariFaceDark)' : 'url(#safariFaceLight)'" />
-      <g [attr.stroke]="dark() ? '#4A5560' : '#B9C4CE'" stroke-width="0.5">
-        <line x1="12" y1="2.9" x2="12" y2="4.4" />
-        <line x1="12" y1="19.6" x2="12" y2="21.1" />
-        <line x1="2.9" y1="12" x2="4.4" y2="12" />
-        <line x1="19.6" y1="12" x2="21.1" y2="12" />
-      </g>
-      <g transform="rotate(45 12 12)">
-        <polygon points="12,4.6 13.4,12 12,12" fill="#FF3B30" />
-        <polygon points="12,4.6 10.6,12 12,12" [attr.fill]="dark() ? '#C4CDD6' : '#E8ECEF'" />
-        <polygon points="12,19.4 10.6,12 12,12" fill="#FF3B30" />
-        <polygon points="12,19.4 13.4,12 12,12" [attr.fill]="dark() ? '#C4CDD6' : '#E8ECEF'" />
-      </g>
-      <circle cx="12" cy="12" r="1.15" [attr.fill]="dark() ? '#C4CDD6' : '#8A9199'" />
-    </svg>
+    <img [src]="dark() ? '/apps/safari-dark.png' : '/apps/safari-light.png'" alt="" />
   }
   @case ('finder') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="finderBlueLight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#3FA1FF" />
-          <stop offset="1" stop-color="#0A56D6" />
-        </linearGradient>
-        <linearGradient id="finderBlueDark" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#1C5CA8" />
-          <stop offset="1" stop-color="#0A2C57" />
-        </linearGradient>
-        <clipPath id="finderTile">
-          <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" />
-        </clipPath>
-        <clipPath id="finderLeftHalf">
-          <rect x="0.5" y="0.5" width="11.5" height="23" />
-        </clipPath>
-        <clipPath id="finderRightHalf">
-          <rect x="12" y="0.5" width="11.5" height="23" />
-        </clipPath>
-        <radialGradient id="finderSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.3" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <g clip-path="url(#finderTile)">
-        <rect x="0.5" y="0.5" width="11.5" height="23" [attr.fill]="dark() ? 'url(#finderBlueDark)' : 'url(#finderBlueLight)'" />
-        <rect x="12" y="0.5" width="11.5" height="23" [attr.fill]="dark() ? '#2B2F36' : '#F2F4F6'" />
-
-        <g clip-path="url(#finderLeftHalf)">
-          <circle cx="8.6" cy="9.6" r="1.35" fill="#fff" />
-          <circle cx="15.4" cy="9.6" r="1.35" fill="#fff" />
-          <path d="M6.6 14.6 Q12 18.4 17.4 14.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-        </g>
-        <g clip-path="url(#finderRightHalf)">
-          <circle cx="8.6" cy="9.6" r="1.35" [attr.fill]="dark() ? '#B9C7D6' : '#0A56D6'" />
-          <circle cx="15.4" cy="9.6" r="1.35" [attr.fill]="dark() ? '#B9C7D6' : '#0A56D6'" />
-          <path d="M6.6 14.6 Q12 18.4 17.4 14.6" fill="none" [attr.stroke]="dark() ? '#B9C7D6' : '#0A56D6'" stroke-width="1.5" stroke-linecap="round" />
-        </g>
-        <rect x="0.5" y="0.5" width="23" height="23" fill="url(#finderSheen)" />
-      </g>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="0.5" />
-    </svg>
+    <img [src]="dark() ? '/apps/finder-dark.png' : '/apps/finder-light.png'" alt="" />
   }
   @case ('vscode') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="vscodeGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#1D8FE0" />
-          <stop offset="1" stop-color="#0052A3" />
-        </linearGradient>
-        <radialGradient id="vscodeSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.25" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#vscodeGrad)" />
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#vscodeSheen)" />
-      <g transform="translate(3.36 3.36) scale(0.72)">
-        <path [attr.d]="vscodePath" fill="#ffffff" />
-      </g>
-    </svg>
+    <img [src]="dark() ? '/apps/vscode-dark.png' : '/apps/vscode-light.png'" alt="" />
   }
   @case ('photoshop') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="psGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#4DBBFF" />
-          <stop offset="1" stop-color="#0A66C2" />
-        </linearGradient>
-        <radialGradient id="psSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.28" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-        <clipPath id="psTile">
-          <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" />
-        </clipPath>
-      </defs>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="#ffffff" />
-      <path [attr.d]="photoshopPath" fill="url(#psGrad)" fill-rule="evenodd" />
-      <rect x="0.5" y="0.5" width="23" height="23" fill="url(#psSheen)" clip-path="url(#psTile)" />
-    </svg>
+    <img [src]="dark() ? '/apps/photos-dark.png' : '/apps/photos-light.png'" alt="" />
   }
   @case ('figma') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <radialGradient id="figmaSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.5" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="#ffffff" />
-      <rect x="0.5" y="0.5" width="23" height="23" rx="5.3" fill="url(#figmaSheen)" />
-      <g transform="translate(3.36 3.36) scale(0.72)">
-        <path [attr.d]="figmaPath" [attr.fill]="figmaHex()" />
-      </g>
-    </svg>
+    <img [src]="dark() ? '/apps/figma-dark.png' : '/apps/figma-light.png'" alt="" />
   }
   @case ('youtube') {
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <defs>
-        <linearGradient id="ytGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#FF4E45" />
-          <stop offset="1" stop-color="#D6000B" />
-        </linearGradient>
-        <radialGradient id="ytSheen" cx="50%" cy="0%" r="80%">
-          <stop offset="0" stop-color="#fff" stop-opacity="0.25" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0" />
-        </radialGradient>
-        <clipPath id="ytTile">
-          <rect x="0" y="3.5" width="24" height="17" rx="4.5" />
-        </clipPath>
-      </defs>
-      <path [attr.d]="youtubePath" fill="url(#ytGrad)" />
-      <rect x="0" y="3.5" width="24" height="17" fill="url(#ytSheen)" clip-path="url(#ytTile)" />
-    </svg>
+    <img [src]="dark() ? '/apps/youtube-dark.png' : '/apps/youtube-light.png'" alt="" />
+  }
+  @case ('terminal') {
+    <img src="/apps/terminal.png" alt="" />
+  }
+  @case ('trash') {
+    <img [src]="dark() ? '/apps/trash-dark.png' : '/apps/trash-light.png'" alt="" />
   }
 }

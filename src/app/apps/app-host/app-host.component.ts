@@ -3,7 +3,6 @@ import { AppId } from '../../core/window-manager/window.model';
 import { ListItem, GridItem } from '../../content/content.model';
 import { AppContentListComponent } from '../app-content-list/app-content-list.component';
 import { AppContentGridComponent } from '../app-content-grid/app-content-grid.component';
-import { MailAppComponent } from '../mail-app/mail-app.component';
 import { FinderAppComponent } from '../finder-app/finder-app.component';
 import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { NOTES } from '../../content/notes.data';
@@ -32,14 +31,11 @@ const GRID_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: 
   imports: [
     AppContentListComponent,
     AppContentGridComponent,
-    MailAppComponent,
     FinderAppComponent,
     AboutPortfolioComponent,
   ],
   template: `
-    @if (appId() === 'mail') {
-      <app-mail />
-    } @else if (appId() === 'finder') {
+    @if (appId() === 'finder') {
       <app-finder />
     } @else if (appId() === 'about') {
       <app-about-portfolio />

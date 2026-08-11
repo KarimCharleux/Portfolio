@@ -1,5 +1,8 @@
 <nav class="dock" (pointerleave)="onDockLeave()">
   @for (app of apps; track app.id; let i = $index) {
+    @if (app.separatorBefore) {
+      <div class="dock__divider"></div>
+    }
     <div class="dock__slot">
       @if (hoveredApp() === app.id) {
         <div class="dock__tooltip">{{ i18n.t(app.tooltip) }}</div>

@@ -5,7 +5,7 @@ export const DOCK_APPS: DockAppDef[] = [
   { id: 'vscode', label: 'VS Code', icon: 'vscode', pinnedMobile: true, tooltip: 'codeProjects' },
   {
     id: 'photoshop',
-    label: 'Photoshop',
+    label: 'Photos',
     icon: 'photoshop',
     pinnedMobile: false,
     tooltip: 'photos',
@@ -18,7 +18,23 @@ export const DOCK_APPS: DockAppDef[] = [
     pinnedMobile: false,
     tooltip: 'videoProjects',
   },
-  { id: 'mail', label: 'Mail', icon: 'mail', pinnedMobile: true, tooltip: 'getInTouch' },
   { id: 'safari', label: 'Safari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
   { id: 'finder', label: 'Finder', icon: 'finder', pinnedMobile: true, tooltip: 'allProjects' },
+  {
+    id: 'terminal',
+    label: 'Terminal',
+    icon: 'terminal',
+    pinnedMobile: false,
+    tooltip: 'terminal',
+    noWindow: true,
+  },
+  {
+    id: 'trash',
+    label: 'Trash',
+    icon: 'trash',
+    pinnedMobile: false,
+    tooltip: 'trash',
+    noWindow: true,
+    separatorBefore: true,
+  },
 ];
