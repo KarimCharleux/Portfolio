@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ClockService } from '../../core/clock/clock.service';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { ThemeService } from '../../core/theme/theme.service';
+import { I18nService } from '../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-topbar',
@@ -12,6 +13,7 @@ export class TopbarComponent {
   private readonly clock = inject(ClockService);
   private readonly windowManager = inject(WindowManagerService);
   private readonly theme = inject(ThemeService);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly darkMode = this.theme.isDark;
 
@@ -20,7 +22,7 @@ export class TopbarComponent {
   );
 
   protected readonly formattedTime = computed(() =>
-    new Intl.DateTimeFormat(undefined, {
+    new Intl.DateTimeFormat(this.i18n.lang() === 'fr' ? 'fr-FR' : 'en-US', {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
@@ -31,5 +33,9 @@ export class TopbarComponent {
 
   toggleTheme(): void {
     this.theme.toggle();
+  }
+
+  toggleLang(): void {
+    this.i18n.toggle();
   }
 }

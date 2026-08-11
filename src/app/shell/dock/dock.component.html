@@ -2,7 +2,7 @@
   @for (app of apps; track app.id) {
     <div class="dock__slot">
       @if (hoveredApp() === app.id) {
-        <div class="dock__tooltip">{{ app.tooltip }}</div>
+        <div class="dock__tooltip">{{ i18n.t(app.tooltip) }}</div>
       }
       <button
         #dockIcon
@@ -11,8 +11,6 @@
         [attr.data-app-id]="app.id"
         [style.transform]="'scale(' + scaleFor(app.id) + ')'"
         [attr.aria-label]="app.label"
-        (pointerenter)="onIconPointerEnter(app.id)"
-        (pointerleave)="onIconPointerLeave()"
         (click)="open(app)"
       >
         <app-icon [icon]="app.icon" />

@@ -1,21 +1,22 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { DOCK_APPS } from '../../core/dock-apps/dock-apps.data';
 import { AppId } from '../../core/window-manager/window.model';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
-import { NOTES } from '../../content/notes.data';
-import { CODE_PROJECTS } from '../../content/code-projects.data';
-import { PHOTOS } from '../../content/photos.data';
-import { DESIGNS } from '../../content/designs.data';
-import { VIDEOS } from '../../content/videos.data';
-import { SOCIAL_LINKS } from '../../content/social-links.data';
+import { I18nService } from '../../core/i18n/i18n.service';
+import { NOTES_COUNT } from '../../content/notes.data';
+import { CODE_PROJECTS_COUNT } from '../../content/code-projects.data';
+import { PHOTOS_COUNT } from '../../content/photos.data';
+import { DESIGNS_COUNT } from '../../content/designs.data';
+import { VIDEOS_COUNT } from '../../content/videos.data';
+import { SOCIAL_LINKS_COUNT } from '../../content/social-links.data';
 
 const CONTENT_COUNTS: Partial<Record<AppId, number>> = {
-  notes: NOTES.length,
-  vscode: CODE_PROJECTS.length,
-  photoshop: PHOTOS.length,
-  figma: DESIGNS.length,
-  youtube: VIDEOS.length,
-  safari: SOCIAL_LINKS.length,
+  notes: NOTES_COUNT,
+  vscode: CODE_PROJECTS_COUNT,
+  photoshop: PHOTOS_COUNT,
+  figma: DESIGNS_COUNT,
+  youtube: VIDEOS_COUNT,
+  safari: SOCIAL_LINKS_COUNT,
 };
 
 @Component({
@@ -25,6 +26,9 @@ const CONTENT_COUNTS: Partial<Record<AppId, number>> = {
 })
 export class FinderAppComponent {
   private readonly windowManager = inject(WindowManagerService);
+  protected readonly i18n = inject(I18nService);
+
+  protected readonly heading = computed(() => this.i18n.t('allProjects'));
 
   readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder').map((app) => ({
     id: app.id,

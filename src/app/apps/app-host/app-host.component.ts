@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { AppId } from '../../core/window-manager/window.model';
 import { ListItem, GridItem } from '../../content/content.model';
 import { AppContentListComponent } from '../app-content-list/app-content-list.component';
@@ -11,17 +11,19 @@ import { SOCIAL_LINKS } from '../../content/social-links.data';
 import { PHOTOS } from '../../content/photos.data';
 import { DESIGNS } from '../../content/designs.data';
 import { VIDEOS } from '../../content/videos.data';
+import { I18nService } from '../../core/i18n/i18n.service';
+import { TranslationKey } from '../../core/i18n/translations';
 
-const LIST_CONTENT: Partial<Record<AppId, { heading: string; items: ListItem[] }>> = {
-  notes: { heading: 'About Me', items: NOTES },
-  vscode: { heading: 'Code Projects', items: CODE_PROJECTS },
-  safari: { heading: 'Links', items: SOCIAL_LINKS },
+const LIST_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: Record<string, ListItem[]> }>> = {
+  notes: { headingKey: 'aboutMe', source: NOTES },
+  vscode: { headingKey: 'codeProjects', source: CODE_PROJECTS },
+  safari: { headingKey: 'links', source: SOCIAL_LINKS },
 };
 
-const GRID_CONTENT: Partial<Record<AppId, { heading: string; items: GridItem[] }>> = {
-  photoshop: { heading: 'Photos', items: PHOTOS },
-  figma: { heading: 'Design Work', items: DESIGNS },
-  youtube: { heading: 'Video Projects', items: VIDEOS },
+const GRID_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: Record<string, GridItem[]> }>> = {
+  photoshop: { headingKey: 'photos', source: PHOTOS },
+  figma: { headingKey: 'designWork', source: DESIGNS },
+  youtube: { headingKey: 'videoProjects', source: VIDEOS },
 };
 
 @Component({
@@ -40,8 +42,19 @@ const GRID_CONTENT: Partial<Record<AppId, { heading: string; items: GridItem[] }
   `,
 })
 export class AppHostComponent {
+  private readonly i18n = inject(I18nService);
+
   readonly appId = input.required<AppId>();
 
-  protected readonly listContent = computed(() => LIST_CONTENT[this.appId()] ?? null);
-  protected readonly gridContent = computed(() => GRID_CONTENT[this.appId()] ?? null);
+  protected readonly listContent = computed(() => {
+    const entry = LIST_SOURCES[this.appId()];
+    if (!entry) return null;
+    return { heading: this.i18n.t(entry.headingKey), items: entry.source[this.i18n.lang()] };
+  });
+
+  protected readonly gridContent = computed(() => {
+    const entry = GRID_SOURCES[this.appId()];
+    if (!entry) return null;
+    return { heading: this.i18n.t(entry.headingKey), items: entry.source[this.i18n.lang()] };
+  });
 }

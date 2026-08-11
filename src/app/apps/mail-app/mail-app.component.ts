@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { I18nService } from '../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-mail',
@@ -9,6 +10,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class MailAppComponent {
   private readonly fb = inject(FormBuilder);
+  protected readonly i18n = inject(I18nService);
 
   readonly submitted = signal(false);
 

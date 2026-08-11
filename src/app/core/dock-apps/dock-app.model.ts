@@ -1,4 +1,5 @@
 import { AppId } from '../window-manager/window.model';
+import { TranslationKey } from '../i18n/translations';
 
 export interface DockAppDef {
   id: AppId;
@@ -6,6 +7,6 @@ export interface DockAppDef {
   /** Key consumed by AppIconComponent to pick the right icon rendering. */
   icon: AppId;
   pinnedMobile: boolean;
-  /** Shown in the dock hover tooltip — the app's content heading, not its name. */
-  tooltip: string;
+  /** Translation key for the dock hover tooltip — the app's content heading, not its name. */
+  tooltip: TranslationKey;
 }
