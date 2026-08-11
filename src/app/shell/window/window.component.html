@@ -6,6 +6,7 @@
   [style.width.px]="state().width"
   [style.height.px]="state().height"
   [style.zIndex]="state().zIndex"
+  [attr.aria-label]="state().title"
   (pointerdown)="focus()"
 >
   <header class="window__titlebar" (pointerdown)="onTitleBarPointerDown($event)">
@@ -58,7 +59,6 @@
         }
       </button>
     </div>
-    <span class="window__title">{{ state().title }}</span>
   </header>
   <div class="window__body">
     <ng-content />
