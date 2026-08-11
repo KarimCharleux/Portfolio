@@ -51,6 +51,11 @@ export const TRANSLATIONS = {
   },
 
   langToggleLabel: { en: 'Switch language', fr: 'Changer de langue' },
+  toggleDarkMode: { en: 'Toggle dark mode', fr: 'Changer de thème' },
+  windowClose: { en: 'Close', fr: 'Fermer' },
+  windowMinimize: { en: 'Minimize', fr: 'Réduire' },
+  windowZoom: { en: 'Zoom', fr: 'Zoomer' },
+  back: { en: 'Back', fr: 'Retour' },
 
   aboutPortfolio: { en: 'About This Portfolio', fr: 'À propos de ce portfolio' },
   aboutPortfolioOS: { en: 'Portfolio OS 1.0', fr: 'Portfolio OS 1.0' },
@@ -66,13 +71,13 @@ export const TRANSLATIONS = {
   },
   aboutPortfolioLocation: { en: 'Based in', fr: 'Basé à' },
   aboutPortfolioLocationValue: {
-    en: 'Placeholder — swap with a real location.',
-    fr: 'Temporaire — à remplacer par un vrai lieu.',
+    en: 'Antibes, France',
+    fr: 'Antibes, France',
   },
   aboutPortfolioContact: { en: 'Contact', fr: 'Contact' },
   aboutPortfolioContactValue: {
-    en: 'Placeholder — swap with a real contact.',
-    fr: 'Temporaire — à remplacer par un vrai contact.',
+    en: 'karim.chrx@gmail.com',
+    fr: 'karim.chrx@gmail.com',
   },
   aboutPortfolioMoreInfo: { en: 'More Info…', fr: "Plus d'infos…" },
   allRightsReserved: { en: 'All Rights Reserved.', fr: 'Tous droits réservés.' },

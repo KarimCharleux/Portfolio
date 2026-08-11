@@ -26,10 +26,6 @@
   border-radius: 28px;
 }
 
-.mobile-home__dock::before {
-  @include glass.liquid-glass-sheen;
-}
-
 .mobile-home__icon {
   display: flex;
   flex-direction: column;

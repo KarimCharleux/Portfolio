@@ -26,6 +26,10 @@ export class App {
   protected readonly booted = signal(!isPlatformBrowser(inject(PLATFORM_ID)));
 
   constructor() {
+    if (isPlatformBrowser(inject(PLATFORM_ID)) && !navigator.language?.toLowerCase().startsWith('fr')) {
+      this.i18n.setLang('en');
+    }
+
     afterNextRender(async () => {
       try {
         const { getAnalytics, isSupported, logEvent } = await import('firebase/analytics');

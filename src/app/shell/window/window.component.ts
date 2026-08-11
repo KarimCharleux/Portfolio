@@ -1,6 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { WindowState } from '../../core/window-manager/window.model';
+import { I18nService } from '../../core/i18n/i18n.service';
 
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
@@ -13,6 +14,7 @@ const MENU_BAR_HEIGHT = 24;
 })
 export class WindowComponent {
   private readonly windowManager = inject(WindowManagerService);
+  protected readonly i18n = inject(I18nService);
 
   readonly state = input.required<WindowState>();
 

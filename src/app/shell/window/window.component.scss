@@ -61,14 +61,9 @@
   }
 }
 
-.window::before {
-  @include glass.liquid-glass-sheen;
-}
-
 // Extra flat wash on top of the glass fill so body text stays readable
-// over a busy/bright wallpaper — the sheen above only lights the top
-// edge, this covers the whole pane. White in light mode (dark text needs
-// a lighter base), black in dark mode (light text needs a darker base).
+// over a busy/bright wallpaper. White in light mode (dark text needs a
+// lighter base), black in dark mode (light text needs a darker base).
 .window::after {
   content: '';
   position: absolute;

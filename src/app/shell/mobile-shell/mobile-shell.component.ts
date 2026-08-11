@@ -3,6 +3,7 @@ import { MobileStatusBarComponent } from '../mobile-status-bar/mobile-status-bar
 import { MobileHomeScreenComponent } from '../mobile-home-screen/mobile-home-screen.component';
 import { AppHostComponent } from '../../apps/app-host/app-host.component';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
+import { I18nService } from '../../core/i18n/i18n.service';
 
 @Component({
   selector: 'app-mobile-shell',
@@ -12,6 +13,7 @@ import { WindowManagerService } from '../../core/window-manager/window-manager.s
 })
 export class MobileShellComponent {
   private readonly windowManager = inject(WindowManagerService);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly frontmost = computed(() => this.windowManager.frontmost());
 
