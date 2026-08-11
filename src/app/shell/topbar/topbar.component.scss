@@ -9,13 +9,31 @@
   justify-content: space-between;
   padding: 0 16px;
   background: var(--glass-bg-strong);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
   color: var(--text-primary);
   font-size: 13px;
   font-weight: 400;
   z-index: 10000;
   box-shadow: 0 0.5px 0 var(--hairline);
+  animation: topbar-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes topbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar {
+    animation: none;
+  }
 }
 
 .topbar__left,
