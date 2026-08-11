@@ -24,6 +24,14 @@
       <rect x="21" y="10" width="2" height="4" rx="1" fill="currentColor" />
     </svg>
     <span class="topbar__clock">{{ formattedTime() }}</span>
+    <button
+      type="button"
+      class="topbar__lang-toggle"
+      (click)="toggleLang()"
+      [attr.aria-label]="i18n.t('langToggleLabel')"
+    >
+      {{ i18n.lang() === 'fr' ? 'FR' : 'EN' }}
+    </button>
     <button type="button" class="topbar__theme-toggle" (click)="toggleTheme()" aria-label="Toggle dark mode">
       @if (darkMode()) {
         <svg viewBox="0 0 24 24" aria-hidden="true">

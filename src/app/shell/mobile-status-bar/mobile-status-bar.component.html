@@ -1,6 +1,14 @@
 <header class="mobile-status-bar">
   <span class="mobile-status-bar__clock">{{ formattedTime() }}</span>
   <div class="mobile-status-bar__icons">
+    <button
+      type="button"
+      class="mobile-status-bar__lang"
+      (click)="toggleLang()"
+      [attr.aria-label]="i18n.t('langToggleLabel')"
+    >
+      {{ i18n.lang() === 'fr' ? 'FR' : 'EN' }}
+    </button>
     <svg class="mobile-status-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
       <path
         fill="currentColor"

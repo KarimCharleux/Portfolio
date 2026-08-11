@@ -1,7 +1,25 @@
 import { DesignWork } from './content.model';
+import { Lang } from '../core/i18n/translations';
 
-export const DESIGNS: DesignWork[] = [
-  { id: 'design-1', title: 'Placeholder design 1', caption: 'Swap with real design work.', accentColor: '#FF375F' },
-  { id: 'design-2', title: 'Placeholder design 2', caption: 'Swap with real design work.', accentColor: '#0A84FF' },
-  { id: 'design-3', title: 'Placeholder design 3', caption: 'Swap with real design work.', accentColor: '#BF5AF2' },
-];
+const ACCENTS = ['#FF375F', '#0A84FF', '#BF5AF2'];
+
+function buildDesigns(lang: Lang): DesignWork[] {
+  const title = lang === 'fr' ? 'Design temporaire' : 'Placeholder design';
+  const caption =
+    lang === 'fr'
+      ? 'À remplacer par un vrai travail de design.'
+      : 'Swap with real design work.';
+  return ACCENTS.map((accentColor, i) => ({
+    id: `design-${i + 1}`,
+    title: `${title} ${i + 1}`,
+    caption,
+    accentColor,
+  }));
+}
+
+export const DESIGNS: Record<Lang, DesignWork[]> = {
+  en: buildDesigns('en'),
+  fr: buildDesigns('fr'),
+};
+
+export const DESIGNS_COUNT = DESIGNS.en.length;
