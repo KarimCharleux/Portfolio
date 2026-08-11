@@ -1,16 +1,15 @@
-<nav class="dock" (pointermove)="onDockPointerMove($event)" (pointerleave)="onDockLeave()">
-  @for (app of apps; track app.id) {
+<nav class="dock" (pointerleave)="onDockLeave()">
+  @for (app of apps; track app.id; let i = $index) {
     <div class="dock__slot">
       @if (hoveredApp() === app.id) {
         <div class="dock__tooltip">{{ i18n.t(app.tooltip) }}</div>
       }
       <button
-        #dockIcon
         type="button"
         class="dock__icon"
-        [attr.data-app-id]="app.id"
-        [style.transform]="'scale(' + scaleFor(app.id) + ')'"
+        [style.transform]="transformFor(i)"
         [attr.aria-label]="app.label"
+        (pointerenter)="onIconEnter(i, app.id)"
         (click)="open(app)"
       >
         <app-icon [icon]="app.icon" />
