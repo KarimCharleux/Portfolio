@@ -77,11 +77,11 @@
 }
 
 :root:not([data-theme='dark']) .window::after {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 :root[data-theme='dark'] .window::after {
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.26);
 }
 
 .window--focused {
