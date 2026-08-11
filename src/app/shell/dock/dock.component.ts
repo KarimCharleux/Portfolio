@@ -7,11 +7,11 @@ import { WindowManagerService } from '../../core/window-manager/window-manager.s
 import { I18nService } from '../../core/i18n/i18n.service';
 
 // Same tiered magnification as https://codepen.io/kokotsakis/pen/XWVPLee,
-// scaled down slightly per request.
+// scaled down — still too strong at 1.4/1.15/1.03, dialed back further.
 const TIERS = [
-  { scale: 1.4, lift: -8 },
-  { scale: 1.15, lift: -5 },
-  { scale: 1.03, lift: 0 },
+  { scale: 1.22, lift: -5 },
+  { scale: 1.08, lift: -2 },
+  { scale: 1.02, lift: 0 },
 ];
 
 @Component({
