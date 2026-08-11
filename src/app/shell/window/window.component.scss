@@ -1,39 +1,43 @@
+@use '../glass';
+
 .window {
+  @include glass.liquid-glass('--glass-window-bg', 32px, 110%);
   position: fixed;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
   border-radius: var(--window-radius);
   box-shadow:
-    0 0 0 0.5px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.22),
     0 4px 12px rgba(0, 0, 0, 0.14),
     0 20px 48px rgba(0, 0, 0, 0.22);
   overflow: hidden;
   transition: box-shadow 0.15s ease-out;
 }
 
+.window::before {
+  @include glass.liquid-glass-sheen;
+}
+
 .window--focused {
   box-shadow:
-    0 0 0 0.5px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.28),
     0 8px 20px rgba(0, 0, 0, 0.2),
     0 32px 64px rgba(0, 0, 0, 0.36);
 }
 
 .window__titlebar {
+  position: relative;
+  z-index: 1;
   height: var(--window-titlebar-height);
   min-height: var(--window-titlebar-height);
   display: flex;
   align-items: center;
   padding: 0 12px;
-  background: linear-gradient(180deg, var(--surface-secondary), color-mix(in srgb, var(--surface-secondary) 92%, black));
+  background: color-mix(in srgb, var(--glass-titlebar-bg) 60%, transparent);
   border-bottom: 0.5px solid var(--hairline);
   cursor: grab;
   user-select: none;
   gap: 12px;
-}
-
-.window--focused .window__titlebar {
-  background: linear-gradient(180deg, var(--surface-secondary), color-mix(in srgb, var(--surface-secondary) 96%, black));
 }
 
 .window__traffic-lights {
@@ -75,6 +79,8 @@
 }
 
 .window__body {
+  position: relative;
+  z-index: 1;
   flex: 1;
   overflow: auto;
   color: var(--text-primary);
@@ -87,4 +93,5 @@
   width: 16px;
   height: 16px;
   cursor: nwse-resize;
+  z-index: 1;
 }
