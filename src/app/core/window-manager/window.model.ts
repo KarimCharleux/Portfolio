@@ -6,6 +6,7 @@ export type AppId =
   | 'youtube'
   | 'safari'
   | 'finder'
+  | 'messages'
   | 'terminal'
   | 'trash'
   | 'about';

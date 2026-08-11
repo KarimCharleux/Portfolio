@@ -8,6 +8,7 @@ export const TRANSLATIONS = {
   videoProjects: { en: 'Video Projects', fr: 'Projets vidéo' },
   links: { en: 'Links', fr: 'Liens' },
   allProjects: { en: 'All Projects', fr: 'Tous les projets' },
+  messages: { en: 'Messages', fr: 'Messages' },
   terminal: { en: 'Terminal', fr: 'Terminal' },
   trash: { en: 'Trash', fr: 'Corbeille' },
 
