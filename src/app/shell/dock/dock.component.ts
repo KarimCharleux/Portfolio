@@ -37,6 +37,10 @@ export class DockComponent {
     return `scale(${tier.scale}) translateY(${tier.lift}px)`;
   }
 
+  isHovered(index: number): boolean {
+    return this.hoveredIndex() === index;
+  }
+
   onIconEnter(index: number, appId: AppId): void {
     this.hoveredIndex.set(index);
     this.hoveredApp.set(appId);
