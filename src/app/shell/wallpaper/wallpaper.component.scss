@@ -1,27 +1,10 @@
-// Original abstract gradient in the visual spirit of recent macOS default
-// wallpapers — deliberately not a reproduction of any actual Apple artwork.
 .wallpaper {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(ellipse 80% 60% at 15% 10%, rgba(255, 170, 70, 0.5), transparent 60%),
-    radial-gradient(ellipse 70% 70% at 85% 15%, rgba(120, 110, 255, 0.42), transparent 62%),
-    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(20, 140, 255, 0.5), transparent 65%),
-    linear-gradient(165deg, #16161a 0%, #2e2140 40%, #103a5c 75%, #0a2540 100%);
+  background-image: url('/wallpaper.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-color: #16161a;
-}
-
-.wallpaper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  filter: url(#wallpaperGrain);
-  pointer-events: none;
-}
-
-.wallpaper__grain {
-  position: absolute;
-  width: 0;
-  height: 0;
 }
