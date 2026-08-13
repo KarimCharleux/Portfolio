@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DOCK_APPS } from '../../core/dock-apps/dock-apps.data';
 import { AppId } from '../../core/window-manager/window.model';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
@@ -23,9 +23,10 @@ const CONTENT_COUNTS: Partial<Record<AppId, number>> = {
   selector: 'app-finder',
   templateUrl: './finder-app.component.html',
   styleUrl: './finder-app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinderAppComponent {
-  private readonly windowManager = inject(WindowManagerService);
+  readonly #windowManager = inject(WindowManagerService);
   protected readonly i18n = inject(I18nService);
 
   protected readonly heading = computed(() => this.i18n.t('allProjects'));
@@ -37,6 +38,6 @@ export class FinderAppComponent {
   }));
 
   open(appId: AppId, label: string): void {
-    this.windowManager.open(appId, label);
+    this.#windowManager.open(appId, label);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { AppId } from '../../core/window-manager/window.model';
 import { ListItem, GridItem } from '../../content/content.model';
 import { AppContentListComponent } from '../app-content-list/app-content-list.component';
@@ -45,21 +45,22 @@ const GRID_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: 
       <app-content-grid [heading]="grid.heading" [items]="grid.items" />
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHostComponent {
-  private readonly i18n = inject(I18nService);
+  readonly #i18n = inject(I18nService);
 
   readonly appId = input.required<AppId>();
 
   protected readonly listContent = computed(() => {
     const entry = LIST_SOURCES[this.appId()];
     if (!entry) return null;
-    return { heading: this.i18n.t(entry.headingKey), items: entry.source[this.i18n.lang()] };
+    return { heading: this.#i18n.t(entry.headingKey), items: entry.source[this.#i18n.lang()] };
   });
 
   protected readonly gridContent = computed(() => {
     const entry = GRID_SOURCES[this.appId()];
     if (!entry) return null;
-    return { heading: this.i18n.t(entry.headingKey), items: entry.source[this.i18n.lang()] };
+    return { heading: this.#i18n.t(entry.headingKey), items: entry.source[this.#i18n.lang()] };
   });
 }

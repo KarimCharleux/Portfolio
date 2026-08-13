@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   OnInit,
@@ -27,11 +28,12 @@ function easeOutCubic(t: number): number {
   selector: 'app-boot-screen',
   templateUrl: './boot-screen.component.html',
   styleUrl: './boot-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BootScreenComponent implements OnInit {
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly preloader = inject(AssetPreloaderService);
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #preloader = inject(AssetPreloaderService);
 
   readonly finished = output<void>();
 
@@ -40,7 +42,7 @@ export class BootScreenComponent implements OnInit {
   protected readonly progress = signal(0);
 
   ngOnInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (!isPlatformBrowser(this.#platformId)) {
       return;
     }
 
@@ -58,14 +60,14 @@ export class BootScreenComponent implements OnInit {
       }
     };
     rafId = requestAnimationFrame(tick);
-    this.destroyRef.onDestroy(() => cancelAnimationFrame(rafId));
+    this.#destroyRef.onDestroy(() => cancelAnimationFrame(rafId));
 
-    this.preloader.preloadAll().then(() => {
+    this.#preloader.preloadAll().then(() => {
       settled = true;
       cancelAnimationFrame(rafId);
       this.progress.set(100);
-      const timeout = setTimeout(() => this.beginFadeOut(), HOLD_AT_FULL_MS);
-      this.destroyRef.onDestroy(() => clearTimeout(timeout));
+      const timeout = setTimeout(() => this.#beginFadeOut(), HOLD_AT_FULL_MS);
+      this.#destroyRef.onDestroy(() => clearTimeout(timeout));
     });
 
     // Safety net: never let a slow/stalled asset hold the boot screen forever.
@@ -74,17 +76,17 @@ export class BootScreenComponent implements OnInit {
         settled = true;
         cancelAnimationFrame(rafId);
         this.progress.set(100);
-        this.beginFadeOut();
+        this.#beginFadeOut();
       }
     }, 6000);
-    this.destroyRef.onDestroy(() => clearTimeout(maxWait));
+    this.#destroyRef.onDestroy(() => clearTimeout(maxWait));
   }
 
   onAvatarError(): void {
     this.avatarFailed.set(true);
   }
 
-  private beginFadeOut(): void {
+  #beginFadeOut(): void {
     if (this.fading()) {
       return;
     }

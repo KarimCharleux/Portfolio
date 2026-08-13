@@ -1,4 +1,4 @@
-import { Component, PLATFORM_ID, afterNextRender, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, PLATFORM_ID, afterNextRender, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { getFirebaseApp } from './core/firebase-app';
 import { BreakpointService } from './core/breakpoint/breakpoint.service';
@@ -16,18 +16,19 @@ const ABOUT_WINDOW_OPTIONS = { width: 380, height: 540, centered: true };
   imports: [WallpaperComponent, BootScreenComponent, DesktopShellComponent, MobileShellComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly isMobile = inject(BreakpointService).isMobile;
-  private readonly i18n = inject(I18nService);
-  private readonly windowManager = inject(WindowManagerService);
+  readonly #i18n = inject(I18nService);
+  readonly #windowManager = inject(WindowManagerService);
 
   // Skip the boot animation in SSR/prerendered output — only the browser plays it.
   protected readonly booted = signal(!isPlatformBrowser(inject(PLATFORM_ID)));
 
   constructor() {
     if (isPlatformBrowser(inject(PLATFORM_ID)) && !navigator.language?.toLowerCase().startsWith('fr')) {
-      this.i18n.setLang('en');
+      this.#i18n.setLang('en');
     }
 
     afterNextRender(async () => {
@@ -46,6 +47,6 @@ export class App {
 
   onBooted(): void {
     this.booted.set(true);
-    this.windowManager.open('about', this.i18n.t('aboutPortfolio'), ABOUT_WINDOW_OPTIONS);
+    this.#windowManager.open('about', this.#i18n.t('aboutPortfolio'), ABOUT_WINDOW_OPTIONS);
   }
 }

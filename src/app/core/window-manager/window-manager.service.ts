@@ -1,4 +1,5 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AppId, WindowState } from './window.model';
 
 const DEFAULT_WIDTH = 720;
@@ -9,14 +10,15 @@ const INITIAL_Y = 60;
 
 @Injectable({ providedIn: 'root' })
 export class WindowManagerService {
-  private readonly windowsSignal = signal<WindowState[]>([]);
-  private nextZIndex = 1;
-  private nextInstanceId = 0;
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #windowsSignal = signal<WindowState[]>([]);
+  #nextZIndex = 1;
+  #nextInstanceId = 0;
 
-  readonly windows = this.windowsSignal.asReadonly();
+  readonly windows = this.#windowsSignal.asReadonly();
 
   readonly frontmost = computed<WindowState | null>(() => {
-    const open = this.windowsSignal().filter((w) => !w.minimized);
+    const open = this.#windowsSignal().filter((w) => !w.minimized);
     if (open.length === 0) return null;
     return open.reduce((top, w) => (w.zIndex > top.zIndex ? w : top));
   });
@@ -26,22 +28,23 @@ export class WindowManagerService {
     title: string,
     options?: { width: number; height: number; centered?: boolean },
   ): void {
-    const existing = this.windowsSignal().find((w) => w.appId === appId);
+    const existing = this.#windowsSignal().find((w) => w.appId === appId);
     if (existing) {
       this.restore(existing.id);
       this.focus(existing.id);
       return;
     }
-    const count = this.windowsSignal().length;
-    const id = `win-${this.nextInstanceId++}`;
+    const count = this.#windowsSignal().length;
+    const id = `win-${this.#nextInstanceId++}`;
     const width = options?.width ?? DEFAULT_WIDTH;
     const height = options?.height ?? DEFAULT_HEIGHT;
-    const position = options?.centered
-      ? {
-          x: Math.max((window.innerWidth - width) / 2, 0),
-          y: Math.max((window.innerHeight - height) / 2, 0),
-        }
-      : { x: INITIAL_X + count * CASCADE_OFFSET, y: INITIAL_Y + count * CASCADE_OFFSET };
+    const position =
+      options?.centered && isPlatformBrowser(this.#platformId)
+        ? {
+            x: Math.max((window.innerWidth - width) / 2, 0),
+            y: Math.max((window.innerHeight - height) / 2, 0),
+          }
+        : { x: INITIAL_X + count * CASCADE_OFFSET, y: INITIAL_Y + count * CASCADE_OFFSET };
     const win: WindowState = {
       id,
       appId,
@@ -50,44 +53,44 @@ export class WindowManagerService {
       y: position.y,
       width,
       height,
-      zIndex: this.nextZIndex++,
+      zIndex: this.#nextZIndex++,
       minimized: false,
     };
-    this.windowsSignal.update((wins) => [...wins, win]);
+    this.#windowsSignal.update((wins) => [...wins, win]);
   }
 
   close(id: string): void {
-    this.windowsSignal.update((wins) => wins.filter((w) => w.id !== id));
+    this.#windowsSignal.update((wins) => wins.filter((w) => w.id !== id));
   }
 
   minimize(id: string): void {
-    this.windowsSignal.update((wins) =>
+    this.#windowsSignal.update((wins) =>
       wins.map((w) => (w.id === id ? { ...w, minimized: true } : w)),
     );
   }
 
   restore(id: string): void {
-    this.windowsSignal.update((wins) =>
+    this.#windowsSignal.update((wins) =>
       wins.map((w) => (w.id === id ? { ...w, minimized: false } : w)),
     );
   }
 
   focus(id: string): void {
-    const zIndex = this.nextZIndex++;
-    this.windowsSignal.update((wins) => wins.map((w) => (w.id === id ? { ...w, zIndex } : w)));
+    const zIndex = this.#nextZIndex++;
+    this.#windowsSignal.update((wins) => wins.map((w) => (w.id === id ? { ...w, zIndex } : w)));
   }
 
   move(id: string, x: number, y: number): void {
-    this.windowsSignal.update((wins) => wins.map((w) => (w.id === id ? { ...w, x, y } : w)));
+    this.#windowsSignal.update((wins) => wins.map((w) => (w.id === id ? { ...w, x, y } : w)));
   }
 
   resize(id: string, width: number, height: number): void {
-    this.windowsSignal.update((wins) =>
+    this.#windowsSignal.update((wins) =>
       wins.map((w) => (w.id === id ? { ...w, width, height } : w)),
     );
   }
 
   isOpen(appId: AppId): boolean {
-    return this.windowsSignal().some((w) => w.appId === appId);
+    return this.#windowsSignal().some((w) => w.appId === appId);
   }
 }
