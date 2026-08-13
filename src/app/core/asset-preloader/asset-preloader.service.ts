@@ -34,49 +34,49 @@ const ASSET_URLS = [
 
 @Injectable({ providedIn: 'root' })
 export class AssetPreloaderService {
-  private readonly platformId = inject(PLATFORM_ID);
+  readonly #platformId = inject(PLATFORM_ID);
 
-  private readonly totalSignal = signal(ASSET_URLS.length);
-  private readonly loadedSignal = signal(0);
-  private readonly doneSignal = signal(false);
-  private readonly wallpaperLoadedSignal = signal(false);
+  readonly #totalSignal = signal(ASSET_URLS.length);
+  readonly #loadedSignal = signal(0);
+  readonly #doneSignal = signal(false);
+  readonly #wallpaperLoadedSignal = signal(false);
 
-  readonly progress = this.loadedSignal.asReadonly();
-  readonly total = this.totalSignal.asReadonly();
-  readonly done = this.doneSignal.asReadonly();
-  readonly wallpaperLoaded = this.wallpaperLoadedSignal.asReadonly();
+  readonly progress = this.#loadedSignal.asReadonly();
+  readonly total = this.#totalSignal.asReadonly();
+  readonly done = this.#doneSignal.asReadonly();
+  readonly wallpaperLoaded = this.#wallpaperLoadedSignal.asReadonly();
 
-  private startPromise: Promise<void> | null = null;
+  #startPromise: Promise<void> | null = null;
 
   preloadAll(): Promise<void> {
-    if (this.startPromise) {
-      return this.startPromise;
+    if (this.#startPromise) {
+      return this.#startPromise;
     }
 
-    if (!isPlatformBrowser(this.platformId)) {
-      this.loadedSignal.set(ASSET_URLS.length);
-      this.doneSignal.set(true);
-      this.wallpaperLoadedSignal.set(true);
-      this.startPromise = Promise.resolve();
-      return this.startPromise;
+    if (!isPlatformBrowser(this.#platformId)) {
+      this.#loadedSignal.set(ASSET_URLS.length);
+      this.#doneSignal.set(true);
+      this.#wallpaperLoadedSignal.set(true);
+      this.#startPromise = Promise.resolve();
+      return this.#startPromise;
     }
 
-    this.startPromise = Promise.all(
-      ASSET_URLS.map((url) => this.loadOne(url)),
+    this.#startPromise = Promise.all(
+      ASSET_URLS.map((url) => this.#loadOne(url)),
     ).then(() => {
-      this.doneSignal.set(true);
+      this.#doneSignal.set(true);
     });
 
-    return this.startPromise;
+    return this.#startPromise;
   }
 
-  private loadOne(url: string): Promise<void> {
+  #loadOne(url: string): Promise<void> {
     return new Promise((resolve) => {
       const img = new Image();
       const settle = () => {
-        this.loadedSignal.update((count) => count + 1);
+        this.#loadedSignal.update((count) => count + 1);
         if (url === WALLPAPER_URL) {
-          this.wallpaperLoadedSignal.set(true);
+          this.#wallpaperLoadedSignal.set(true);
         }
         resolve();
       };

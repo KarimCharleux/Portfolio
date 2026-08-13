@@ -1,4 +1,5 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, PLATFORM_ID, computed, inject, input } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { WindowState } from '../../core/window-manager/window.model';
 import { I18nService } from '../../core/i18n/i18n.service';
@@ -11,9 +12,11 @@ const MENU_BAR_HEIGHT = 24;
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrl: './window.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WindowComponent {
-  private readonly windowManager = inject(WindowManagerService);
+  readonly #windowManager = inject(WindowManagerService);
+  readonly #platformId = inject(PLATFORM_ID);
   protected readonly i18n = inject(I18nService);
 
   readonly state = input.required<WindowState>();
@@ -23,25 +26,27 @@ export class WindowComponent {
   protected readonly isFixedChrome = computed(() => this.state().appId === 'about');
 
   isFocused(): boolean {
-    return this.windowManager.frontmost()?.id === this.state().id;
+    return this.#windowManager.frontmost()?.id === this.state().id;
   }
 
   focus(): void {
-    this.windowManager.focus(this.state().id);
+    this.#windowManager.focus(this.state().id);
   }
 
   close(): void {
-    this.windowManager.close(this.state().id);
+    this.#windowManager.close(this.state().id);
   }
 
   minimize(): void {
     if (this.isFixedChrome()) return;
-    this.windowManager.minimize(this.state().id);
+    this.#windowManager.minimize(this.state().id);
   }
 
   onTitleBarPointerDown(event: PointerEvent): void {
+    if (!isPlatformBrowser(this.#platformId)) return;
+
     const current = this.state();
-    this.windowManager.focus(current.id);
+    this.#windowManager.focus(current.id);
 
     const startX = event.clientX;
     const startY = event.clientY;
@@ -55,7 +60,7 @@ export class WindowComponent {
       const maxY = Math.max(window.innerHeight - current.height, MENU_BAR_HEIGHT);
       const nextX = Math.min(Math.max(originX + dx, 0), maxX);
       const nextY = Math.min(Math.max(originY + dy, MENU_BAR_HEIGHT), maxY);
-      this.windowManager.move(current.id, nextX, nextY);
+      this.#windowManager.move(current.id, nextX, nextY);
     };
     const onUp = () => {
       document.removeEventListener('pointermove', onMove);
@@ -67,8 +72,10 @@ export class WindowComponent {
 
   onResizeHandlePointerDown(event: PointerEvent): void {
     event.stopPropagation();
+    if (!isPlatformBrowser(this.#platformId)) return;
+
     const current = this.state();
-    this.windowManager.focus(current.id);
+    this.#windowManager.focus(current.id);
 
     const startX = event.clientX;
     const startY = event.clientY;
@@ -82,7 +89,7 @@ export class WindowComponent {
       const maxHeight = Math.max(window.innerHeight - current.y, MIN_HEIGHT);
       const width = Math.min(Math.max(originWidth + dx, MIN_WIDTH), maxWidth);
       const height = Math.min(Math.max(originHeight + dy, MIN_HEIGHT), maxHeight);
-      this.windowManager.resize(current.id, width, height);
+      this.#windowManager.resize(current.id, width, height);
     };
     const onUp = () => {
       document.removeEventListener('pointermove', onMove);

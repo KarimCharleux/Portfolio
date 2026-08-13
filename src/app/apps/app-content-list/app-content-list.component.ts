@@ -1,10 +1,11 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ListItem } from '../../content/content.model';
 
 @Component({
   selector: 'app-content-list',
   templateUrl: './app-content-list.component.html',
   styleUrl: './app-content-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppContentListComponent {
   readonly heading = input.required<string>();

@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { AppId } from '../../core/window-manager/window.model';
 import { ThemeService } from '../../core/theme/theme.service';
 
@@ -6,11 +6,12 @@ import { ThemeService } from '../../core/theme/theme.service';
   selector: 'app-icon',
   templateUrl: './app-icon.component.html',
   styleUrl: './app-icon.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppIconComponent {
-  private readonly theme = inject(ThemeService);
+  readonly #theme = inject(ThemeService);
 
   readonly icon = input.required<AppId>();
 
-  protected readonly dark = this.theme.isDark;
+  protected readonly dark = this.#theme.isDark;
 }

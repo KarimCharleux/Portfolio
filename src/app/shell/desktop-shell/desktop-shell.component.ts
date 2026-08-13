@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { DockComponent } from '../dock/dock.component';
 import { WindowComponent } from '../window/window.component';
@@ -10,11 +10,12 @@ import { WindowManagerService } from '../../core/window-manager/window-manager.s
   imports: [TopbarComponent, DockComponent, WindowComponent, AppHostComponent],
   templateUrl: './desktop-shell.component.html',
   styleUrl: './desktop-shell.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DesktopShellComponent {
-  private readonly windowManager = inject(WindowManagerService);
+  readonly #windowManager = inject(WindowManagerService);
 
   protected readonly openWindows = computed(() =>
-    this.windowManager.windows().filter((win) => !win.minimized),
+    this.#windowManager.windows().filter((win) => !win.minimized),
   );
 }

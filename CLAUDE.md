@@ -22,13 +22,22 @@ Every component/service/model lives in its own directory, one concern per direct
 
 ## Angular 22 conventions actually used here — match these, don't improvise new ones
 
+These are **non-negotiable**. This project holds itself to strict, current Angular 22 best practices — no Angular ≤15 patterns, no "it still works" shortcuts. Treat any of the following found in new or touched code as a bug to fix, not a style nit:
+
 - **No NgModules, ever.** Standalone is the implicit default (Angular CLI 2025 style) — don't write `standalone: true`.
 - **File naming**: `app.ts`/`app.html`/`app.config.ts`, component files as `<name>.component.ts` — never `.component.ts` suffix on the root `App`, never old Angular ≤15 `app.module.ts` style.
 - **State = signals only.** `signal()`, `computed()`, `effect()` where truly needed. No RxJS `Observable`/`Subject` anywhere in this codebase — if a service needs async, prefer `afterNextRender`/`toSignal`-free patterns already established (see `BreakpointService`, `ClockService`).
 - **Service shape**: `@Injectable({ providedIn: 'root' })`, a private writable `signal`, exposed as `readonly foo = this.fooSignal.asReadonly()`. Never expose a raw mutable `WritableSignal` from a service's public API.
 - **DI**: `inject()` function, not constructor-parameter injection. Fields ordered private-then-protected, injected deps first.
+- **Private members use native `#field` syntax** (ECMAScript private fields, TC39 Class Fields proposal, Stage 4 since 2021, shipped ES2022) — never the TypeScript `private` keyword. `private` is compile-time-only (the property still exists on the compiled JS object, accessible via bracket notation); `#field` is enforced by the JS engine itself. Applies to private fields and private methods alike: `readonly #foo = inject(Foo);`, `#bar(): void { … }`. `readonly`/`static` combine fine with `#` (`readonly #foo = …`); `public`/`protected` stay as their own keywords (no `#`) since those aren't expressible with private-field syntax.
 - **Inputs**: signal `input()` / `input.required<T>()` — not the `@Input()` decorator.
-- **Control flow**: `@if` / `@for` / `@switch` in templates — never the structural directives `*ngIf`/`*ngFor`.
+- **Outputs**: the `output()` function — not the `@Output()` decorator + `EventEmitter`.
+- **Queries**: signal-based `viewChild()`/`viewChildren()`/`contentChild()`/`contentChildren()` — not `@ViewChild`/`@ContentChild` decorators.
+- **Host bindings/listeners**: the `host: {…}` object in `@Component`/`@Directive` metadata — not `@HostBinding`/`@HostListener` decorators.
+- **Control flow**: `@if` / `@for` / `@switch` in templates — never the structural directives `*ngIf`/`*ngFor`. Every `@for` must have `track` (a stable id, never `$index` unless the list is truly index-keyed).
+- **Change detection**: `ChangeDetectionStrategy.OnPush` on every component. This app is already zoneless, but `OnPush` stays required — it's what makes signal-driven views correct and keeps the mental model honest for any future non-zoneless work.
+- **`@defer`** for genuinely non-critical or heavy view blocks (below-the-fold content, rarely-opened panels) — don't reach for it reflexively, but don't hand-roll lazy-loading patterns it already solves.
+- **No `any`.** Use precise types, `unknown` + narrowing, or generics. If you must escape the type system, it needs a comment explaining why, not a silent `any`.
 - **Browser-only side effects** (DOM, `window`, `navigator`, analytics) must be guarded with `isPlatformBrowser(inject(PLATFORM_ID))` and/or wrapped in `afterNextRender()`. This app is prerendered — anything that touches `window`/`document`/`navigator` unguarded breaks the build. See `app.ts`'s browser-language detection and `BreakpointService` for the pattern.
 - **Cleanup**: `DestroyRef.onDestroy()`, not `ngOnDestroy` lifecycle hooks, for teardown in services (see `BreakpointService`).
 - **Lookup tables over branching**: cross-cutting per-`AppId` config (content sources, dock metadata) is a `Partial<Record<AppId, …>>` object, not a chain of `if`/`switch` — see `app-host.component.ts`'s `LIST_SOURCES`/`GRID_SOURCES`. `AppId` (`core/window-manager/window.model.ts`) is the single source of truth for "what apps exist" — every dock entry, window, and content lookup keys off it.

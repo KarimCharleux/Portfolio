@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AppIconComponent } from '../../apps/app-icon/app-icon.component';
 import { DOCK_APPS } from '../../core/dock-apps/dock-apps.data';
 import { DockAppDef } from '../../core/dock-apps/dock-app.model';
@@ -19,17 +19,18 @@ const TIERS = [
   imports: [AppIconComponent],
   templateUrl: './dock.component.html',
   styleUrl: './dock.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DockComponent {
-  private readonly windowManager = inject(WindowManagerService);
+  readonly #windowManager = inject(WindowManagerService);
   protected readonly i18n = inject(I18nService);
 
   protected readonly apps = DOCK_APPS;
   protected readonly hoveredApp = signal<AppId | null>(null);
-  private readonly hoveredIndex = signal<number | null>(null);
+  readonly #hoveredIndex = signal<number | null>(null);
 
   transformFor(index: number): string {
-    const hovered = this.hoveredIndex();
+    const hovered = this.#hoveredIndex();
     if (hovered === null) return 'scale(1) translateY(0px)';
     const distance = Math.abs(index - hovered);
     const tier = TIERS[distance];
@@ -38,25 +39,25 @@ export class DockComponent {
   }
 
   isHovered(index: number): boolean {
-    return this.hoveredIndex() === index;
+    return this.#hoveredIndex() === index;
   }
 
   onIconEnter(index: number, appId: AppId): void {
-    this.hoveredIndex.set(index);
+    this.#hoveredIndex.set(index);
     this.hoveredApp.set(appId);
   }
 
   onDockLeave(): void {
-    this.hoveredIndex.set(null);
+    this.#hoveredIndex.set(null);
     this.hoveredApp.set(null);
   }
 
   isOpen(appId: AppId): boolean {
-    return this.windowManager.isOpen(appId);
+    return this.#windowManager.isOpen(appId);
   }
 
   open(app: DockAppDef): void {
     if (app.noWindow) return;
-    this.windowManager.open(app.id, app.label);
+    this.#windowManager.open(app.id, app.label);
   }
 }
