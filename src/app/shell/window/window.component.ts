@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, PLATFORM_ID, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  PLATFORM_ID,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { WindowState } from '../../core/window-manager/window.model';

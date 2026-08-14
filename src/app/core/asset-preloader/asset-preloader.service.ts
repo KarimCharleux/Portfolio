@@ -26,11 +26,7 @@ const DOCK_ICON_FILES = [
 export const WALLPAPER_URL = '/wallpaper.jpg';
 const AVATAR_URL = '/memoji.jpeg';
 
-const ASSET_URLS = [
-  WALLPAPER_URL,
-  AVATAR_URL,
-  ...DOCK_ICON_FILES.map((file) => `/apps/${file}`),
-];
+const ASSET_URLS = [WALLPAPER_URL, AVATAR_URL, ...DOCK_ICON_FILES.map((file) => `/apps/${file}`)];
 
 @Injectable({ providedIn: 'root' })
 export class AssetPreloaderService {
@@ -61,9 +57,7 @@ export class AssetPreloaderService {
       return this.#startPromise;
     }
 
-    this.#startPromise = Promise.all(
-      ASSET_URLS.map((url) => this.#loadOne(url)),
-    ).then(() => {
+    this.#startPromise = Promise.all(ASSET_URLS.map((url) => this.#loadOne(url))).then(() => {
       this.#doneSignal.set(true);
     });
 

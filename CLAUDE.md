@@ -89,7 +89,16 @@ This overrides the TDD instruction in the original build plan (`docs/superpowers
 
 If the owner does ask for tests, the shape is Vitest + `TestBed` (`TestBed.inject`, one `it` per behavior, assert on signals directly), run with `nvm use 24 && npx ng test --watch=false` (scope with `--include <glob>`).
 
-**Test-free doesn't mean verification-free.** What replaces a spec is actually exercising the change: load the app, click through the affected UI in `fr` *and* `en`, confirm the production build still prerenders, and re-run the Lighthouse audit after any UI change. Report what you actually checked — never claim a change works because it compiles.
+**Test-free doesn't mean verification-free.** What replaces a spec is actually exercising the change: load the app, click through the affected UI in `fr` _and_ `en`, confirm the production build still prerenders, and re-run the Lighthouse audit after any UI change. Report what you actually checked — never claim a change works because it compiles.
+
+## Linting & formatting (the conventions above are enforced, not just documented)
+
+- `eslint.config.js` (flat config, ESLint 10 + `angular-eslint` 22, type-aware via `projectService`) encodes the Angular 22 rules from this file: `prefer-standalone`, `prefer-on-push-component-change-detection`, `prefer-signals`/`prefer-signal-model`/`prefer-output-emitter-ref`, `prefer-host-metadata-property`, `prefer-inject` + `inject-at-top`, `template/prefer-control-flow`, `no-explicit-any`, plus a `no-restricted-syntax` ban on the TypeScript `private` keyword (use `#field`) and a `no-restricted-imports` ban on `rxjs`. Adding a rule here beats writing a new paragraph of prose.
+- Two rules are deliberately off, both with a comment in the config: `template/prefer-ngsrc` (NgOptimizedImage migration is its own task) and `template/require-switch-default` (`AppId` includes window-only ids with no dock artwork).
+- Prettier owns all formatting; `eslint-config-prettier` is last in both extends chains so no lint rule fights it. `src/index.html` is excluded from template linting — it's the static SEO shell, not an Angular template.
+- `.stylelintrc.json` (`stylelint-config-standard-scss`) enforces the BEM class pattern and modern color notation. Three rules are off on purpose, each because `--fix` actively damaged real code: `property-no-vendor-prefix` (strips `-webkit-backdrop-filter`, which Safari still needs for every glass surface), `custom-property-empty-line-before` (flattens the blank-line grouping in `design-tokens.scss`) and `value-keyword-case` on custom properties/font values (lowercased `BlinkMacSystemFont` and `optimizeLegibility`).
+- `husky` + `lint-staged` run `eslint --fix`, `stylelint --fix` and `prettier --write` on staged files at commit time.
+- Commands: `npm run lint` · `npm run lint:styles` · `npm run format` · `npm run check` (format + lint + styles + tests). CI runs the same set in `.github/workflows/quality.yml`.
 
 ## Adding a new dock app (the established recipe)
 

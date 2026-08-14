@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, PLATFORM_ID, afterNextRender, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  PLATFORM_ID,
+  afterNextRender,
+  inject,
+  signal,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { getFirebaseApp } from './core/firebase-app';
 import { BreakpointService } from './core/breakpoint/breakpoint.service';
@@ -15,20 +22,20 @@ const ABOUT_WINDOW_OPTIONS = { width: 380, height: 540, centered: true };
   selector: 'app-root',
   imports: [WallpaperComponent, BootScreenComponent, DesktopShellComponent, MobileShellComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly isMobile = inject(BreakpointService).isMobile;
-  // Injected for its constructor side effects only: language detection/restore and the
-  // `<html lang>` sync must run at bootstrap, before any shell component asks for a string.
-  readonly #i18n = inject(I18nService);
   readonly #windowManager = inject(WindowManagerService);
 
   // Skip the boot animation in SSR/prerendered output — only the browser plays it.
   protected readonly booted = signal(!isPlatformBrowser(inject(PLATFORM_ID)));
 
   constructor() {
+    // Resolved for its constructor side effects only: language detection/restore and the
+    // `<html lang>` sync must run at bootstrap, before any shell component asks for a string.
+    inject(I18nService);
+
     afterNextRender(async () => {
       try {
         const { getAnalytics, isSupported, logEvent } = await import('firebase/analytics');

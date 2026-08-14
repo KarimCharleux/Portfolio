@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "typescript", "html"],
+  "stylelint.validate": ["css", "scss"],
+  // Stylelint owns SCSS diagnostics; the built-in linter double-reports.
+  "scss.validate": false,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}

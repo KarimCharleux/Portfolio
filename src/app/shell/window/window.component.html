@@ -20,7 +20,12 @@
         (click)="close()"
       >
         <svg class="window__traffic-glyph" viewBox="0 0 8 8" aria-hidden="true">
-          <path d="M2 2L6 6M6 2L2 6" stroke="rgba(70,0,0,0.7)" stroke-width="1.2" stroke-linecap="round" />
+          <path
+            d="M2 2L6 6M6 2L2 6"
+            stroke="rgba(70,0,0,0.7)"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
         </svg>
       </button>
       <button
@@ -34,16 +39,21 @@
       >
         @if (!isFixedChrome()) {
           <svg class="window__traffic-glyph" viewBox="0 0 8 8" aria-hidden="true">
-            <path d="M1.5 4H6.5" stroke="rgba(70,50,0,0.7)" stroke-width="1.2" stroke-linecap="round" />
+            <path
+              d="M1.5 4H6.5"
+              stroke="rgba(70,50,0,0.7)"
+              stroke-width="1.2"
+              stroke-linecap="round"
+            />
           </svg>
         }
       </button>
       <button
         type="button"
         class="window__traffic-light window__traffic-light--zoom"
+        disabled
         [class.window__traffic-light--disabled]="isFixedChrome()"
         [attr.aria-label]="i18n.t('windowZoom')"
-        disabled
         (pointerdown)="stopPropagation($event)"
       >
         @if (!isFixedChrome()) {

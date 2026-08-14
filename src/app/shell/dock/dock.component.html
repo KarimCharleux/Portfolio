@@ -1,18 +1,18 @@
 <nav class="dock" (pointerleave)="onDockLeave()">
-  @for (app of apps; track app.id; let i = $index) {
+  @for (app of apps; track app.id) {
     @if (app.separatorBefore) {
       <div class="dock__divider"></div>
     }
-    <div class="dock__slot" [class.dock__slot--hovered]="isHovered(i)">
+    <div class="dock__slot" [class.dock__slot--hovered]="isHovered($index)">
       @if (hoveredApp() === app.id) {
         <div class="dock__tooltip">{{ i18n.t(app.tooltip) }}</div>
       }
       <button
         type="button"
         class="dock__icon"
-        [style.transform]="transformFor(i)"
-        [attr.aria-label]="i18n.t(app.labelKey) + ' — ' + i18n.t(app.tooltip)"
-        (pointerenter)="onIconEnter(i, app.id)"
+        [style.transform]="transformFor($index)"
+        [attr.aria-label]="`${i18n.t(app.labelKey)} — ${i18n.t(app.tooltip)}`"
+        (pointerenter)="onIconEnter($index, app.id)"
         (click)="open(app)"
       >
         <app-icon [icon]="app.icon" />
