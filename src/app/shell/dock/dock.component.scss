@@ -19,6 +19,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(32px) scale(0.92);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
@@ -36,7 +37,7 @@
   align-self: stretch;
   width: 1px;
   margin: 4px 4px 4px 0;
-  background: rgba(127, 127, 127, 0.35);
+  background: rgb(127 127 127 / 0.35);
 }
 
 .dock__slot {
@@ -75,7 +76,8 @@
 }
 
 .dock__tooltip {
-  --tooltip-glass-bg: rgba(40, 40, 44, 0.72);
+  --tooltip-glass-bg: rgb(40 40 44 / 0.72);
+
   @include glass.liquid-glass('--tooltip-glass-bg', 16px, 180%);
   position: absolute;
   z-index: 10;
@@ -97,6 +99,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(3px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);

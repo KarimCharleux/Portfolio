@@ -4,7 +4,7 @@
     @for (item of items(); track item.id) {
       <li class="content-list__item">
         @if (item.url) {
-          <a class="content-list__title" [href]="item.url" target="_blank" rel="noopener">{{
+          <a class="content-list__title" target="_blank" rel="noopener" [href]="item.url">{{
             item.title
           }}</a>
         } @else {

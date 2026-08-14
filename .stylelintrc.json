@@ -1,0 +1,29 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": ["dist/**", ".angular/**", "coverage/**", "node_modules/**"],
+  "rules": {
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "message": "Class selectors must be BEM: block__element--modifier (kebab-case parts)"
+      }
+    ],
+    "custom-property-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "scss/dollar-variable-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "declaration-property-value-no-unknown": true,
+    "no-descending-specificity": null,
+    "property-no-vendor-prefix": null,
+    "color-function-notation": "modern",
+    "alpha-value-notation": "number",
+    "scss/at-mixin-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "media-feature-range-notation": "context",
+    "comment-empty-line-before": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "custom-property-empty-line-before": null,
+    "value-keyword-case": [
+      "lower",
+      { "ignoreProperties": ["/^--/", "font-family", "font", "text-rendering"] }
+    ]
+  }
+}

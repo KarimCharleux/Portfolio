@@ -24,6 +24,7 @@
     opacity: 0;
     transform: translateY(-100%);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -64,7 +65,7 @@
 
   &:hover {
     opacity: 1;
-    background: rgba(127, 127, 127, 0.16);
+    background: rgb(127 127 127 / 0.16);
   }
 }
 
@@ -121,6 +122,6 @@
 
   &:hover {
     opacity: 1;
-    background: rgba(127, 127, 127, 0.16);
+    background: rgb(127 127 127 / 0.16);
   }
 }

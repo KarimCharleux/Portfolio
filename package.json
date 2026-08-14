@@ -8,7 +8,28 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:portfolio-angular": "node dist/portfolio-angular/server/server.mjs",
-    "deploy": "ng build && firebase deploy --only hosting"
+    "deploy": "ng build && firebase deploy --only hosting",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:styles": "stylelint \"src/**/*.scss\"",
+    "lint:styles:fix": "stylelint \"src/**/*.scss\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run lint && npm run lint:styles && npm run test -- --watch=false",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,html}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{js,json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "private": true,
   "packageManager": "npm@11.17.0",
@@ -30,11 +51,20 @@
     "@angular/build": "^22.1.3",
     "@angular/cli": "^22.1.3",
     "@angular/compiler-cli": "^22.1.0",
+    "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "angular-eslint": "22.1.0",
+    "eslint": "^10.6.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
     "jsdom": "^28.0.0",
+    "lint-staged": "^17.3.0",
     "prettier": "^3.8.1",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~6.0.2",
+    "typescript-eslint": "8.62.1",
     "vitest": "^4.0.8"
   }
 }
