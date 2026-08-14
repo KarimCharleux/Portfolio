@@ -20,6 +20,8 @@ const ABOUT_WINDOW_OPTIONS = { width: 380, height: 540, centered: true };
 })
 export class App {
   protected readonly isMobile = inject(BreakpointService).isMobile;
+  // Injected for its constructor side effects only: language detection/restore and the
+  // `<html lang>` sync must run at bootstrap, before any shell component asks for a string.
   readonly #i18n = inject(I18nService);
   readonly #windowManager = inject(WindowManagerService);
 
@@ -27,10 +29,6 @@ export class App {
   protected readonly booted = signal(!isPlatformBrowser(inject(PLATFORM_ID)));
 
   constructor() {
-    if (isPlatformBrowser(inject(PLATFORM_ID)) && !navigator.language?.toLowerCase().startsWith('fr')) {
-      this.#i18n.setLang('en');
-    }
-
     afterNextRender(async () => {
       try {
         const { getAnalytics, isSupported, logEvent } = await import('firebase/analytics');
@@ -47,6 +45,6 @@ export class App {
 
   onBooted(): void {
     this.booted.set(true);
-    this.#windowManager.open('about', this.#i18n.t('aboutPortfolio'), ABOUT_WINDOW_OPTIONS);
+    this.#windowManager.open('about', 'aboutPortfolio', ABOUT_WINDOW_OPTIONS);
   }
 }

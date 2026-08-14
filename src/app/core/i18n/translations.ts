@@ -1,5 +1,10 @@
 export type Lang = 'en' | 'fr';
 
+export const LANGS = ['en', 'fr'] as const satisfies readonly Lang[];
+
+/** BCP 47 tags for `Intl` formatters — never hand-map a `Lang` to a locale in a component. */
+export const LOCALES = { en: 'en-US', fr: 'fr-FR' } as const satisfies Record<Lang, string>;
+
 export const TRANSLATIONS = {
   aboutMe: { en: 'About Me', fr: 'À propos de moi' },
   codeProjects: { en: 'Code Projects', fr: 'Projets de code' },
@@ -11,6 +16,22 @@ export const TRANSLATIONS = {
   messages: { en: 'Messages', fr: 'Messages' },
   terminal: { en: 'Terminal', fr: 'Terminal' },
   trash: { en: 'Trash', fr: 'Corbeille' },
+
+  // App names as shown in the dock, the mobile home screen, Finder rows and window titles.
+  // Brand names stay identical across locales but still go through the table so every
+  // user-visible label has exactly one lookup path.
+  dockNotes: { en: 'Notes', fr: 'Notes' },
+  dockVscode: { en: 'VS Code', fr: 'VS Code' },
+  dockPhotos: { en: 'Photos', fr: 'Photos' },
+  dockFigma: { en: 'Figma', fr: 'Figma' },
+  dockYoutube: { en: 'YouTube', fr: 'YouTube' },
+  dockSafari: { en: 'Safari', fr: 'Safari' },
+  dockFinder: { en: 'Finder', fr: 'Finder' },
+  dockMessages: { en: 'Messages', fr: 'Messages' },
+  dockTerminal: { en: 'Terminal', fr: 'Terminal' },
+  dockTrash: { en: 'Trash', fr: 'Corbeille' },
+
+  siteOwner: { en: 'Karim Charleux', fr: 'Karim Charleux' },
 
   placeholderProject: { en: 'Placeholder project', fr: 'Projet temporaire' },
   placeholderProjectDesc: {
@@ -29,11 +50,6 @@ export const TRANSLATIONS = {
     en: 'Swap with a real video project.',
     fr: 'À remplacer par un vrai projet vidéo.',
   },
-  socialLinkPlaceholder: {
-    en: 'Placeholder — swap with the real profile URL.',
-    fr: "Temporaire — à remplacer par la vraie URL du profil.",
-  },
-
   notesWhoTitle: { en: 'Who I am', fr: 'Qui je suis' },
   notesWhoSubtitle: {
     en: 'Placeholder bio line — swap with a real introduction.',

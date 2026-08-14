@@ -1,41 +1,24 @@
 import { NoteEntry } from './content.model';
-import { Lang } from '../core/i18n/translations';
+import { Lang, TRANSLATIONS, TranslationKey } from '../core/i18n/translations';
+
+const NOTE_KEYS: readonly { id: string; titleKey: TranslationKey; subtitleKey: TranslationKey }[] =
+  [
+    { id: 'note-who-i-am', titleKey: 'notesWhoTitle', subtitleKey: 'notesWhoSubtitle' },
+    { id: 'note-what-i-do', titleKey: 'notesWhatTitle', subtitleKey: 'notesWhatSubtitle' },
+    { id: 'note-now', titleKey: 'notesNowTitle', subtitleKey: 'notesNowSubtitle' },
+  ];
+
+function buildNotes(lang: Lang): NoteEntry[] {
+  return NOTE_KEYS.map(({ id, titleKey, subtitleKey }) => ({
+    id,
+    title: TRANSLATIONS[titleKey][lang],
+    subtitle: TRANSLATIONS[subtitleKey][lang],
+  }));
+}
 
 export const NOTES: Record<Lang, NoteEntry[]> = {
-  en: [
-    {
-      id: 'note-who-i-am',
-      title: 'Who I am',
-      subtitle: 'Placeholder bio line — swap with a real introduction.',
-    },
-    {
-      id: 'note-what-i-do',
-      title: 'What I do',
-      subtitle: 'Placeholder — swap with real areas of focus.',
-    },
-    {
-      id: 'note-now',
-      title: 'Right now',
-      subtitle: 'Placeholder — swap with current focus/availability.',
-    },
-  ],
-  fr: [
-    {
-      id: 'note-who-i-am',
-      title: 'Qui je suis',
-      subtitle: 'Ligne de bio temporaire — à remplacer par une vraie présentation.',
-    },
-    {
-      id: 'note-what-i-do',
-      title: 'Ce que je fais',
-      subtitle: 'Temporaire — à remplacer par mes domaines réels.',
-    },
-    {
-      id: 'note-now',
-      title: 'En ce moment',
-      subtitle: 'Temporaire — à remplacer par mon focus/disponibilité actuels.',
-    },
-  ],
+  en: buildNotes('en'),
+  fr: buildNotes('fr'),
 };
 
-export const NOTES_COUNT = NOTES.en.length;
+export const NOTES_COUNT = NOTE_KEYS.length;

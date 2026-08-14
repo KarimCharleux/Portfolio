@@ -18,12 +18,12 @@ export class TopbarComponent {
 
   protected readonly darkMode = this.#theme.isDark;
 
-  protected readonly activeAppName = computed(
-    () => this.#windowManager.frontmost()?.title ?? 'Karim Charleux',
+  protected readonly activeAppName = computed(() =>
+    this.i18n.t(this.#windowManager.frontmost()?.titleKey ?? 'siteOwner'),
   );
 
   protected readonly formattedTime = computed(() =>
-    new Intl.DateTimeFormat(this.i18n.lang() === 'fr' ? 'fr-FR' : 'en-US', {
+    new Intl.DateTimeFormat(this.i18n.locale(), {
       weekday: 'short',
       day: 'numeric',
       month: 'short',
@@ -41,7 +41,7 @@ export class TopbarComponent {
   }
 
   openAbout(): void {
-    this.#windowManager.open('about', this.i18n.t('aboutPortfolio'), {
+    this.#windowManager.open('about', 'aboutPortfolio', {
       width: 380,
       height: 540,
       centered: true,

@@ -13,7 +13,7 @@ export class MobileStatusBarComponent {
   protected readonly i18n = inject(I18nService);
 
   protected readonly formattedTime = computed(() =>
-    new Intl.DateTimeFormat(this.i18n.lang() === 'fr' ? 'fr-FR' : 'en-US', {
+    new Intl.DateTimeFormat(this.i18n.locale(), {
       hour: '2-digit',
       minute: '2-digit',
     }).format(this.#clock.now()),

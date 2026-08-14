@@ -11,7 +11,7 @@
         type="button"
         class="dock__icon"
         [style.transform]="transformFor(i)"
-        [attr.aria-label]="app.label + ' — ' + i18n.t(app.tooltip)"
+        [attr.aria-label]="i18n.t(app.labelKey) + ' — ' + i18n.t(app.tooltip)"
         (pointerenter)="onIconEnter(i, app.id)"
         (click)="open(app)"
       >

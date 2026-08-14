@@ -3,8 +3,12 @@
   <ul class="finder__list">
     @for (category of categories; track category.id) {
       <li class="finder__row">
-        <button type="button" class="finder__row-button" (click)="open(category.id, category.label)">
-          <span class="finder__row-label">{{ category.label }}</span>
+        <button
+          type="button"
+          class="finder__row-button"
+          (click)="open(category.id, category.labelKey)"
+        >
+          <span class="finder__row-label">{{ i18n.t(category.labelKey) }}</span>
           <span class="finder__row-count">{{ category.count }}</span>
         </button>
       </li>
