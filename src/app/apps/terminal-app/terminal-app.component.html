@@ -1,0 +1,53 @@
+<!--
+  The click forwards focus to the prompt, the way clicking anywhere in
+  Terminal.app does. The two a11y rules disabled here both assume the element is
+  itself a control: it is not. The real control is the input below, already in
+  the tab order and already labelled. Giving this container `tabindex` and key
+  handlers would add a second tab stop that does nothing — worse for keyboard
+  users, not better. So the handler stays a mouse-only convenience.
+-->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<div #scroller class="terminal" (click)="focusInput()">
+  <div class="terminal__scrollback" role="log" aria-live="polite">
+    @for (line of lines(); track line.id) {
+      <div class="terminal__line">
+        @for (segment of line.segments; track $index) {
+          <span [class]="`terminal__segment terminal__segment--${segment.tone}`">{{
+            segment.text
+          }}</span>
+        } @empty {
+          <br />
+        }
+      </div>
+    }
+  </div>
+
+  <div class="terminal__prompt-line">
+    @for (segment of promptSegments; track $index) {
+      <span [class]="`terminal__segment terminal__segment--${segment.tone}`">{{
+        segment.text
+      }}</span>
+    }
+    <span class="terminal__draft">{{ ` ${draft()}` }}</span>
+    <span class="terminal__cursor" aria-hidden="true"></span>
+
+    <!--
+      Transparent, never hidden: the iOS keyboard only opens for a rendered,
+      focusable field. The visible text and block cursor above are rendered from
+      the draft signal instead of by the input itself.
+    -->
+    <input
+      #input
+      class="terminal__input"
+      type="text"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      [value]="draft()"
+      [attr.aria-label]="i18n.t('terminalInputLabel')"
+      (input)="onInput($event)"
+      (keydown)="onKeyDown($event)"
+    />
+  </div>
+</div>

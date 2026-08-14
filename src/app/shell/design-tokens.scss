@@ -27,6 +27,28 @@
   --ios-status-bar-height: 47px;
 
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  // Terminal. Declared here rather than in either theme block on purpose: the
+  // Terminal stays dark in light mode too, matching Terminal.app's default
+  // profile on macOS 26. A light variant would need a second contrast-verified
+  // palette for no gain in fidelity.
+  // SF Mono is Terminal.app's real face; Menlo is the pre-Catalina default and
+  // the right fallback. Its 0.6em advance is what makes the 80-column window
+  // width computable rather than eyeballed.
+  --terminal-font: ui-monospace, 'SF Mono', sfmono-regular, menlo, monospace;
+  --terminal-font-size: 13px;
+  --terminal-line-height: 1.25;
+  --terminal-padding: 12px;
+  // The fill is translucent, so every tone below is checked against the worst
+  // case — this fill composited over a light window in light mode — not against
+  // an idealised opaque black.
+  --terminal-bg: rgb(16 16 20 / 0.86);
+  --terminal-text: #e8e8ed;
+  --terminal-dim: #a8a8b0;
+  --terminal-accent: #6ac4ff;
+  --terminal-success: #5fd97f;
+  --terminal-error: #ff6b6b;
+  --terminal-heading: #ffd479;
+  --terminal-selection: rgb(106 196 255 / 0.32);
 }
 
 :root[data-theme='dark'] {
@@ -34,29 +56,27 @@
   --surface-secondary: #2c2c2e;
   --text-primary: #f5f5f7;
   --text-secondary: #98989d;
-  --hairline: rgba(255, 255, 255, 0.1);
-
-  --glass-bg: rgba(30, 30, 32, 0.55);
-  --glass-bg-strong: rgba(28, 28, 30, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-highlight: rgba(255, 255, 255, 0.06);
-  --glass-window-bg: rgba(20, 20, 22, 0.5);
-  --glass-titlebar-bg: rgba(36, 36, 39, 0.88);
-  --shadow-color: rgba(0, 0, 0, 0.55);
+  --hairline: rgb(255 255 255 / 0.1);
+  --glass-bg: rgb(30 30 32 / 0.55);
+  --glass-bg-strong: rgb(28 28 30 / 0.78);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-highlight: rgb(255 255 255 / 0.06);
+  --glass-window-bg: rgb(20 20 22 / 0.5);
+  --glass-titlebar-bg: rgb(36 36 39 / 0.88);
+  --shadow-color: rgb(0 0 0 / 0.55);
 }
 
 :root:not([data-theme='dark']) {
-  --surface: #ffffff;
+  --surface: #fff;
   --surface-secondary: #f5f5f7;
   --text-primary: #1d1d1f;
   --text-secondary: #58585c;
-  --hairline: rgba(0, 0, 0, 0.08);
-
-  --glass-bg: rgba(240, 240, 242, 0.42);
-  --glass-bg-strong: rgba(246, 246, 248, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-highlight: rgba(255, 255, 255, 0.4);
-  --glass-window-bg: rgba(255, 255, 255, 0.48);
-  --glass-titlebar-bg: rgba(248, 248, 250, 0.93);
-  --shadow-color: rgba(0, 0, 0, 0.28);
+  --hairline: rgb(0 0 0 / 0.08);
+  --glass-bg: rgb(240 240 242 / 0.42);
+  --glass-bg-strong: rgb(246 246 248 / 0.78);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-highlight: rgb(255 255 255 / 0.4);
+  --glass-window-bg: rgb(255 255 255 / 0.48);
+  --glass-titlebar-bg: rgb(248 248 250 / 0.93);
+  --shadow-color: rgb(0 0 0 / 0.28);
 }

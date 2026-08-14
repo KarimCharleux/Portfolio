@@ -1,7 +1,7 @@
 # Terminal app — design
 
 **Date**: 2026-08-14
-**Status**: approved, ready for planning
+**Status**: implemented — see "Deviations found during implementation" at the end
 **Scope**: build the Terminal dock app (`AppId: 'terminal'`), currently a `noWindow: true` stub.
 
 The parent spec (`2026-08-10-macos-portfolio-design.md`) listed "Terminal app / interactive CLI
@@ -278,6 +278,46 @@ cannot quietly depend on ambient state.
 - Multiple Terminal windows or tabs
 - Real content for `skills` and `neofetch` — placeholders here, filled in the content pass alongside
   the other apps
+
+## Deviations found during implementation
+
+Recorded because each one changes something the spec above asserts.
+
+- **`run` returns `TerminalRow[]`, not `TerminalLine[]`.** The spec said commands return lines but
+  that the component stamps the ids — which cannot both be true. Rows carry no id; the component
+  turns them into `TerminalLine`s. Same intent, coherent types.
+- **Line height is 1.25, not 1.45**, and the window is **648 x 442**, not 648 x 505. 1.45 is loose
+  for a terminal (Terminal.app sits nearer 1.2) and it opened visible gaps between the rows of the
+  `neofetch` monogram. The 80x24 derivation is unchanged; only the multiplier moved.
+- **The monogram is full blocks and spaces only.** The first version used box-drawing characters,
+  which fall back to a different font here — the mismatched advance width sheared the letter apart.
+- **The prompt takes focus on open.** Not in the spec, but a terminal that needs a click before it
+  accepts typing is wrong; `afterNextRender` focuses the input.
+- **The terminal blurs its own backdrop.** The spec assumed the window's blur was enough. It is on
+  desktop, but the mobile shell has no window around the app, so the wallpaper read straight through
+  the translucent fill.
+- **`viewChild` queries are `protected`, not `#private`.** Angular rejects signal queries on ES
+  private fields (NG1053), so the project's `#field` rule cannot apply to them.
+- **Window sizing moved into `WindowManagerService`.** `DockAppDef` gained an optional `windowSize`,
+  resolved centrally, so the dock, the mobile home screen and Finder all open an app at its intended
+  size without any of them knowing which apps have one.
+
+### Pre-existing bugs found and fixed
+
+Both were latent before this work and affected every app, not just the Terminal.
+
+- **Mobile apps collapsed to content height.** `div.mobile-shell` had no flex sizing of its own, so
+  it stretched horizontally but not vertically, and every app root's `height: 100%` resolved against
+  an auto-height parent. Fixed in `mobile-shell.component.scss`.
+- **`app-host` had no height on mobile** for the same reason, one level down.
+
+### Known accessibility gap (not introduced here)
+
+With any window open, Lighthouse Accessibility drops to ~95 on `target-size`: the traffic-light
+buttons are 14px where WCAG 2.5.8 wants 24px. This is the pixel-accurate macOS measurement the
+design spec mandates, and it predates the Terminal — a Notes window alone scores 95, slightly worse
+than the Terminal's 96. The page with no window open still scores 100, which is why the documented
+baseline never surfaced it. Fixing it means expanding the hit area while keeping the 14px dot.
 
 ## Sources
 

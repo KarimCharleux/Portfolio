@@ -13,6 +13,13 @@ export interface GridItem {
   accentColor: string;
 }
 
+/** A labelled cluster of technologies, rendered as one row by the Terminal's `skills`. */
+export interface SkillGroup {
+  id: string;
+  label: string;
+  items: readonly string[];
+}
+
 export type NoteEntry = ListItem;
 export type CodeProject = ListItem;
 export type SocialLink = ListItem;
