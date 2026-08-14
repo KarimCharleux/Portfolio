@@ -25,8 +25,8 @@ the desktop and never opens external links.
 | Content | **Reuse existing content data; placeholders elsewhere** | Terminal-only duplicated content; collecting real content now |
 
 The "text only" decision is load-bearing: it keeps the command runner a pure function with zero
-dependency on `WindowManagerService`, `ThemeService` or `Router`, which is what makes it testable
-without `TestBed`.
+dependency on `WindowManagerService`, `ThemeService` or `Router` — the runner is a plain function
+from a string to lines.
 
 ## Architecture
 
@@ -37,13 +37,11 @@ only from `core/i18n`, `apps` imports from `core` and `content`, nothing imports
 src/app/content/
   terminal.model.ts           TerminalTone, TerminalSegment, TerminalLine, TerminalCommand, CommandContext
   terminal-commands.data.ts   COMMANDS registry + runCommand() pure function
-  terminal-commands.spec.ts   pure spec for the registry and runCommand()
   skills.data.ts              placeholder tech-stack entries feeding `skills`
 src/app/apps/terminal-app/
   terminal-app.component.ts
   terminal-app.component.html
   terminal-app.component.scss
-  terminal-app.component.spec.ts
 ```
 
 Edited: `core/dock-apps/dock-apps.data.ts`, `apps/app-host/app-host.component.ts`,
@@ -81,7 +79,7 @@ export interface CommandContext {
   lang: Lang;
   /** Past commands, oldest first — `history` reads this. */
   history: readonly string[];
-  /** Injected so `date` stays deterministic under test. */
+  /** Passed in, never read via `new Date()` inside a command — keeps commands pure. */
   now: Date;
   locale: string;
 }
@@ -252,23 +250,25 @@ The baseline is 100/100 Lighthouse Accessibility, and this app must not cost it.
 
 ## Testing
 
-Two spec files, following the plan's TDD convention.
+**No `.spec.ts` files** — decided explicitly for this pass, overriding the TDD convention stated in
+`CLAUDE.md` and the original build plan. Verification is manual: open the window, run every command
+in both locales, check the Lighthouse score.
 
-`terminal-commands.spec.ts` — pure, no `TestBed`:
-- one `it` per command asserting its output lines
-- `help` lists every entry in `COMMANDS` (guards against a command that forgets its description)
-- unknown input produces the zsh not-found line in `error` tone
-- `clear` returns `null`
-- empty and whitespace-only input produce no output
-- `date` is asserted against an injected fixed `ctx.now`, so it cannot flake
-- every command's output is asserted in both `en` and `fr`
+The design still keeps the command runner pure and takes `now` through `CommandContext` rather than
+calling `new Date()` inside a command. That is not test scaffolding — it is what keeps a command a
+function of its inputs, which is why `help` can be generated from the registry and why a command
+cannot quietly depend on ambient state.
 
-`terminal-app.component.spec.ts` — `TestBed`:
-- Enter appends the echoed prompt line and the output
-- ArrowUp/ArrowDown walk history and restore the draft past the newest entry
-- Tab completes a unique prefix and lists candidates for an ambiguous one
-- `clear` and Ctrl+L empty the scrollback
-- the hint line is present on first render and gone after `clear`
+## Manual verification checklist
+
+- every command runs in `fr` and in `en`
+- unknown input prints `zsh: command not found: <verb>`
+- `clear` and `Ctrl+L` empty the scrollback, hint line included
+- ArrowUp/ArrowDown walk history and restore the in-progress draft past the newest entry
+- Tab completes a unique prefix; an ambiguous prefix lists candidates
+- the iOS keyboard opens on tap and the prompt stays visible above it
+- the production build still prerenders (no unguarded `window`/`document`)
+- Lighthouse Accessibility stays at 100
 
 ## Out of scope
 
