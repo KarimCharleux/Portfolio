@@ -1,28 +1,40 @@
 import { DockAppDef } from './dock-app.model';
 
 export const DOCK_APPS: DockAppDef[] = [
-  { id: 'notes', label: 'Notes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
-  { id: 'vscode', label: 'VS Code', icon: 'vscode', pinnedMobile: true, tooltip: 'codeProjects' },
+  { id: 'notes', labelKey: 'dockNotes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
+  {
+    id: 'vscode',
+    labelKey: 'dockVscode',
+    icon: 'vscode',
+    pinnedMobile: true,
+    tooltip: 'codeProjects',
+  },
   {
     id: 'photoshop',
-    label: 'Photos',
+    labelKey: 'dockPhotos',
     icon: 'photoshop',
     pinnedMobile: false,
     tooltip: 'photos',
   },
-  { id: 'figma', label: 'Figma', icon: 'figma', pinnedMobile: false, tooltip: 'designWork' },
+  { id: 'figma', labelKey: 'dockFigma', icon: 'figma', pinnedMobile: false, tooltip: 'designWork' },
   {
     id: 'youtube',
-    label: 'YouTube',
+    labelKey: 'dockYoutube',
     icon: 'youtube',
     pinnedMobile: false,
     tooltip: 'videoProjects',
   },
-  { id: 'safari', label: 'Safari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
-  { id: 'finder', label: 'Finder', icon: 'finder', pinnedMobile: true, tooltip: 'allProjects' },
+  { id: 'safari', labelKey: 'dockSafari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
+  {
+    id: 'finder',
+    labelKey: 'dockFinder',
+    icon: 'finder',
+    pinnedMobile: true,
+    tooltip: 'allProjects',
+  },
   {
     id: 'messages',
-    label: 'Messages',
+    labelKey: 'dockMessages',
     icon: 'messages',
     pinnedMobile: false,
     tooltip: 'messages',
@@ -30,7 +42,7 @@ export const DOCK_APPS: DockAppDef[] = [
   },
   {
     id: 'terminal',
-    label: 'Terminal',
+    labelKey: 'dockTerminal',
     icon: 'terminal',
     pinnedMobile: false,
     tooltip: 'terminal',
@@ -38,7 +50,7 @@ export const DOCK_APPS: DockAppDef[] = [
   },
   {
     id: 'trash',
-    label: 'Trash',
+    labelKey: 'dockTrash',
     icon: 'trash',
     pinnedMobile: false,
     tooltip: 'trash',

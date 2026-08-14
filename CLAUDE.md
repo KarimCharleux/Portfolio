@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+**CAVEMAN MODE**: Activate `/caveman ultra` at the start of each conversation.
+
 Karim Charleux's portfolio — a macOS-desktop-themed one-page app (menu bar, dock, real draggable/resizable window manager) with an iOS-style mobile shell. Built from a blank-slate Angular 22 rewrite; design intent lives in `docs/superpowers/specs/*.md` and the task-by-task build logs in `docs/superpowers/plans/*.md`. Read those two spec files before adding any new "app" (dock icon + window) — they define the pixel-accurate chrome constants, icon-sourcing rules and scope boundaries this project holds itself to.
 
 ## Stack
@@ -52,9 +54,14 @@ These are **non-negotiable**. This project holds itself to strict, current Angul
 
 ## i18n
 
-- Default language is **French**, detected from `navigator.language` at bootstrap in `app.ts` (falls back to English for non-`fr*` browsers). `I18nService`'s signal default is `'fr'`.
+- Default language is **French**. `I18nService` owns the whole lifecycle: a stored choice (`localStorage`, key `portfolio.lang`) wins, else `navigator.language` (`fr*` → `fr`, anything else → `en`), else the `'fr'` signal default that matches the `lang="fr"` baked into `src/index.html`. Components never detect or persist the language themselves.
 - Every user-visible string **and every `aria-label`** goes through `I18nService.t()` / `TRANSLATIONS` (`core/i18n/translations.ts`) — no hardcoded English (or French) literal in a template, including on icon-only buttons. This codebase previously shipped hardcoded-English `aria-label`s while visible text was French; don't reintroduce that.
 - Adding a string: add the key to `TRANSLATIONS` with both `en` and `fr` values, consume via `i18n.t('key')`. Keys are plain English identifiers describing the string's role, not its content.
+- **Never store a resolved string in state.** `WindowState.titleKey` and `DockAppDef.labelKey` are `TranslationKey`s resolved at render time; a resolved string would freeze at open time and survive a language toggle untranslated. Same rule for anything new that outlives a single render.
+- App names go through the table too (`dockNotes`, `dockVscode`, …), even when both locales are identical (brand names) — one lookup path, no exceptions to reason about. Real translations do differ (`Trash` / `Corbeille`).
+- `Intl` formatters take `i18n.locale()` (a BCP 47 tag from `LOCALES`) — never hand-map a `Lang` to `'fr-FR'`/`'en-US'` inside a component.
+- `content/*.data.ts` builds its per-`Lang` arrays from `TRANSLATIONS`, never from inline `lang === 'fr' ? … : …` ternaries — the translation table stays the single source of truth for copy.
+- `I18nService` syncs `document.documentElement.lang` on every change (platform-guarded `effect`) — a stale `<html lang>` misleads screen readers and search engines.
 
 ## SEO
 
@@ -74,7 +81,7 @@ These are **non-negotiable**. This project holds itself to strict, current Angul
 
 ## Testing — intended convention vs. current state
 
-The build plan (`docs/superpowers/plans/2026-08-10-macos-portfolio.md`) specifies TDD: every service/component gets a colocated `.spec.ts` using `TestBed` (Vitest via `ng test`), written *before* the implementation. **That convention is not currently followed** — the repo has zero `.spec.ts` files despite ~38 source files. Don't take the empty test suite as evidence tests aren't wanted; it's accumulated debt. When you touch a file that lacks one, or add a new service/component, add its spec (see the plan's Task 1 `WindowManagerService` spec for the expected shape/style — `TestBed.inject`, one `it` per behavior, assert on signals directly).
+The build plan (`docs/superpowers/plans/2026-08-10-macos-portfolio.md`) specifies TDD: every service/component gets a colocated `.spec.ts` using `TestBed` (Vitest via `ng test`), written *before* the implementation. **That convention is barely followed** — the repo has one `.spec.ts` (`core/i18n/i18n.service.spec.ts`) for ~38 source files. Don't take the empty test suite as evidence tests aren't wanted; it's accumulated debt. When you touch a file that lacks one, or add a new service/component, add its spec (see the plan's Task 1 `WindowManagerService` spec for the expected shape/style — `TestBed.inject`, one `it` per behavior, assert on signals directly).
 
 Run: `nvm use 24 && npx ng test --watch=false` (or scope with `--include <glob>`).
 
@@ -92,7 +99,7 @@ Follow this order — it's what every existing app followed and keeps `AppId` th
 
 ## Known debt / cleanup log
 
-- No `.spec.ts` files despite the plan mandating TDD (see Testing).
+- Almost no `.spec.ts` files despite the plan mandating TDD (see Testing) — only `I18nService` has one.
 - `tsconfig.json` doesn't set `"strict": true` — only the narrower `strictInjectionParameters`/`strictInputAccessModifiers`/`noImplicit*` flags are on. Flag before assuming full strict-mode guarantees hold.
 - Removed `src/app/projet/` (empty leftover dir, only a stray `.DS_Store`, dead since the Angular 22 blank-slate rewrite) and `public/wallpaper.png` (orphaned asset, superseded by `wallpaper.jpg`) during a cleanup pass — if either reappears from a bad merge, delete again.
 - Several `apps/*` still render placeholder/stub content (code projects, photos, designs, videos, notes) per the spec's explicit "content is a separate follow-up pass" scope — not a bug, but don't mistake it for a design decision to keep placeholders in shipped copy.

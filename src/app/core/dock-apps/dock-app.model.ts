@@ -3,7 +3,8 @@ import { TranslationKey } from '../i18n/translations';
 
 export interface DockAppDef {
   id: AppId;
-  label: string;
+  /** Translation key for the app's own name — resolved at render, never stored resolved. */
+  labelKey: TranslationKey;
   /** Key consumed by AppIconComponent to pick the right icon rendering. */
   icon: AppId;
   pinnedMobile: boolean;

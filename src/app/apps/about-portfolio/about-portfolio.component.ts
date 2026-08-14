@@ -15,6 +15,6 @@ export class AboutPortfolioComponent {
   protected readonly year = new Date().getFullYear();
 
   openMoreInfo(): void {
-    this.#windowManager.open('finder', 'Finder');
+    this.#windowManager.open('finder', 'dockFinder');
   }
 }

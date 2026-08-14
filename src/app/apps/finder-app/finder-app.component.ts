@@ -3,6 +3,7 @@ import { DOCK_APPS } from '../../core/dock-apps/dock-apps.data';
 import { AppId } from '../../core/window-manager/window.model';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { I18nService } from '../../core/i18n/i18n.service';
+import { TranslationKey } from '../../core/i18n/translations';
 import { NOTES_COUNT } from '../../content/notes.data';
 import { CODE_PROJECTS_COUNT } from '../../content/code-projects.data';
 import { PHOTOS_COUNT } from '../../content/photos.data';
@@ -33,11 +34,11 @@ export class FinderAppComponent {
 
   readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder').map((app) => ({
     id: app.id,
-    label: app.label,
+    labelKey: app.labelKey,
     count: CONTENT_COUNTS[app.id] ?? 0,
   }));
 
-  open(appId: AppId, label: string): void {
-    this.#windowManager.open(appId, label);
+  open(appId: AppId, labelKey: TranslationKey): void {
+    this.#windowManager.open(appId, labelKey);
   }
 }

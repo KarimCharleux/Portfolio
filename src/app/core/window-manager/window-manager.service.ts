@@ -1,5 +1,6 @@
 import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { TranslationKey } from '../i18n/translations';
 import { AppId, WindowState } from './window.model';
 
 const DEFAULT_WIDTH = 720;
@@ -25,7 +26,7 @@ export class WindowManagerService {
 
   open(
     appId: AppId,
-    title: string,
+    titleKey: TranslationKey,
     options?: { width: number; height: number; centered?: boolean },
   ): void {
     const existing = this.#windowsSignal().find((w) => w.appId === appId);
@@ -48,7 +49,7 @@ export class WindowManagerService {
     const win: WindowState = {
       id,
       appId,
-      title,
+      titleKey,
       x: position.x,
       y: position.y,
       width,

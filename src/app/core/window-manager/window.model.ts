@@ -1,3 +1,5 @@
+import { TranslationKey } from '../i18n/translations';
+
 export type AppId =
   | 'notes'
   | 'vscode'
@@ -14,7 +16,11 @@ export type AppId =
 export interface WindowState {
   id: string;
   appId: AppId;
-  title: string;
+  /**
+   * Translation key, never a resolved string — a window opened in French must retitle
+   * itself when the language toggles, and a stored string would freeze at open time.
+   */
+  titleKey: TranslationKey;
   x: number;
   y: number;
   width: number;

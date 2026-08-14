@@ -1,18 +1,13 @@
 import { Video } from './content.model';
-import { Lang } from '../core/i18n/translations';
+import { Lang, TRANSLATIONS } from '../core/i18n/translations';
 
 const ACCENTS = ['#FF453A', '#FF9F0A'];
 
 function buildVideos(lang: Lang): Video[] {
-  const title = lang === 'fr' ? 'Vidéo temporaire' : 'Placeholder video';
-  const caption =
-    lang === 'fr'
-      ? 'À remplacer par un vrai projet vidéo.'
-      : 'Swap with a real video project.';
   return ACCENTS.map((accentColor, i) => ({
     id: `video-${i + 1}`,
-    title: `${title} ${i + 1}`,
-    caption,
+    title: `${TRANSLATIONS.placeholderVideo[lang]} ${i + 1}`,
+    caption: TRANSLATIONS.videoCaption[lang],
     accentColor,
   }));
 }
@@ -22,4 +17,4 @@ export const VIDEOS: Record<Lang, Video[]> = {
   fr: buildVideos('fr'),
 };
 
-export const VIDEOS_COUNT = VIDEOS.en.length;
+export const VIDEOS_COUNT = ACCENTS.length;

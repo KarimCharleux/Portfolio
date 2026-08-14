@@ -7,7 +7,7 @@
   [style.width.px]="state().width"
   [style.height.px]="state().height"
   [style.zIndex]="state().zIndex"
-  [attr.aria-label]="state().title"
+  [attr.aria-label]="i18n.t(state().titleKey)"
   (pointerdown)="focus()"
 >
   <header class="window__titlebar" (pointerdown)="onTitleBarPointerDown($event)">

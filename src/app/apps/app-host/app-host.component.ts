@@ -12,15 +12,19 @@ import { PHOTOS } from '../../content/photos.data';
 import { DESIGNS } from '../../content/designs.data';
 import { VIDEOS } from '../../content/videos.data';
 import { I18nService } from '../../core/i18n/i18n.service';
-import { TranslationKey } from '../../core/i18n/translations';
+import { Lang, TranslationKey } from '../../core/i18n/translations';
 
-const LIST_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: Record<string, ListItem[]> }>> = {
+const LIST_SOURCES: Partial<
+  Record<AppId, { headingKey: TranslationKey; source: Record<Lang, ListItem[]> }>
+> = {
   notes: { headingKey: 'aboutMe', source: NOTES },
   vscode: { headingKey: 'codeProjects', source: CODE_PROJECTS },
   safari: { headingKey: 'links', source: SOCIAL_LINKS },
 };
 
-const GRID_SOURCES: Partial<Record<AppId, { headingKey: TranslationKey; source: Record<string, GridItem[]> }>> = {
+const GRID_SOURCES: Partial<
+  Record<AppId, { headingKey: TranslationKey; source: Record<Lang, GridItem[]> }>
+> = {
   photoshop: { headingKey: 'photos', source: PHOTOS },
   figma: { headingKey: 'designWork', source: DESIGNS },
   youtube: { headingKey: 'videoProjects', source: VIDEOS },
