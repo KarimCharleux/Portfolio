@@ -79,11 +79,17 @@ These are **non-negotiable**. This project holds itself to strict, current Angul
 - WCAG 2.5.3 (label-in-name): if a control shows visible text (e.g. the `EN`/`FR` toggle), its `aria-label` must contain that visible text as a substring — a purely descriptive label without it fails Lighthouse's `label-content-name-mismatch`.
 - Meaningful images (the Karim Charleux avatar) get a real `alt`; purely decorative icons redundant with an already-labelled parent button keep `alt=""`.
 
-## Testing — intended convention vs. current state
+## Testing — don't write specs unless asked
 
-The build plan (`docs/superpowers/plans/2026-08-10-macos-portfolio.md`) specifies TDD: every service/component gets a colocated `.spec.ts` using `TestBed` (Vitest via `ng test`), written *before* the implementation. **That convention is barely followed** — the repo has one `.spec.ts` (`core/i18n/i18n.service.spec.ts`) for ~38 source files. Don't take the empty test suite as evidence tests aren't wanted; it's accumulated debt. When you touch a file that lacks one, or add a new service/component, add its spec (see the plan's Task 1 `WindowManagerService` spec for the expected shape/style — `TestBed.inject`, one `it` per behavior, assert on signals directly).
+**Don't add `.spec.ts` files.** This is a deliberate, standing call by the repo owner, not debt to pay down: verification here is manual (run the app, exercise the UI in both locales, re-check Lighthouse). Don't add a spec because a file lacks one, don't add one alongside a new service/component, and don't propose a "let's add tests" pass unasked.
 
-Run: `nvm use 24 && npx ng test --watch=false` (or scope with `--include <glob>`).
+This overrides the TDD instruction in the original build plan (`docs/superpowers/plans/2026-08-10-macos-portfolio.md`) — that plan predates the decision. Ignore its Task-1 spec template.
+
+`core/i18n/i18n.service.spec.ts` is the one existing spec. Leave it in place and keep it passing; it isn't a precedent to follow.
+
+If the owner does ask for tests, the shape is Vitest + `TestBed` (`TestBed.inject`, one `it` per behavior, assert on signals directly), run with `nvm use 24 && npx ng test --watch=false` (scope with `--include <glob>`).
+
+**Test-free doesn't mean verification-free.** What replaces a spec is actually exercising the change: load the app, click through the affected UI in `fr` *and* `en`, confirm the production build still prerenders, and re-run the Lighthouse audit after any UI change. Report what you actually checked — never claim a change works because it compiles.
 
 ## Adding a new dock app (the established recipe)
 
@@ -95,11 +101,10 @@ Follow this order — it's what every existing app followed and keeps `AppId` th
 4. If it needs a custom UI (like `FinderAppComponent`/`AboutPortfolioComponent`): build it under `apps/<name>/`, wire it into `AppHostComponent`'s template as another `@else if (appId() === '<id>')` branch.
 5. Add any new icon to `apps/app-icon/app-icon.component.html` (light/dark asset pair in `public/apps/`) — real brand icons via `simple-icons`, original style otherwise.
 6. Add the translation keys the app needs to `core/i18n/translations.ts` (both `en`/`fr`).
-7. Write the `.spec.ts` for anything non-trivial you added (see Testing above).
+7. Verify by hand — open the app in `fr` and `en`, check the production build still prerenders, re-run the Lighthouse audit (see Testing above; no `.spec.ts`).
 
 ## Known debt / cleanup log
 
-- Almost no `.spec.ts` files despite the plan mandating TDD (see Testing) — only `I18nService` has one.
 - `tsconfig.json` doesn't set `"strict": true` — only the narrower `strictInjectionParameters`/`strictInputAccessModifiers`/`noImplicit*` flags are on. Flag before assuming full strict-mode guarantees hold.
 - Removed `src/app/projet/` (empty leftover dir, only a stray `.DS_Store`, dead since the Angular 22 blank-slate rewrite) and `public/wallpaper.png` (orphaned asset, superseded by `wallpaper.jpg`) during a cleanup pass — if either reappears from a bad merge, delete again.
 - Several `apps/*` still render placeholder/stub content (code projects, photos, designs, videos, notes) per the spec's explicit "content is a separate follow-up pass" scope — not a bug, but don't mistake it for a design decision to keep placeholders in shipped copy.
