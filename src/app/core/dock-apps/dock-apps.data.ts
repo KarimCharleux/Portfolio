@@ -1,5 +1,22 @@
 import { DockAppDef } from './dock-app.model';
 
+/**
+ * Terminal.app's default profile is 80 columns by 24 rows, so the window opens
+ * at exactly that rather than at a rounded guess. Derived from the type tokens
+ * in `design-tokens.scss`:
+ *
+ *   width  = 80 cols x 13px x 0.6em advance (SF Mono) + 2 x 12px padding = 648
+ *   height = 24 rows x (13px x 1.25 line-height) + 12px bottom padding
+ *            + 28px title bar + 12px top padding                        = 442
+ *
+ * The title bar is absolutely positioned over the window body, so its 28px is
+ * top padding on the terminal rather than extra height above it.
+ *
+ * Keep in step with `--terminal-font-size`, `--terminal-line-height` and
+ * `--terminal-padding` — changing one of those invalidates these numbers.
+ */
+const TERMINAL_WINDOW = { width: 648, height: 442 };
+
 export const DOCK_APPS: DockAppDef[] = [
   { id: 'notes', labelKey: 'dockNotes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
   {
@@ -46,7 +63,7 @@ export const DOCK_APPS: DockAppDef[] = [
     icon: 'terminal',
     pinnedMobile: false,
     tooltip: 'terminal',
-    noWindow: true,
+    windowSize: TERMINAL_WINDOW,
   },
   {
     id: 'trash',

@@ -97,6 +97,43 @@ export const TRANSLATIONS = {
   },
   aboutPortfolioMoreInfo: { en: 'More Info…', fr: "Plus d'infos…" },
   allRightsReserved: { en: 'All Rights Reserved.', fr: 'Tous droits réservés.' },
+
+  // Terminal chrome. Command *names*, the prompt, `whoami`/`pwd` output and the
+  // zsh not-found error stay untranslated on purpose — they are system strings,
+  // and localising them would break the illusion of a real shell.
+  terminalInputLabel: { en: 'Terminal input', fr: 'Saisie du terminal' },
+  terminalHelpHeading: { en: 'COMMANDS', fr: 'COMMANDES' },
+  terminalNoHistory: { en: 'No commands yet.', fr: 'Aucune commande pour le moment.' },
+  terminalSudoJoke: {
+    en: 'Nice try. This incident will be reported.',
+    fr: 'Bien tenté. Cet incident sera signalé.',
+  },
+  // Split so `help` can be tinted mid-sentence without markup in a translation.
+  terminalHintBefore: { en: 'Type ', fr: 'Tapez ' },
+  terminalHintAfter: {
+    en: ' to discover the available commands.',
+    fr: ' pour découvrir les commandes disponibles.',
+  },
+
+  cmdHelpDesc: { en: 'List the available commands', fr: 'Lister les commandes disponibles' },
+  cmdAboutDesc: { en: 'Who I am', fr: 'Qui je suis' },
+  cmdProjectsDesc: { en: 'Code projects', fr: 'Projets de code' },
+  cmdSkillsDesc: { en: 'Tech stack', fr: 'Stack technique' },
+  cmdContactDesc: { en: 'How to reach me', fr: 'Me joindre' },
+  cmdLsDesc: { en: 'List the portfolio sections', fr: 'Lister les sections du portfolio' },
+  cmdNeofetchDesc: { en: 'System information', fr: 'Informations système' },
+  cmdWhoamiDesc: { en: 'Print the current user', fr: "Afficher l'utilisateur courant" },
+  cmdPwdDesc: { en: 'Print the working directory', fr: 'Afficher le répertoire courant' },
+  cmdDateDesc: { en: 'Current date and time', fr: 'Date et heure actuelles' },
+  cmdEchoDesc: { en: 'Print the given text', fr: 'Afficher le texte donné' },
+  cmdHistoryDesc: { en: 'Show the command history', fr: "Afficher l'historique des commandes" },
+  cmdClearDesc: { en: 'Clear the screen', fr: "Effacer l'écran" },
+  cmdSudoDesc: { en: 'Run as superuser', fr: 'Exécuter en superutilisateur' },
+
+  skillsFrontend: { en: 'Frontend', fr: 'Frontend' },
+  skillsLanguages: { en: 'Languages', fr: 'Langages' },
+  skillsTooling: { en: 'Tooling', fr: 'Outils' },
+  skillsDesign: { en: 'Design', fr: 'Design' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type TranslationKey = keyof typeof TRANSLATIONS;

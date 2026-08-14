@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.terminal {
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  // The window's title bar is absolutely positioned over the body, so the first
+  // row has to clear it here rather than relying on layout flow.
+  padding: calc(var(--window-titlebar-height) + var(--terminal-padding)) var(--terminal-padding)
+    var(--terminal-padding);
+  background: var(--terminal-bg);
+  // The desktop window blurs its own backdrop, but the mobile shell has no
+  // window around the app — without this the wallpaper reads straight through
+  // the translucent fill. Blurring here keeps one material in both shells.
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  font-size: var(--terminal-font-size);
+  line-height: var(--terminal-line-height);
+  font-variant-ligatures: none;
+  cursor: text;
+
+  // macOS uses overlay scrollbars; a gutter would break the 80-column width.
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  ::selection {
+    background: var(--terminal-selection);
+  }
+}
+
+.terminal__line,
+.terminal__prompt-line {
+  // Commands pad their columns with real spaces — collapsing whitespace would
+  // undo every aligned table in the registry.
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.terminal__prompt-line {
+  position: relative;
+}
+
+.terminal__segment--default {
+  color: var(--terminal-text);
+}
+
+.terminal__segment--dim {
+  color: var(--terminal-dim);
+}
+
+.terminal__segment--accent {
+  color: var(--terminal-accent);
+}
+
+.terminal__segment--success {
+  color: var(--terminal-success);
+}
+
+.terminal__segment--error {
+  color: var(--terminal-error);
+}
+
+.terminal__segment--heading {
+  color: var(--terminal-heading);
+  font-weight: 600;
+}
+
+.terminal__draft {
+  color: var(--terminal-text);
+}
+
+.terminal__cursor {
+  display: inline-block;
+  width: 1ch;
+  height: 1.05em;
+  background: var(--terminal-text);
+  vertical-align: text-bottom;
+  // Terminal.app blinks at roughly 0.53s on, 0.53s off.
+  animation: terminal-cursor-blink 1.06s step-end infinite;
+}
+
+/**
+ * Transparent rather than hidden: the iOS keyboard only opens for a rendered,
+ * focusable field, so `display: none`, `hidden` and zero size are all off the
+ * table. The visible text and block cursor are rendered from the draft signal,
+ * so this input must paint nothing at all.
+ */
+.terminal__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font: inherit;
+}
+
+@keyframes terminal-cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal__cursor {
+    animation: none;
+  }
+}

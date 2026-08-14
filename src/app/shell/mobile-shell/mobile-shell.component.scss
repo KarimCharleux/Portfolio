@@ -5,10 +5,31 @@
   flex-direction: column;
 }
 
+// The host is the full-viewport flex column, but this wrapper is what actually
+// holds the status bar and the app. Without its own flex sizing it stretches
+// horizontally (the default cross-axis `stretch`) and collapses to content
+// height vertically, leaving every app sized to its content.
+.mobile-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
 .mobile-shell__app {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+}
+
+// `app-host` is the only sizing anchor an app gets on mobile. Every app root
+// inside it is `height: 100%` — which resolves on desktop, where the window body
+// is a flex item, but collapses to content height here unless the host itself
+// fills the remaining space.
+.mobile-shell__app app-host {
+  display: block;
+  flex: 1;
   min-height: 0;
 }
 

@@ -1,6 +1,7 @@
 import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslationKey } from '../i18n/translations';
+import { DOCK_APPS } from '../dock-apps/dock-apps.data';
 import { AppId, WindowState } from './window.model';
 
 const DEFAULT_WIDTH = 720;
@@ -27,7 +28,7 @@ export class WindowManagerService {
   open(
     appId: AppId,
     titleKey: TranslationKey,
-    options?: { width: number; height: number; centered?: boolean },
+    options?: { width?: number; height?: number; centered?: boolean },
   ): void {
     const existing = this.#windowsSignal().find((w) => w.appId === appId);
     if (existing) {
@@ -37,8 +38,12 @@ export class WindowManagerService {
     }
     const count = this.#windowsSignal().length;
     const id = `win-${this.#nextInstanceId++}`;
-    const width = options?.width ?? DEFAULT_WIDTH;
-    const height = options?.height ?? DEFAULT_HEIGHT;
+    // Resolved here rather than at each call site so the dock, the mobile home
+    // screen and Finder all open an app at its intended size without any of them
+    // knowing which apps have one.
+    const preset = DOCK_APPS.find((app) => app.id === appId)?.windowSize;
+    const width = options?.width ?? preset?.width ?? DEFAULT_WIDTH;
+    const height = options?.height ?? preset?.height ?? DEFAULT_HEIGHT;
     const position =
       options?.centered && isPlatformBrowser(this.#platformId)
         ? {

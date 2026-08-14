@@ -12,6 +12,12 @@ export interface DockAppDef {
   tooltip: TranslationKey;
   /** No window behind this icon (e.g. Trash) — dock click is a no-op. */
   noWindow?: boolean;
+  /**
+   * Opening size for this app's window, when the manager's default is wrong for
+   * it. Lives here so every call site — dock, mobile home screen, Finder — gets
+   * it without each one having to know about individual apps.
+   */
+  windowSize?: { width: number; height: number };
   /** Renders a macOS-style divider in the dock immediately before this icon. */
   separatorBefore?: boolean;
 }
