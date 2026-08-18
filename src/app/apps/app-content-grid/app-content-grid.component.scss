@@ -1,14 +1,11 @@
+@use '../app-window-content' as window;
+
 .content-grid {
-  padding: 24px;
-  overflow-y: auto;
-  height: 100%;
-  box-sizing: border-box;
+  @include window.container;
 }
 
 .content-grid__heading {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 16px;
+  @include window.heading;
 }
 
 .content-grid__tiles {

@@ -1,14 +1,11 @@
+@use '../app-window-content' as window;
+
 .content-list {
-  padding: 24px;
-  overflow-y: auto;
-  height: 100%;
-  box-sizing: border-box;
+  @include window.container;
 }
 
 .content-list__heading {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 16px;
+  @include window.heading;
 }
 
 .content-list__items {
@@ -21,7 +18,7 @@
 }
 
 .content-list__item {
-  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  @include window.divider;
   padding-bottom: 16px;
 }
 
@@ -34,7 +31,6 @@
 }
 
 .content-list__subtitle {
+  @include window.secondary-text;
   margin: 4px 0 0;
-  font-size: 13px;
-  color: #6e6e73;
 }

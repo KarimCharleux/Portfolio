@@ -1,0 +1,23 @@
+/** Shared layout for every app window body: scrollable pane, heading, divider row, dim text. */
+
+@mixin container {
+  padding: 36px 24px 24px;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+@mixin heading {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+
+@mixin divider {
+  border-bottom: 1px solid var(--hairline);
+}
+
+@mixin secondary-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
