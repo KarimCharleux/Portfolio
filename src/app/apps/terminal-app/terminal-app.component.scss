@@ -34,78 +34,84 @@
   ::selection {
     background: var(--terminal-selection);
   }
-}
 
-.terminal__line,
-.terminal__prompt-line {
-  // Commands pad their columns with real spaces — collapsing whitespace would
-  // undo every aligned table in the registry.
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
-}
+  &__line,
+  &__prompt-line {
+    // Commands pad their columns with real spaces — collapsing whitespace would
+    // undo every aligned table in the registry.
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
 
-.terminal__prompt-line {
-  position: relative;
-}
+  &__prompt-line {
+    position: relative;
+  }
 
-.terminal__segment--default {
-  color: var(--terminal-text);
-}
+  &__segment {
+    &--default {
+      color: var(--terminal-text);
+    }
 
-.terminal__segment--dim {
-  color: var(--terminal-dim);
-}
+    &--dim {
+      color: var(--terminal-dim);
+    }
 
-.terminal__segment--accent {
-  color: var(--terminal-accent);
-}
+    &--accent {
+      color: var(--terminal-accent);
+    }
 
-.terminal__segment--success {
-  color: var(--terminal-success);
-}
+    &--success {
+      color: var(--terminal-success);
+    }
 
-.terminal__segment--error {
-  color: var(--terminal-error);
-}
+    &--error {
+      color: var(--terminal-error);
+    }
 
-.terminal__segment--heading {
-  color: var(--terminal-heading);
-  font-weight: 600;
-}
+    &--heading {
+      color: var(--terminal-heading);
+      font-weight: 600;
+    }
+  }
 
-.terminal__draft {
-  color: var(--terminal-text);
-}
+  &__draft {
+    color: var(--terminal-text);
+  }
 
-.terminal__cursor {
-  display: inline-block;
-  width: 1ch;
-  height: 1.05em;
-  background: var(--terminal-text);
-  vertical-align: text-bottom;
-  // Terminal.app blinks at roughly 0.53s on, 0.53s off.
-  animation: terminal-cursor-blink 1.06s step-end infinite;
-}
+  &__cursor {
+    display: inline-block;
+    width: 1ch;
+    height: 1.05em;
+    background: var(--terminal-text);
+    vertical-align: text-bottom;
+    // Terminal.app blinks at roughly 0.53s on, 0.53s off.
+    animation: terminal-cursor-blink 1.06s step-end infinite;
 
-/**
- * Transparent rather than hidden: the iOS keyboard only opens for a rendered,
- * focusable field, so `display: none`, `hidden` and zero size are all off the
- * table. The visible text and block cursor are rendered from the draft signal,
- * so this input must paint nothing at all.
- */
-.terminal__input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: transparent;
-  caret-color: transparent;
-  font: inherit;
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  /**
+   * Transparent rather than hidden: the iOS keyboard only opens for a rendered,
+   * focusable field, so `display: none`, `hidden` and zero size are all off the
+   * table. The visible text and block cursor are rendered from the draft signal,
+   * so this input must paint nothing at all.
+   */
+  &__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font: inherit;
+  }
 }
 
 @keyframes terminal-cursor-blink {
@@ -117,11 +123,5 @@
   50.01%,
   100% {
     opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .terminal__cursor {
-    animation: none;
   }
 }
