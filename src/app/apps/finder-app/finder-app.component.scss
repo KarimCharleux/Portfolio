@@ -1,14 +1,11 @@
+@use '../app-window-content' as window;
+
 .finder {
-  padding: 24px;
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
+  @include window.container;
 }
 
 .finder__heading {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 16px;
+  @include window.heading;
 }
 
 .finder__list {
@@ -18,7 +15,7 @@
 }
 
 .finder__row {
-  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  @include window.divider;
 }
 
 .finder__row-button {
@@ -35,6 +32,5 @@
 }
 
 .finder__row-count {
-  color: #6e6e73;
-  font-size: 13px;
+  @include window.secondary-text;
 }
