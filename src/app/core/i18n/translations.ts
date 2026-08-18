@@ -51,19 +51,39 @@ export const TRANSLATIONS = {
     fr: 'À remplacer par un vrai projet vidéo.',
   },
   notesWhoTitle: { en: 'Who I am', fr: 'Qui je suis' },
-  notesWhoSubtitle: {
-    en: 'Placeholder bio line — swap with a real introduction.',
-    fr: 'Ligne de bio temporaire — à remplacer par une vraie présentation.',
+  notesWhoLine1: {
+    en: '**Full-Stack Developer** based in Antibes, mostly front-end but I touch everything.',
+    fr: '**Développeur Full-Stack** basé à Antibes, plutôt front mais je touche à tout.',
+  },
+  notesWhoLine2: {
+    en: "**Polytech Nice** engineering grad (Human-Machine Interface track) plus a Master's from IAE Nice. One degree is good, two is better.",
+    fr: "Diplômé **Polytech Nice** (spécialité Interface Homme-Machine) + un Master MAE à l'IAE Nice. Un diplôme c'est bien, deux c'est mieux.",
   },
   notesWhatTitle: { en: 'What I do', fr: 'Ce que je fais' },
-  notesWhatSubtitle: {
-    en: 'Placeholder — swap with real areas of focus.',
-    fr: 'Temporaire — à remplacer par mes domaines réels.',
+  notesWhatLine1: {
+    en: '**Software Engineer, full-time at Air France**. Angular, GraphQL, Java/Spring Boot.',
+    fr: '**Ingénieur logiciel en CDI chez Air France**. Angular, GraphQL, Java/Spring Boot.',
+  },
+  notesWhatLine2: {
+    en: '**Cofounder of Soluxia Web** with Damien. We help small and medium businesses go digital, AI included when it helps.',
+    fr: '**Cofondateur de Soluxia Web** avec Damien. On aide les PME à digitaliser leurs process, IA incluse si besoin.',
+  },
+  notesWhatLine3: {
+    en: '3 internal hackathons, 3 wins: Meetsite (a building wayfinding app, still used today), a Pokemon-style game built on the org chart, and Iris, a local AI assistant for developers.',
+    fr: "3 hackathons internes, 3 prix : Meetsite (appli d'orientation bâtiment, encore utilisée aujourd'hui), un jeu façon Pokémon avec l'organigramme, et Iris, un assistant IA local pour devs.",
   },
   notesNowTitle: { en: 'Right now', fr: 'En ce moment' },
-  notesNowSubtitle: {
-    en: 'Placeholder — swap with current focus/availability.',
-    fr: 'Temporaire — à remplacer par mon focus/disponibilité actuels.',
+  notesNowLine1: {
+    en: 'Training for an **Olympic-distance triathlon** (format L).',
+    fr: 'Entraînement **triathlon format L**.',
+  },
+  notesNowLine2: {
+    en: 'Building Soluxia Web in my spare time.',
+    fr: 'Soluxia Web sur le temps libre.',
+  },
+  notesNowLine3: {
+    en: 'Running a drone FPV YouTube channel for 8 years now (WodeFPV). Coding all day makes you want to fly a little.',
+    fr: 'Chaîne YouTube drone FPV ouverte depuis 8 ans (WodeFPV). Coder toute la journée, ça donne envie de voler un peu.',
   },
 
   langToggleLabel: { en: 'Switch language', fr: 'Changer de langue' },
@@ -92,8 +112,8 @@ export const TRANSLATIONS = {
   },
   aboutPortfolioContact: { en: 'Contact', fr: 'Contact' },
   aboutPortfolioContactValue: {
-    en: 'karim.chrx@gmail.com',
-    fr: 'karim.chrx@gmail.com',
+    en: 'karim.charleux@hotmail.fr',
+    fr: 'karim.charleux@hotmail.fr',
   },
   aboutPortfolioMoreInfo: { en: 'More Info…', fr: "Plus d'infos…" },
   allRightsReserved: { en: 'All Rights Reserved.', fr: 'Tous droits réservés.' },

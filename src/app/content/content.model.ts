@@ -20,7 +20,13 @@ export interface SkillGroup {
   items: readonly string[];
 }
 
-export type NoteEntry = ListItem;
+/** One "About Me" section — title plus bullet lines, each line may carry `**bold**` spans. */
+export interface NoteSection {
+  id: string;
+  title: string;
+  lines: readonly string[];
+}
+
 export type CodeProject = ListItem;
 export type SocialLink = ListItem;
 export type Photo = GridItem;

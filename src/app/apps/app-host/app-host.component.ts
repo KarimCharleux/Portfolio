@@ -6,7 +6,7 @@ import { AppContentGridComponent } from '../app-content-grid/app-content-grid.co
 import { FinderAppComponent } from '../finder-app/finder-app.component';
 import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { TerminalAppComponent } from '../terminal-app/terminal-app.component';
-import { NOTES } from '../../content/notes.data';
+import { NotesAppComponent } from '../notes-app/notes-app.component';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
 import { PHOTOS } from '../../content/photos.data';
@@ -18,7 +18,6 @@ import { Lang, TranslationKey } from '../../core/i18n/translations';
 const LIST_SOURCES: Partial<
   Record<AppId, { headingKey: TranslationKey; source: Record<Lang, ListItem[]> }>
 > = {
-  notes: { headingKey: 'aboutMe', source: NOTES },
   vscode: { headingKey: 'codeProjects', source: CODE_PROJECTS },
   safari: { headingKey: 'links', source: SOCIAL_LINKS },
 };
@@ -39,6 +38,7 @@ const GRID_SOURCES: Partial<
     FinderAppComponent,
     AboutPortfolioComponent,
     TerminalAppComponent,
+    NotesAppComponent,
   ],
   template: `
     @if (appId() === 'finder') {
@@ -47,6 +47,8 @@ const GRID_SOURCES: Partial<
       <app-about-portfolio />
     } @else if (appId() === 'terminal') {
       <app-terminal />
+    } @else if (appId() === 'notes') {
+      <app-notes />
     } @else if (listContent(); as list) {
       <app-content-list [heading]="list.heading" [items]="list.items" />
     } @else if (gridContent(); as grid) {
