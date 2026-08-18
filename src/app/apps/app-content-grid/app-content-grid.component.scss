@@ -2,36 +2,36 @@
 
 .content-grid {
   @include window.container;
-}
 
-.content-grid__heading {
-  @include window.heading;
-}
+  &__heading {
+    @include window.heading;
+  }
 
-.content-grid__tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-}
+  &__tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
 
-.content-grid__tile {
-  aspect-ratio: 1;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 10px;
-  box-sizing: border-box;
-  color: #fff;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
-}
+  &__tile {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #fff;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  }
 
-.content-grid__title {
-  font-weight: 600;
-  font-size: 13px;
-}
+  &__title {
+    font-weight: 600;
+    font-size: 13px;
+  }
 
-.content-grid__caption {
-  font-size: 11px;
-  opacity: 0.9;
+  &__caption {
+    font-size: 11px;
+    opacity: 0.9;
+  }
 }

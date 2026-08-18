@@ -2,41 +2,41 @@
 
 .notes {
   @include window.container;
-}
 
-.notes__heading {
-  @include window.heading;
-}
+  &__heading {
+    @include window.heading;
+  }
 
-.notes__section {
-  margin-bottom: 20px;
-}
+  &__section {
+    margin-bottom: 20px;
 
-.notes__section:last-child {
-  margin-bottom: 0;
-}
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 
-.notes__title {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 8px;
-}
+  &__title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
 
-.notes__list {
-  margin: 0;
-  padding-left: 20px;
-}
+  &__list {
+    margin: 0;
+    padding-left: 20px;
+  }
 
-.notes__line {
-  @include window.secondary-text;
-  line-height: 1.5;
-}
+  &__line {
+    @include window.secondary-text;
+    line-height: 1.5;
 
-.notes__line + .notes__line {
-  margin-top: 4px;
-}
+    & + & {
+      margin-top: 4px;
+    }
 
-.notes__line strong {
-  color: inherit;
-  font-weight: 600;
+    strong {
+      color: inherit;
+      font-weight: 600;
+    }
+  }
 }

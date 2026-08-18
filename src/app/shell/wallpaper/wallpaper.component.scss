@@ -4,19 +4,19 @@
   z-index: -1;
   overflow: hidden;
   background-color: #16161a;
-}
 
-.wallpaper__img {
-  position: absolute;
-  inset: 0;
-  background-image: url('/wallpaper.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 0.9s ease;
-}
+  &__img {
+    position: absolute;
+    inset: 0;
+    background-image: url('/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.9s ease;
 
-.wallpaper__img--loaded {
-  opacity: 1;
+    &--loaded {
+      opacity: 1;
+    }
+  }
 }

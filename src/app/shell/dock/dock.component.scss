@@ -12,6 +12,72 @@
   border-radius: var(--dock-radius);
   z-index: 9000;
   animation: dock-in 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: translateX(-50%);
+  }
+
+  &__divider {
+    align-self: stretch;
+    width: 1px;
+    margin: 4px 4px 4px 0;
+    background: rgb(127 127 127 / 0.35);
+  }
+
+  &__slot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+
+    &--hovered {
+      z-index: 2;
+    }
+  }
+
+  &__icon {
+    position: relative;
+    width: var(--dock-icon-size);
+    height: var(--dock-icon-size);
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    transform-origin: bottom center;
+    will-change: transform;
+  }
+
+  &__indicator {
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+  }
+
+  &__tooltip {
+    --tooltip-glass-bg: rgb(40 40 44 / 0.72);
+
+    @include glass.liquid-glass('--tooltip-glass-bg', 16px, 180%);
+    position: absolute;
+    z-index: 10;
+    bottom: calc(100% + 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    pointer-events: none;
+    animation: dock-tooltip-in 0.12s ease-out;
+  }
 }
 
 @keyframes dock-in {
@@ -24,74 +90,6 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dock {
-    animation: none;
-    transform: translateX(-50%);
-  }
-}
-
-.dock__divider {
-  align-self: stretch;
-  width: 1px;
-  margin: 4px 4px 4px 0;
-  background: rgb(127 127 127 / 0.35);
-}
-
-.dock__slot {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
-
-  &--hovered {
-    z-index: 2;
-  }
-}
-
-.dock__icon {
-  position: relative;
-  width: var(--dock-icon-size);
-  height: var(--dock-icon-size);
-  border: none;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  transform-origin: bottom center;
-  will-change: transform;
-}
-
-.dock__indicator {
-  position: absolute;
-  bottom: -7px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--text-secondary);
-}
-
-.dock__tooltip {
-  --tooltip-glass-bg: rgb(40 40 44 / 0.72);
-
-  @include glass.liquid-glass('--tooltip-glass-bg', 16px, 180%);
-  position: absolute;
-  z-index: 10;
-  bottom: calc(100% + 24px);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #fff;
-  pointer-events: none;
-  animation: dock-tooltip-in 0.12s ease-out;
 }
 
 @keyframes dock-tooltip-in {
