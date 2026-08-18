@@ -80,12 +80,12 @@ export const COMMANDS: readonly TerminalCommand[] = [
     descriptionKey: 'cmdAboutDesc',
     run(_args, ctx) {
       const rows: TerminalRow[] = [BLANK];
-      for (const note of NOTES[ctx.lang]) {
-        rows.push(
-          [seg(INDENT + note.title, 'heading')],
-          [seg(INDENT + note.subtitle, 'dim')],
-          BLANK,
-        );
+      for (const section of NOTES[ctx.lang]) {
+        rows.push([seg(INDENT + section.title, 'heading')]);
+        for (const line of section.lines) {
+          rows.push([seg(`${INDENT}- ${line.replace(/\*\*/g, '')}`, 'dim')]);
+        }
+        rows.push(BLANK);
       }
       return rows;
     },

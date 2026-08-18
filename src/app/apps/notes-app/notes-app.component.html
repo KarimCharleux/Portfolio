@@ -1,0 +1,21 @@
+<div class="notes">
+  <h2 class="notes__heading">{{ heading() }}</h2>
+  @for (section of sections(); track section.id) {
+    <section class="notes__section">
+      <h3 class="notes__title">{{ section.title }}</h3>
+      <ul class="notes__list">
+        @for (line of section.lines; track line) {
+          <li class="notes__line">
+            @for (segment of parseLine(line); track $index) {
+              @if (segment.bold) {
+                <strong>{{ segment.text }}</strong>
+              } @else {
+                {{ segment.text }}
+              }
+            }
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</div>
