@@ -1,0 +1,75 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  transform-origin: 4px 4px;
+  transition: opacity 150ms ease;
+  will-change: transform;
+}
+
+.cursor__glyph {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.cursor__glyph-fill {
+  fill: var(--cursor-fill);
+  stroke: var(--cursor-outline);
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+// Finger-crease linework sits on top of the pointer's black silhouette — draw
+// it in the outline color so it actually reads instead of vanishing into fill.
+.cursor__glyph-detail {
+  fill: none;
+  stroke: var(--cursor-outline);
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// The loading glyph's hourglass badge is inverted relative to the arrow (light
+// fill, dark outline) so it reads as a distinct badge sitting on the dart.
+.cursor__glyph-badge-fill {
+  fill: var(--cursor-outline);
+}
+
+.cursor__glyph-badge-outline {
+  fill: none;
+  stroke: var(--cursor-fill);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cursor__glyph--arrow {
+  opacity: 1;
+}
+
+:host(.cursor--pointer) {
+  .cursor__glyph--arrow {
+    opacity: 0;
+  }
+
+  .cursor__glyph--pointer {
+    opacity: 1;
+  }
+}
+
+:host(.cursor--loading) {
+  .cursor__glyph--arrow {
+    opacity: 0;
+  }
+
+  .cursor__glyph--loading {
+    opacity: 1;
+  }
+}

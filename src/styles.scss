@@ -22,3 +22,11 @@ textarea,
 select {
   font: inherit;
 }
+
+// Toggled by CursorService only when a fine pointer is present and
+// prefers-reduced-motion is off — the custom cursor replaces the native one
+// exactly then, never on touch/mobile or for reduced-motion users.
+body.cursor-hidden,
+body.cursor-hidden * {
+  cursor: none !important;
+}
