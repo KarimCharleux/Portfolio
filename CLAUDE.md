@@ -49,6 +49,7 @@ These are **non-negotiable**. This project holds itself to strict, current Angul
 
 - Design tokens (`shell/design-tokens.scss`): CSS custom properties on `:root`, theme values split into `:root[data-theme='dark']` / `:root:not([data-theme='dark'])` blocks. Add new tokens there, not as magic numbers in a component's `.scss`.
 - Class naming is BEM (`.window__traffic-light--zoom`, `.dock__slot--hovered`). Keep following it.
+- **Nest SCSS with `&`**: each block is one top-level rule; elements and modifiers nest inside it as `&__element`/`&--modifier`, not as separate flat top-level selectors. Pseudo-classes/elements (`&:hover`, `&::after`) and theme-conditional overrides (`:root:not([data-theme='dark']) &`) nest the same way, as close to the element they style as possible. Shared cross-component patterns (e.g. every app window's body/heading/divider/secondary-text) belong in a `@use`d mixin partial (see `apps/_app-window-content.scss`), not copy-pasted per component.
 - Chrome measurements (traffic-light size, notch dimensions, menu-bar height, iOS status-bar height, …) must be sourced/verified real values, per the design spec's "pixel-accurate fidelity" constraint — never eyeballed.
 - Apple-owned icon artwork (Notes/Safari/Finder/Trash/Terminal/Messages-style icons) and the wallpaper are original work inspired by the real thing — never a reproduction of an actual Apple asset. Real third-party brand marks (VS Code, Figma, YouTube) come from the `simple-icons` package, never hand-typed SVG path data.
 

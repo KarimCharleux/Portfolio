@@ -16,7 +16,7 @@
     <span class="topbar__app-name">{{ activeAppName() }}</span>
   </div>
 
-  <div class="topbar__notch"></div>
+  <div #notch class="topbar__notch"></div>
 
   <div class="topbar__right">
     <svg class="topbar__icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -39,7 +39,6 @@
       <rect x="4" y="9" width="12.5" height="6" rx="1" fill="currentColor" />
       <rect x="21" y="10" width="2" height="4" rx="1" fill="currentColor" />
     </svg>
-    <span class="topbar__clock">{{ formattedTime() }}</span>
     <button
       type="button"
       class="topbar__lang-toggle"
@@ -77,5 +76,6 @@
         </svg>
       }
     </button>
+    <span class="topbar__clock">{{ formattedTime() }}</span>
   </div>
 </header>
