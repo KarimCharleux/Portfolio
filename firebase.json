@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist/portfolio-angular/browser",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "**/.*",
