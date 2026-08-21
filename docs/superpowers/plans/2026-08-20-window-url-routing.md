@@ -32,6 +32,7 @@
 | File | Responsibility |
 |---|---|
 | `src/app/core/window-manager/app-routes.data.ts` (new) | `AppId` ↔ URL slug lookup table + reverse lookup helper. Single source of truth consumed by routes, SEO, and URL sync. |
+| `src/app/core/window-manager/route-target.component.ts` (new) | No-op component required only to satisfy Angular Router's `validateConfig` (see Task 1, Step 2) — never rendered through an outlet. |
 | `src/app/app.routes.ts` (modify) | Builds the flat route list from the slug table. |
 | `src/app/core/seo/route-seo.data.ts` (new) | Per-`AppId` French title/description copy. |
 | `src/app/core/seo/seo.service.ts` (new) | Applies title/description/OG/canonical for a given `AppId`, via Angular's universal `Title`/`Meta`/`DOCUMENT`. |
@@ -45,10 +46,11 @@
 
 **Files:**
 - Create: `src/app/core/window-manager/app-routes.data.ts`
+- Create: `src/app/core/window-manager/route-target.component.ts`
 - Modify: `src/app/app.routes.ts`
 
 **Interfaces:**
-- Produces: `APP_ROUTE_SLUGS: Partial<Record<AppId, string>>`, `appIdForSlug(slug: string): AppId | undefined` — both consumed by Task 3 (`app.ts`) is not true; consumed by Task 4 (`window-url-sync.service.ts`) and Task 2 (`seo.service.ts`, indirectly via `route-seo.data.ts` keys matching the same `AppId`s).
+- Produces: `APP_ROUTE_SLUGS: Partial<Record<AppId, string>>`, `appIdForSlug(slug: string): AppId | undefined` — consumed by Task 4 (`window-url-sync.service.ts`) and Task 2 (`seo.service.ts`, indirectly via `route-seo.data.ts` keys matching the same `AppId`s). `RouteTargetComponent` is consumed only by `app.routes.ts` itself, to satisfy Router validation.
 
 - [ ] **Step 1: Create the slug lookup table**
 
@@ -82,7 +84,43 @@ export function appIdForSlug(slug: string): AppId | undefined {
 }
 ```
 
-- [ ] **Step 2: Build the route table from the slug table**
+- [ ] **Step 2: Create a no-op route target component**
+
+**Correctness note (found while implementing — a route with only `data` is NOT
+valid, do not omit this):** Angular Router's `validateConfig` requires every
+route to carry one of `component`/`loadComponent`/`redirectTo`/`children`/
+`loadChildren`. `ng build`'s static prerender enumeration tolerates a
+route with only `data` (it reads the `Routes` array structurally), but
+`ng serve`'s dev-SSR middleware constructs its own throwaway `Router` from
+the same config to enumerate paths, and THAT construction runs the strict
+validation — every local `ng serve` request 500s with `NG04014` without a
+component on each route. Since `App` has no `<router-outlet>` (nothing ever
+renders this component through an outlet — window/meta state comes from route
+`data` instead, read in Task 3), it only needs to exist to satisfy that
+structural check.
+
+`src/app/core/window-manager/route-target.component.ts`:
+
+```ts
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+/**
+ * Every route in app.routes.ts needs a component/loadComponent/redirectTo/children to
+ * satisfy Angular Router's own config validation (`ng serve`'s dev middleware constructs a
+ * throwaway Router from the route config to enumerate paths, and that construction throws
+ * NG04014 without one) — but none of these routes are ever rendered through an outlet (App
+ * has none; the desktop shell always renders directly, and window/meta state is driven from
+ * route `data` instead). This component exists only to satisfy that structural requirement.
+ */
+@Component({
+  selector: 'app-route-target',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class RouteTargetComponent {}
+```
+
+- [ ] **Step 3: Build the route table from the slug table**
 
 Replace the full contents of `src/app/app.routes.ts`:
 
@@ -90,21 +128,26 @@ Replace the full contents of `src/app/app.routes.ts`:
 import { Routes } from '@angular/router';
 import { AppId } from './core/window-manager/window.model';
 import { APP_ROUTE_SLUGS } from './core/window-manager/app-routes.data';
+import { RouteTargetComponent } from './core/window-manager/route-target.component';
 
 // Every key besides 'about' comes from APP_ROUTE_SLUGS's own keys, so the
 // slug is always defined — the cast just narrows past Partial's `| undefined`.
 const appRoutes: Routes = (Object.keys(APP_ROUTE_SLUGS) as AppId[])
   .filter((appId) => appId !== 'about')
-  .map((appId) => ({ path: APP_ROUTE_SLUGS[appId] as string, data: { appId } }));
+  .map((appId) => ({
+    path: APP_ROUTE_SLUGS[appId] as string,
+    component: RouteTargetComponent,
+    data: { appId },
+  }));
 
 export const routes: Routes = [
-  { path: '', data: { appId: 'about' } },
+  { path: '', component: RouteTargetComponent, data: { appId: 'about' } },
   ...appRoutes,
   { path: '**', redirectTo: '' },
 ];
 ```
 
-- [ ] **Step 3: Verify the routes build and prerender**
+- [ ] **Step 4: Verify the routes build and prerender**
 
 Run: `nvm use 24 && npx ng build`
 
@@ -114,16 +157,27 @@ Run: `find dist/portfolio-angular/browser -maxdepth 1 -type d | sort`
 
 Expected output includes: `about-me`, `all-projects`, `design`, `links`, `photos`, `projects`, `terminal`, `videos` (plus `apps` and other existing asset dirs). Root `index.html` stays directly under `browser/`.
 
-- [ ] **Step 4: Lint**
+- [ ] **Step 5: Verify `ng serve` also works (not just `ng build`)**
+
+Run: `nvm use 24 && npx ng serve --port 4444` (background it or use a second terminal), then:
+
+```bash
+curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:4444/
+curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:4444/about-me
+```
+
+Expected: both `200`, not `500`. If either 500s with `NG04014`, a route is still missing `component: RouteTargetComponent` — this is exactly the gap Step 2 exists to close, and `ng build` alone will NOT catch a regression here (its prerender path tolerates component-less routes; only a live `Router` construction, like `ng serve`'s dev middleware performs, enforces this).
+
+- [ ] **Step 6: Lint**
 
 Run: `npm run lint`
 
 Expected: no errors (no `any`, no `private` keyword, no `rxjs` import — none of which this task introduces).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/app/core/window-manager/app-routes.data.ts src/app/app.routes.ts
+git add src/app/core/window-manager/app-routes.data.ts src/app/core/window-manager/route-target.component.ts src/app/app.routes.ts
 git commit -m "feat(routing): add real routes per windowed app"
 ```
 
