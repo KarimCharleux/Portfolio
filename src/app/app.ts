@@ -94,7 +94,12 @@ export class App {
   }
 
   #resolveInitialAppId(): AppId {
-    const slug = this.#location.path().replace(/^\//, '');
+    const slug = this.#location
+      .path()
+      .replace(/^\//, '')
+      .split('?')[0]
+      .split('#')[0]
+      .replace(/\/$/, '');
     return appIdForSlug(slug) ?? 'about';
   }
 
