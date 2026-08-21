@@ -30,6 +30,9 @@ export class WindowManagerService {
     titleKey: TranslationKey,
     options?: { width?: number; height?: number; centered?: boolean },
   ): void {
+    // At most one window per appId, enforced here — WindowUrlSyncService relies on this as a
+    // durable identity to anchor browser back/forward undo tracking on; a second creation path
+    // that bypassed this guard would make it silently under-close on back/forward.
     const existing = this.#windowsSignal().find((w) => w.appId === appId);
     if (existing) {
       this.restore(existing.id);

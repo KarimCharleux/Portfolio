@@ -670,7 +670,12 @@ export class WindowUrlSyncService {
 
 The actual fix, landed in the checked-in file: anchor on **`AppId`**, not window instance id, and drop `history.state`/the `state` navigate option entirely. `WindowManagerService.open()` already guarantees at most one window per `AppId` (it restores+focuses an existing one instead of creating a second), so an `AppId` is a durable anchor that can never go stale the way an instance id can — `#pushStack: AppId[]` replaces the single `#pushedWindowId`/instance-id stack, and `#onPopState` derives its target purely from the URL (`appIdForPath(window.location.pathname)`, already available with no extra bookkeeping) rather than from any per-entry state. A pop that finds no matching window for that appId is a harmless no-op, so the stack never needs pruning when a window closes some other way (its own traffic-light button, etc.). This is simpler than the instance-id version, not just a bug fix on top of it — read `src/app/core/window-manager/window-url-sync.service.ts` directly for the current, correct implementation rather than reconstructing it from this history.
 
-One residual, accepted limitation either design shares: the browser **Forward** button, specifically re-entering a branch whose window was closed in the meantime, doesn't restore the full set of windows that were open at that history entry (only a single linear push-stack is tracked, not a per-entry snapshot of everything open at that point) — verified interactively to not crash or loop, just lose one window's state in that specific compound sequence. Fixing this fully would mean snapshotting the complete open-window set per history entry, a materially bigger change judged disproportionate for this site.
+Two residual, accepted limitations, both from the same root cause — a single linear push-stack is tracked, not a per-entry snapshot of everything that was open at that point:
+
+- The browser **Forward** button, specifically re-entering a branch whose window was closed in the meantime, doesn't restore the full set of windows that were open at that history entry — verified interactively to not crash or loop, just lose one window's state in that specific compound sequence.
+- Jumping back **multiple entries at once** (holding Back, or a long-press history menu) can stop the unwind early if an older, still-stale `AppId` happens to duplicate the jump target — self-healing on the very next Back, never stuck, never wrong beyond that one jump.
+
+Fixing either fully would mean snapshotting the complete open-window set per history entry, a materially bigger change judged disproportionate for this site.
 
 - [ ] **Step 2: Build and lint**
 
