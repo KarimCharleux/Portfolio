@@ -26,6 +26,8 @@ export class SeoService {
     this.#meta.updateTag({ name: 'description', content: entry.description });
     this.#meta.updateTag({ property: 'og:title', content: entry.title });
     this.#meta.updateTag({ property: 'og:description', content: entry.description });
+    this.#meta.updateTag({ name: 'twitter:title', content: entry.title });
+    this.#meta.updateTag({ name: 'twitter:description', content: entry.description });
 
     const slug = APP_ROUTE_SLUGS[appId] ?? '';
     const url = `${SITE_URL}/${slug}`;
