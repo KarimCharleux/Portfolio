@@ -7,10 +7,6 @@ import { APP_ROUTE_SLUGS, appIdForPath } from './app-routes.data';
 import { WindowManagerService } from './window-manager.service';
 import { AppId, WindowState } from './window.model';
 
-interface PushedWindowState {
-  windowId: string;
-}
-
 /**
  * Client-side only (browser-guarded): this direction of sync only matters for live
  * user interaction, not prerendering — the initial load's window/meta are already
@@ -24,13 +20,17 @@ export class WindowUrlSyncService {
   readonly #seo = inject(SeoService);
 
   readonly #knownWindowIds = new Set<string>();
-  // Ids of windows pushed as their own history entry, in push order (most recent last).
-  // #onPopState pops from here to figure out exactly which windows a given back/forward
-  // traversal needs to undo, however many steps it crosses at once. Every entry this service
-  // creates or revisits — push or replace — carries its own resolved windowId in `state`, so
-  // a stale entry (e.g. one whose window was closed and later reopened under a fresh id) only
-  // ever costs one extra close; #onPopState re-stamps it as soon as it's resolved.
-  readonly #pushStack: string[] = [];
+  // AppIds pushed as their own history entry, in push order (most recent last).
+  // #onPopState pops from here to figure out exactly which apps a given back/forward
+  // traversal needs to close, however many steps it crosses at once. Anchored on AppId, not
+  // window instance id: WindowManagerService already guarantees at most one window per appId
+  // (open() restores+focuses an existing one instead of creating a second), so an appId is a
+  // durable, permanently-valid anchor — unlike an instance id, which goes stale the moment its
+  // window is closed and later reopened under a fresh one. Every pop just asks "does a window
+  // for this appId exist right now" and closes it if so; an already-closed or duplicate entry
+  // is a harmless no-op, so the stack never needs pruning when a window closes outside of
+  // #onPopState (e.g. via its own traffic-light button).
+  readonly #pushStack: AppId[] = [];
   #hasEverHadWindow = false;
 
   // Tracks which app the URL/title/meta currently reflect. A value comparison rather than a
@@ -92,34 +92,26 @@ export class WindowUrlSyncService {
     this.#lastSyncedAppId = appId;
     this.#seo.applyForRoute(appId);
 
-    // Every entry this service creates carries its own resolved windowId (or none, for the
-    // 'about'/no-window case) — the push branch anchors a *new* entry to it; the replace
-    // branch re-anchors the *current* entry, so a background window closing (a replace, not
-    // a push) doesn't silently strip the windowId a later back/forward needs to read.
-    const state: PushedWindowState | undefined = front ? { windowId: front.id } : undefined;
-    if (isPush && front) {
-      this.#pushStack.push(front.id);
-      void this.#router.navigate([`/${slug}`], { state });
+    if (isPush) {
+      this.#pushStack.push(appId);
+      void this.#router.navigate([`/${slug}`]);
     } else {
-      void this.#router.navigate([`/${slug}`], { replaceUrl: true, state });
+      void this.#router.navigate([`/${slug}`], { replaceUrl: true });
     }
   }
 
   #onPopState(): void {
     const appId = appIdForPath(window.location.pathname) ?? 'about';
-    const targetWindowId = (window.history.state as Partial<PushedWindowState> | null)?.windowId;
 
-    // Undo every pushed window more recent than the entry we've landed on — this is what
-    // makes going back N steps at once (not just one) correctly close all N windows that
-    // were opened since, not just the single most recent one.
-    while (
-      this.#pushStack.length > 0 &&
-      this.#pushStack[this.#pushStack.length - 1] !== targetWindowId
-    ) {
-      const id = this.#pushStack.pop();
-      if (id && this.#windowManager.windows().some((w) => w.id === id)) {
-        this.#windowManager.close(id);
-      }
+    // Close every pushed app more recent than the one we've landed on — this is what makes
+    // going back N steps at once (not just one) correctly close all N windows opened since,
+    // not just the single most recent one. Each pop just checks "is a window for this appId
+    // open right now" — already-closed or duplicate stack entries are a harmless no-op, so
+    // this needs no separate bookkeeping when a window closes some other way.
+    while (this.#pushStack.length > 0 && this.#pushStack[this.#pushStack.length - 1] !== appId) {
+      const poppedAppId = this.#pushStack.pop();
+      const win = poppedAppId && this.#windowManager.windows().find((w) => w.appId === poppedAppId);
+      if (win) this.#windowManager.close(win.id);
     }
 
     const existing = this.#windowManager.windows().find((w) => w.appId === appId);
@@ -128,7 +120,6 @@ export class WindowUrlSyncService {
 
     this.#lastSyncedAppId = appId;
 
-    let resolvedWindowId: string | undefined;
     if (needsOpen) {
       const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
       if (titleKey) {
@@ -137,29 +128,12 @@ export class WindowUrlSyncService {
         // ends up creating a window, so a later, unrelated refocus of this same window isn't
         // misclassified as a brand-new open, and so a further back-press can undo it too.
         const opened = this.#windowManager.windows().find((w) => w.appId === appId);
-        if (opened) {
-          this.#knownWindowIds.add(opened.id);
-          this.#pushStack.push(opened.id);
-          resolvedWindowId = opened.id;
-        }
+        if (opened) this.#knownWindowIds.add(opened.id);
+        this.#pushStack.push(appId);
       }
     } else if (needsFocus && existing) {
       this.#windowManager.restore(existing.id);
       this.#windowManager.focus(existing.id);
-      resolvedWindowId = existing.id;
-    } else if (existing) {
-      resolvedWindowId = existing.id;
-    }
-
-    // Self-healing re-anchor: if the entry we landed on named a stale/dead windowId (e.g. a
-    // window that was closed and later reopened under a fresh id), the loop above only ever
-    // over-closes once — stamping the entry with the id that's actually live now means a
-    // later revisit of this same entry reads a correct anchor instead of the stale one.
-    if (resolvedWindowId !== targetWindowId) {
-      const state: PushedWindowState | null = resolvedWindowId
-        ? { windowId: resolvedWindowId }
-        : null;
-      window.history.replaceState(state, '', window.location.href);
     }
 
     this.#seo.applyForRoute(appId);
