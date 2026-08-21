@@ -26,9 +26,11 @@ export class WindowUrlSyncService {
   readonly #knownWindowIds = new Set<string>();
   // Ids of windows pushed as their own history entry, in push order (most recent last).
   // #onPopState pops from here to figure out exactly which windows a given back/forward
-  // traversal needs to undo, however many steps it crosses at once.
+  // traversal needs to undo, however many steps it crosses at once. Every entry this service
+  // creates or revisits — push or replace — carries its own resolved windowId in `state`, so
+  // a stale entry (e.g. one whose window was closed and later reopened under a fresh id) only
+  // ever costs one extra close; #onPopState re-stamps it as soon as it's resolved.
   readonly #pushStack: string[] = [];
-  #hasSyncedOnce = false;
   #hasEverHadWindow = false;
 
   // Tracks which app the URL/title/meta currently reflect. A value comparison rather than a
@@ -61,7 +63,6 @@ export class WindowUrlSyncService {
    */
   seedInitialAppId(appId: AppId): void {
     this.#lastSyncedAppId = appId;
-    this.#hasSyncedOnce = true;
   }
 
   #syncUrlToFrontmost(front: WindowState | null): void {
@@ -78,7 +79,7 @@ export class WindowUrlSyncService {
     // unconditionally — even a window this method decides not to navigate for (because
     // #onPopState or App's own seed already covers it) still needs to be known, or a later,
     // ordinary refocus of that same window would be misclassified as a brand-new push.
-    const isNewWindow = front !== null && !this.#knownWindowIds.has(front.id);
+    const isPush = front !== null && !this.#knownWindowIds.has(front.id);
     if (front) this.#knownWindowIds.add(front.id);
 
     if (appId === this.#lastSyncedAppId) {
@@ -88,19 +89,19 @@ export class WindowUrlSyncService {
     }
 
     const slug = APP_ROUTE_SLUGS[appId] ?? '';
-    const isFirst = !this.#hasSyncedOnce;
-    this.#hasSyncedOnce = true;
-    const isPush = !isFirst && isNewWindow;
-
     this.#lastSyncedAppId = appId;
     this.#seo.applyForRoute(appId);
 
+    // Every entry this service creates carries its own resolved windowId (or none, for the
+    // 'about'/no-window case) — the push branch anchors a *new* entry to it; the replace
+    // branch re-anchors the *current* entry, so a background window closing (a replace, not
+    // a push) doesn't silently strip the windowId a later back/forward needs to read.
+    const state: PushedWindowState | undefined = front ? { windowId: front.id } : undefined;
     if (isPush && front) {
       this.#pushStack.push(front.id);
-      const state: PushedWindowState = { windowId: front.id };
       void this.#router.navigate([`/${slug}`], { state });
     } else {
-      void this.#router.navigate([`/${slug}`], { replaceUrl: true });
+      void this.#router.navigate([`/${slug}`], { replaceUrl: true, state });
     }
   }
 
@@ -127,6 +128,7 @@ export class WindowUrlSyncService {
 
     this.#lastSyncedAppId = appId;
 
+    let resolvedWindowId: string | undefined;
     if (needsOpen) {
       const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
       if (titleKey) {
@@ -138,11 +140,26 @@ export class WindowUrlSyncService {
         if (opened) {
           this.#knownWindowIds.add(opened.id);
           this.#pushStack.push(opened.id);
+          resolvedWindowId = opened.id;
         }
       }
     } else if (needsFocus && existing) {
       this.#windowManager.restore(existing.id);
       this.#windowManager.focus(existing.id);
+      resolvedWindowId = existing.id;
+    } else if (existing) {
+      resolvedWindowId = existing.id;
+    }
+
+    // Self-healing re-anchor: if the entry we landed on named a stale/dead windowId (e.g. a
+    // window that was closed and later reopened under a fresh id), the loop above only ever
+    // over-closes once — stamping the entry with the id that's actually live now means a
+    // later revisit of this same entry reads a correct anchor instead of the stale one.
+    if (resolvedWindowId !== targetWindowId) {
+      const state: PushedWindowState | null = resolvedWindowId
+        ? { windowId: resolvedWindowId }
+        : null;
+      window.history.replaceState(state, '', window.location.href);
     }
 
     this.#seo.applyForRoute(appId);

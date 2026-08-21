@@ -18,7 +18,7 @@ export const APP_ROUTE_SLUGS: Partial<Record<AppId, string>> = {
   terminal: 'terminal',
 };
 
-export function appIdForSlug(slug: string): AppId | undefined {
+function appIdForSlug(slug: string): AppId | undefined {
   return (Object.keys(APP_ROUTE_SLUGS) as AppId[]).find((appId) => APP_ROUTE_SLUGS[appId] === slug);
 }
 
