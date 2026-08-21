@@ -5,7 +5,7 @@ import { DOCK_APPS } from '../dock-apps/dock-apps.data';
 import { SeoService } from '../seo/seo.service';
 import { APP_ROUTE_SLUGS, appIdForSlug } from './app-routes.data';
 import { WindowManagerService } from './window-manager.service';
-import { WindowState } from './window.model';
+import { AppId, WindowState } from './window.model';
 
 /**
  * Client-side only (browser-guarded): this direction of sync only matters for live
@@ -21,18 +21,22 @@ export class WindowUrlSyncService {
 
   readonly #knownWindowIds = new Set<string>();
   #hasSyncedOnce = false;
-  #ignoreNextFrontmostChange = false;
   #pushedWindowId: string | null = null;
+
+  // Tracks which app the URL/title/meta currently reflect. A value comparison rather than a
+  // one-shot "ignore the next change" flag: closing a *background* window can leave
+  // `frontmost()` returning the same object reference (Angular's computed() only notifies
+  // consumers on an actual value change), so a flag meant to be consumed by the next effect
+  // run can go unconsumed and then wrongly swallow a later, unrelated navigation. Comparing
+  // against the last-synced appId works regardless of whether the effect fires zero, one, or
+  // more times after a given window-manager mutation.
+  #lastSyncedAppId: AppId | null = null;
 
   constructor() {
     if (!isPlatformBrowser(this.#platformId)) return;
 
     effect(() => {
       const front = this.#windowManager.frontmost();
-      if (this.#ignoreNextFrontmostChange) {
-        this.#ignoreNextFrontmostChange = false;
-        return;
-      }
       this.#syncUrlToFrontmost(front);
     });
 
@@ -43,6 +47,12 @@ export class WindowUrlSyncService {
 
   #syncUrlToFrontmost(front: WindowState | null): void {
     const appId = front?.appId ?? 'about';
+    if (appId === this.#lastSyncedAppId) {
+      // Already reflects this app — either a no-op recompute, or #onPopState already drove
+      // both window state and the URL to match this transition itself.
+      return;
+    }
+
     const slug = APP_ROUTE_SLUGS[appId] ?? '';
 
     // The very first run just mirrors whatever window App already opened for the
@@ -57,6 +67,7 @@ export class WindowUrlSyncService {
       if (isPush) this.#pushedWindowId = front.id;
     }
 
+    this.#lastSyncedAppId = appId;
     this.#seo.applyForRoute(appId);
     void this.#router.navigate([`/${slug}`], { replaceUrl: !isPush });
   }
@@ -73,21 +84,25 @@ export class WindowUrlSyncService {
       : undefined;
     const shouldClosePushed = !!pushedStillOpen && pushedStillOpen.appId !== appId;
 
-    const existing =
-      appId === 'about' ? undefined : this.#windowManager.windows().find((w) => w.appId === appId);
+    // Unlike #syncUrlToFrontmost, 'about' is not special-cased out of this lookup: if the
+    // About window is still open (just not frontmost), popping back to '/' should bring it
+    // forward so the visible window matches the URL/title — it just never gets force-opened
+    // if it was closed (that's what `needsOpen`'s `appId !== 'about'` guards against).
+    const existing = this.#windowManager.windows().find((w) => w.appId === appId);
     const needsOpen = appId !== 'about' && !existing;
     const needsFocus = !!existing && this.#windowManager.frontmost()?.id !== existing.id;
 
     if (!shouldClosePushed && !needsOpen && !needsFocus) {
-      // Truly nothing to reconcile — don't touch #ignoreNextFrontmostChange, since no
-      // window-manager mutation is about to fire the frontmost effect for it to guard.
+      // Truly nothing to reconcile.
+      this.#lastSyncedAppId = appId;
       this.#seo.applyForRoute(appId);
       return;
     }
 
-    // Our own subsequent window-manager calls must not re-trigger the frontmost effect
-    // above and push/replace another (redundant) history entry.
-    this.#ignoreNextFrontmostChange = true;
+    // Mark the URL as already in sync with this target before mutating window state, so
+    // #syncUrlToFrontmost never tries to re-navigate for a transition this method already
+    // drove — regardless of whether the frontmost effect ends up re-firing for it or not.
+    this.#lastSyncedAppId = appId;
 
     if (shouldClosePushed && pushedStillOpen) {
       this.#windowManager.close(pushedStillOpen.id);
@@ -95,7 +110,17 @@ export class WindowUrlSyncService {
     }
     if (needsOpen) {
       const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
-      if (titleKey) this.#windowManager.open(appId, titleKey);
+      if (titleKey) {
+        this.#windowManager.open(appId, titleKey);
+        // Keep #syncUrlToFrontmost's own bookkeeping consistent regardless of which method
+        // ends up creating a window, so a later, unrelated refocus of this same window isn't
+        // misclassified as a brand-new open (and pushed) by #syncUrlToFrontmost.
+        const opened = this.#windowManager.windows().find((w) => w.appId === appId);
+        if (opened) {
+          this.#knownWindowIds.add(opened.id);
+          this.#pushedWindowId = opened.id;
+        }
+      }
     } else if (needsFocus && existing) {
       this.#windowManager.restore(existing.id);
       this.#windowManager.focus(existing.id);
