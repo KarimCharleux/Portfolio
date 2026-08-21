@@ -108,7 +108,7 @@ export const routes: Routes = [
 
 Run: `nvm use 24 && npx ng build`
 
-Expected: build succeeds, and the summary line reads `Prerendered 10 static routes.` (root + 8 app routes + none for the `**` redirect, which isn't a real prerenderable page). If the count differs, `app.routes.ts` has a typo in a path or the `**` catch-all is being prerendered as a literal route — investigate before continuing.
+Expected: build succeeds, and the summary line reads `Prerendered 9 static routes.` (root + 8 app routes + none for the `**` redirect, which isn't a real prerenderable page). If the count differs, `app.routes.ts` has a typo in a path or the `**` catch-all is being prerendered as a literal route — investigate before continuing.
 
 Run: `find dist/portfolio-angular/browser -maxdepth 1 -type d | sort`
 
@@ -284,7 +284,9 @@ git commit -m "feat(seo): add per-app SEO copy and SeoService"
 - Modify: `src/app/app.ts`
 
 **Interfaces:**
-- Consumes: `Router` (`@angular/router`), `SeoService.applyForRoute` (Task 2), `AppId`/`DOCK_APPS` (existing), `WindowUrlSyncService` (Step 1 below creates a no-op stub so `App` has something to inject — Task 4 replaces the stub with the real implementation, keeping every commit in this plan buildable on its own).
+- Consumes: `Location` (`@angular/common`), `appIdForSlug` (`./core/window-manager/app-routes.data`, from Task 1), `SeoService.applyForRoute` (Task 2), `AppId`/`DOCK_APPS` (existing), `WindowUrlSyncService` (Step 1 below creates a no-op stub so `App` has something to inject — Task 4 replaces the stub with the real implementation, keeping every commit in this plan buildable on its own).
+
+**Correctness note (found during implementation, already fixed below — do not reintroduce):** the first version of this task read the initial `appId` from `Router.routerState.snapshot.root.firstChild?.data`, on the assumption Angular's initial navigation resolves before the root component's constructor runs. That assumption is **false** in this app's setup (default `provideRouter`, no blocking-initial-navigation feature enabled) — `Router`'s snapshot is still unresolved (`firstChild` is `null`) at `App` construction time, in both SSR and client bootstrap. The fix is to bypass `Router` for this one read and use `Location.path()` (from `@angular/common`) instead: `Location` is the primitive `PlatformLocation`-backed abstraction Router itself is built on, and it reflects the current URL (SSR request path or browser URL) synchronously and universally, with no navigation-resolution dependency. `Router` is no longer injected in `App` at all — Task 4's `WindowUrlSyncService` still uses `Router.navigate()` for later, user-driven navigation, which is unaffected by this change.
 
 - [ ] **Step 1: Create the WindowUrlSyncService stub**
 
@@ -312,13 +314,13 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
+import { Location, isPlatformBrowser } from '@angular/common';
 import { getFirebaseApp } from './core/firebase-app';
 import { BreakpointService } from './core/breakpoint/breakpoint.service';
 import { I18nService } from './core/i18n/i18n.service';
 import { WindowManagerService } from './core/window-manager/window-manager.service';
 import { WindowUrlSyncService } from './core/window-manager/window-url-sync.service';
+import { appIdForSlug } from './core/window-manager/app-routes.data';
 import { DOCK_APPS } from './core/dock-apps/dock-apps.data';
 import { AppId } from './core/window-manager/window.model';
 import { TranslationKey } from './core/i18n/translations';
@@ -346,7 +348,7 @@ const ABOUT_WINDOW_OPTIONS = { width: 380, height: 540, centered: true };
 })
 export class App {
   protected readonly isMobile = inject(BreakpointService).isMobile;
-  readonly #router = inject(Router);
+  readonly #location = inject(Location);
   readonly #windowManager = inject(WindowManagerService);
   readonly #seo = inject(SeoService);
   readonly #cursor = inject(CursorService);
@@ -399,8 +401,8 @@ export class App {
   }
 
   #resolveInitialAppId(): AppId {
-    const data = this.#router.routerState.snapshot.root.firstChild?.data;
-    return (data?.['appId'] as AppId | undefined) ?? 'about';
+    const slug = this.#location.path().replace(/^\//, '');
+    return appIdForSlug(slug) ?? 'about';
   }
 
   #openInitialWindow(): void {
@@ -441,7 +443,7 @@ for pair in "about-me:Notes" "projects:VS Code" "all-projects:Finder" "design:Fi
 done
 ```
 
-Expected: each `topbar__app-name` matches its app's name (e.g. `about-me` → `Notes`), and each `<title>` matches the corresponding `ROUTE_SEO` entry (e.g. `about-me` → `Karim Charleux · À propos`). If a page's topbar still says the previous default or is missing, `#resolveInitialAppId`/`#openInitialWindow` isn't picking up route data correctly for that route — check `app.routes.ts`'s `data.appId` and this file's cast.
+Expected: each `topbar__app-name` matches its app's name (e.g. `about-me` → `Notes`), and each `<title>` matches the corresponding `ROUTE_SEO` entry (e.g. `about-me` → `Karim Charleux · À propos`). If a page's topbar still says the previous default or is missing, `#resolveInitialAppId` isn't resolving that route's slug correctly — check `Location.path()`'s actual return value for that build (it must equal the route's slug, e.g. `/about-me`) against `APP_ROUTE_SLUGS` in `app-routes.data.ts`.
 
 Run: `npm run lint`
 
@@ -680,7 +682,7 @@ git commit -m "chore(seo): add app routes to sitemap"
 
 Run: `nvm use 24 && npx ng build`
 
-Expected: succeeds, `Prerendered 10 static routes.`, no warnings about routes.
+Expected: succeeds, `Prerendered 9 static routes.`, no warnings about routes.
 
 - [ ] **Step 2: Re-run every grep from Task 3** (confirms nothing regressed across Tasks 4–5)
 
