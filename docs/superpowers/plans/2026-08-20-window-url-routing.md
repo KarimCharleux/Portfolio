@@ -520,6 +520,8 @@ git commit -m "feat(routing): open the matched app's window and SEO on initial l
 **Interfaces:**
 - Consumes: `WindowManagerService.frontmost`/`windows`/`close`/`open`/`restore`/`focus` (existing), `SeoService.applyForRoute` (Task 2), `APP_ROUTE_SLUGS`/`appIdForSlug` (Task 1), `DOCK_APPS` (existing).
 
+**Correctness note (found during manual verification — the `#onPopState` body below already has the fix, do not revert it):** an earlier version of `#onPopState` opened with `if (front?.appId === appId) return;` — an early return whenever the frontmost window's `appId` already matched the URL's resolved `appId`. That check is insufficient once more than one window can be open at a time: pushing Notes then VS Code, refocusing Notes (a `replaceUrl`, so it overwrites whichever entry currently sits on top — VS Code's — with Notes' URL, landing two adjacent history entries on the identical `/about-me` string), then pressing back once, lands on an entry whose resolved `appId` is `'notes'` — which already equals the *current* frontmost's `appId` (`'notes'`, unchanged throughout), so the guard fired and did nothing. The real desired effect of that back-press — closing the VS Code window that's still open behind Notes — never happened; a second back-press was needed. The fix: stop treating "does frontmost's `appId` already match the URL" as a proxy for "is there nothing left to reconcile." Instead, independently check three things every time — does the tracked `#pushedWindowId` need closing (it's open but is a different app than the target), does the target app need opening, does an already-open target need focusing — and only touch anything (and only set `#ignoreNextFrontmostChange`) when at least one of those is actually true. This correctly closes a still-open background window even when the *frontmost* app was never the one that changed.
+
 - [ ] **Step 1: Replace the stub with the real sync logic**
 
 `src/app/core/window-manager/window-url-sync.service.ts`:
@@ -591,30 +593,41 @@ export class WindowUrlSyncService {
   #onPopState(): void {
     const slug = window.location.pathname.replace(/^\//, '');
     const appId = appIdForSlug(slug) ?? 'about';
-    const front = this.#windowManager.frontmost();
-    if (front?.appId === appId) return;
 
-    // Our own subsequent navigate()/window-manager calls must not re-trigger the
-    // frontmost effect above and push another (redundant) history entry.
+    // Independent of whether the frontmost app already matches: the pushed window (if any)
+    // might be a *background* window that's no longer the target and still needs closing,
+    // even when frontmost itself never changed appId across this navigation.
+    const pushedStillOpen = this.#pushedWindowId
+      ? this.#windowManager.windows().find((w) => w.id === this.#pushedWindowId)
+      : undefined;
+    const shouldClosePushed = !!pushedStillOpen && pushedStillOpen.appId !== appId;
+
+    const existing =
+      appId === 'about' ? undefined : this.#windowManager.windows().find((w) => w.appId === appId);
+    const needsOpen = appId !== 'about' && !existing;
+    const needsFocus = !!existing && this.#windowManager.frontmost()?.id !== existing.id;
+
+    if (!shouldClosePushed && !needsOpen && !needsFocus) {
+      // Truly nothing to reconcile — don't touch #ignoreNextFrontmostChange, since no
+      // window-manager mutation is about to fire the frontmost effect for it to guard.
+      this.#seo.applyForRoute(appId);
+      return;
+    }
+
+    // Our own subsequent window-manager calls must not re-trigger the frontmost effect
+    // above and push/replace another (redundant) history entry.
     this.#ignoreNextFrontmostChange = true;
 
-    if (
-      this.#pushedWindowId &&
-      this.#windowManager.windows().some((w) => w.id === this.#pushedWindowId)
-    ) {
-      this.#windowManager.close(this.#pushedWindowId);
+    if (shouldClosePushed && pushedStillOpen) {
+      this.#windowManager.close(pushedStillOpen.id);
+      this.#pushedWindowId = null;
     }
-    this.#pushedWindowId = null;
-
-    if (appId !== 'about') {
-      const existing = this.#windowManager.windows().find((w) => w.appId === appId);
-      if (existing) {
-        this.#windowManager.restore(existing.id);
-        this.#windowManager.focus(existing.id);
-      } else {
-        const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
-        if (titleKey) this.#windowManager.open(appId, titleKey);
-      }
+    if (needsOpen) {
+      const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
+      if (titleKey) this.#windowManager.open(appId, titleKey);
+    } else if (needsFocus && existing) {
+      this.#windowManager.restore(existing.id);
+      this.#windowManager.focus(existing.id);
     }
 
     this.#seo.applyForRoute(appId);
