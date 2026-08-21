@@ -13,7 +13,7 @@ import { BreakpointService } from './core/breakpoint/breakpoint.service';
 import { I18nService } from './core/i18n/i18n.service';
 import { WindowManagerService } from './core/window-manager/window-manager.service';
 import { WindowUrlSyncService } from './core/window-manager/window-url-sync.service';
-import { appIdForSlug } from './core/window-manager/app-routes.data';
+import { appIdForPath } from './core/window-manager/app-routes.data';
 import { DOCK_APPS } from './core/dock-apps/dock-apps.data';
 import { AppId } from './core/window-manager/window.model';
 import { TranslationKey } from './core/i18n/translations';
@@ -43,6 +43,7 @@ export class App {
   protected readonly isMobile = inject(BreakpointService).isMobile;
   readonly #location = inject(Location);
   readonly #windowManager = inject(WindowManagerService);
+  readonly #windowUrlSync = inject(WindowUrlSyncService);
   readonly #seo = inject(SeoService);
   readonly #cursor = inject(CursorService);
 
@@ -56,11 +57,15 @@ export class App {
     // `<html lang>` sync must run at bootstrap, before any shell component asks for a string.
     inject(I18nService);
 
-    // Resolved for its constructor side effects only: keeps the URL, history and meta tags
-    // in sync with whichever window is frontmost, for every open/focus/close after this load.
-    inject(WindowUrlSyncService);
-
     this.#initialAppId = this.#resolveInitialAppId();
+
+    // Tell the sync service what the URL already reflects *before* its own frontmost effect
+    // ever runs — client-side, that effect's first run can land in the gap between App's
+    // constructor and the boot animation finishing (when frontmost() is still null), and
+    // without this seed it would misread "no window open yet" as "everything got closed" and
+    // rewrite a deep-linked URL back to '/'.
+    this.#windowUrlSync.seedInitialAppId(this.#initialAppId);
+
     this.#seo.applyForRoute(this.#initialAppId);
     if (this.booted()) {
       // Server/prerender: the boot screen never renders (booted starts true), so nothing
@@ -94,13 +99,7 @@ export class App {
   }
 
   #resolveInitialAppId(): AppId {
-    const slug = this.#location
-      .path()
-      .replace(/^\//, '')
-      .split('?')[0]
-      .split('#')[0]
-      .replace(/\/$/, '');
-    return appIdForSlug(slug) ?? 'about';
+    return appIdForPath(this.#location.path()) ?? 'about';
   }
 
   #openInitialWindow(): void {
