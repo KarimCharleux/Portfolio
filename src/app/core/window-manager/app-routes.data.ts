@@ -21,3 +21,15 @@ export const APP_ROUTE_SLUGS: Partial<Record<AppId, string>> = {
 export function appIdForSlug(slug: string): AppId | undefined {
   return (Object.keys(APP_ROUTE_SLUGS) as AppId[]).find((appId) => APP_ROUTE_SLUGS[appId] === slug);
 }
+
+/**
+ * Resolves an `AppId` from a raw path (`Location.path()`, `window.location.pathname`, or
+ * similar) — strips the leading slash, query string, hash, and any trailing slash before
+ * matching against `APP_ROUTE_SLUGS`, so `/about-me`, `/about-me/` and `/about-me?utm=x` all
+ * resolve identically. The single implementation both `App` and `WindowUrlSyncService` use,
+ * so they can never silently disagree on how a path normalizes.
+ */
+export function appIdForPath(path: string): AppId | undefined {
+  const slug = path.replace(/^\//, '').split('?')[0].split('#')[0].replace(/\/$/, '');
+  return appIdForSlug(slug);
+}

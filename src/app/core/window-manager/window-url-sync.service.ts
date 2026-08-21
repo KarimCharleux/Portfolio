@@ -3,9 +3,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { DOCK_APPS } from '../dock-apps/dock-apps.data';
 import { SeoService } from '../seo/seo.service';
-import { APP_ROUTE_SLUGS, appIdForSlug } from './app-routes.data';
+import { APP_ROUTE_SLUGS, appIdForPath } from './app-routes.data';
 import { WindowManagerService } from './window-manager.service';
 import { AppId, WindowState } from './window.model';
+
+interface PushedWindowState {
+  windowId: string;
+}
 
 /**
  * Client-side only (browser-guarded): this direction of sync only matters for live
@@ -20,8 +24,12 @@ export class WindowUrlSyncService {
   readonly #seo = inject(SeoService);
 
   readonly #knownWindowIds = new Set<string>();
+  // Ids of windows pushed as their own history entry, in push order (most recent last).
+  // #onPopState pops from here to figure out exactly which windows a given back/forward
+  // traversal needs to undo, however many steps it crosses at once.
+  readonly #pushStack: string[] = [];
   #hasSyncedOnce = false;
-  #pushedWindowId: string | null = null;
+  #hasEverHadWindow = false;
 
   // Tracks which app the URL/title/meta currently reflect. A value comparison rather than a
   // one-shot "ignore the next change" flag: closing a *background* window can leave
@@ -45,80 +53,91 @@ export class WindowUrlSyncService {
     inject(DestroyRef).onDestroy(() => window.removeEventListener('popstate', onPopState));
   }
 
+  /**
+   * Tells this service which app the URL already reflects, before its own frontmost effect
+   * has run even once. Must be called synchronously from App's constructor, right after it
+   * resolves the initial appId — see the call site for why (the effect's first run can land
+   * in the pre-boot gap where frontmost() is still null).
+   */
+  seedInitialAppId(appId: AppId): void {
+    this.#lastSyncedAppId = appId;
+    this.#hasSyncedOnce = true;
+  }
+
   #syncUrlToFrontmost(front: WindowState | null): void {
+    if (front === null && !this.#hasEverHadWindow) {
+      // App hasn't opened the initial window yet (still playing the boot animation) — this
+      // is not a real "the last window was closed" transition, nothing has opened at all yet.
+      return;
+    }
+    if (front) this.#hasEverHadWindow = true;
+
     const appId = front?.appId ?? 'about';
+
+    // Compute novelty against the CURRENT set before mutating it, then register the id
+    // unconditionally — even a window this method decides not to navigate for (because
+    // #onPopState or App's own seed already covers it) still needs to be known, or a later,
+    // ordinary refocus of that same window would be misclassified as a brand-new push.
+    const isNewWindow = front !== null && !this.#knownWindowIds.has(front.id);
+    if (front) this.#knownWindowIds.add(front.id);
+
     if (appId === this.#lastSyncedAppId) {
-      // Already reflects this app — either a no-op recompute, or #onPopState already drove
-      // both window state and the URL to match this transition itself.
+      // Already reflects this app — either App's own seed already covered this window's
+      // first appearance, or #onPopState already drove this exact transition itself.
       return;
     }
 
     const slug = APP_ROUTE_SLUGS[appId] ?? '';
-
-    // The very first run just mirrors whatever window App already opened for the
-    // current URL — never push a redundant history entry for it, only replace.
     const isFirst = !this.#hasSyncedOnce;
     this.#hasSyncedOnce = true;
-
-    const isNewWindow = front !== null && !this.#knownWindowIds.has(front.id);
     const isPush = !isFirst && isNewWindow;
-    if (front) {
-      this.#knownWindowIds.add(front.id);
-      if (isPush) this.#pushedWindowId = front.id;
-    }
 
     this.#lastSyncedAppId = appId;
     this.#seo.applyForRoute(appId);
-    void this.#router.navigate([`/${slug}`], { replaceUrl: !isPush });
+
+    if (isPush && front) {
+      this.#pushStack.push(front.id);
+      const state: PushedWindowState = { windowId: front.id };
+      void this.#router.navigate([`/${slug}`], { state });
+    } else {
+      void this.#router.navigate([`/${slug}`], { replaceUrl: true });
+    }
   }
 
   #onPopState(): void {
-    const slug = window.location.pathname.replace(/^\//, '');
-    const appId = appIdForSlug(slug) ?? 'about';
+    const appId = appIdForPath(window.location.pathname) ?? 'about';
+    const targetWindowId = (window.history.state as Partial<PushedWindowState> | null)?.windowId;
 
-    // Independent of whether the frontmost app already matches: the pushed window (if any)
-    // might be a *background* window that's no longer the target and still needs closing,
-    // even when frontmost itself never changed appId across this navigation.
-    const pushedStillOpen = this.#pushedWindowId
-      ? this.#windowManager.windows().find((w) => w.id === this.#pushedWindowId)
-      : undefined;
-    const shouldClosePushed = !!pushedStillOpen && pushedStillOpen.appId !== appId;
+    // Undo every pushed window more recent than the entry we've landed on — this is what
+    // makes going back N steps at once (not just one) correctly close all N windows that
+    // were opened since, not just the single most recent one.
+    while (
+      this.#pushStack.length > 0 &&
+      this.#pushStack[this.#pushStack.length - 1] !== targetWindowId
+    ) {
+      const id = this.#pushStack.pop();
+      if (id && this.#windowManager.windows().some((w) => w.id === id)) {
+        this.#windowManager.close(id);
+      }
+    }
 
-    // Unlike #syncUrlToFrontmost, 'about' is not special-cased out of this lookup: if the
-    // About window is still open (just not frontmost), popping back to '/' should bring it
-    // forward so the visible window matches the URL/title — it just never gets force-opened
-    // if it was closed (that's what `needsOpen`'s `appId !== 'about'` guards against).
     const existing = this.#windowManager.windows().find((w) => w.appId === appId);
     const needsOpen = appId !== 'about' && !existing;
     const needsFocus = !!existing && this.#windowManager.frontmost()?.id !== existing.id;
 
-    if (!shouldClosePushed && !needsOpen && !needsFocus) {
-      // Truly nothing to reconcile.
-      this.#lastSyncedAppId = appId;
-      this.#seo.applyForRoute(appId);
-      return;
-    }
-
-    // Mark the URL as already in sync with this target before mutating window state, so
-    // #syncUrlToFrontmost never tries to re-navigate for a transition this method already
-    // drove — regardless of whether the frontmost effect ends up re-firing for it or not.
     this.#lastSyncedAppId = appId;
 
-    if (shouldClosePushed && pushedStillOpen) {
-      this.#windowManager.close(pushedStillOpen.id);
-      this.#pushedWindowId = null;
-    }
     if (needsOpen) {
       const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
       if (titleKey) {
         this.#windowManager.open(appId, titleKey);
         // Keep #syncUrlToFrontmost's own bookkeeping consistent regardless of which method
         // ends up creating a window, so a later, unrelated refocus of this same window isn't
-        // misclassified as a brand-new open (and pushed) by #syncUrlToFrontmost.
+        // misclassified as a brand-new open, and so a further back-press can undo it too.
         const opened = this.#windowManager.windows().find((w) => w.appId === appId);
         if (opened) {
           this.#knownWindowIds.add(opened.id);
-          this.#pushedWindowId = opened.id;
+          this.#pushStack.push(opened.id);
         }
       }
     } else if (needsFocus && existing) {
