@@ -520,7 +520,13 @@ git commit -m "feat(routing): open the matched app's window and SEO on initial l
 **Interfaces:**
 - Consumes: `WindowManagerService.frontmost`/`windows`/`close`/`open`/`restore`/`focus` (existing), `SeoService.applyForRoute` (Task 2), `APP_ROUTE_SLUGS`/`appIdForSlug` (Task 1), `DOCK_APPS` (existing).
 
-**Correctness note (found during manual verification — the `#onPopState` body below already has the fix, do not revert it):** an earlier version of `#onPopState` opened with `if (front?.appId === appId) return;` — an early return whenever the frontmost window's `appId` already matched the URL's resolved `appId`. That check is insufficient once more than one window can be open at a time: pushing Notes then VS Code, refocusing Notes (a `replaceUrl`, so it overwrites whichever entry currently sits on top — VS Code's — with Notes' URL, landing two adjacent history entries on the identical `/about-me` string), then pressing back once, lands on an entry whose resolved `appId` is `'notes'` — which already equals the *current* frontmost's `appId` (`'notes'`, unchanged throughout), so the guard fired and did nothing. The real desired effect of that back-press — closing the VS Code window that's still open behind Notes — never happened; a second back-press was needed. The fix: stop treating "does frontmost's `appId` already match the URL" as a proxy for "is there nothing left to reconcile." Instead, independently check three things every time — does the tracked `#pushedWindowId` need closing (it's open but is a different app than the target), does the target app need opening, does an already-open target need focusing — and only touch anything (and only set `#ignoreNextFrontmostChange`) when at least one of those is actually true. This correctly closes a still-open background window even when the *frontmost* app was never the one that changed.
+**Correctness notes (found across two rounds of review — the code below already has both fixes, do not revert either):**
+
+1. An earlier version of `#onPopState` opened with `if (front?.appId === appId) return;` — an early return whenever the frontmost window's `appId` already matched the URL's resolved `appId`. That check is insufficient once more than one window can be open at a time: pushing Notes then VS Code, refocusing Notes (a `replaceUrl`, so it overwrites whichever entry currently sits on top — VS Code's — with Notes' URL, landing two adjacent history entries on the identical `/about-me` string), then pressing back once, lands on an entry whose resolved `appId` is `'notes'` — which already equals the *current* frontmost's `appId` (`'notes'`, unchanged throughout), so the guard fired and did nothing. The real desired effect of that back-press — closing the VS Code window that's still open behind Notes — never happened. Fixed by independently checking three things every time — does the tracked `#pushedWindowId` need closing, does the target app need opening, does an already-open target need focusing — rather than using appId-equality as a stand-in for "nothing to reconcile."
+
+2. That first fix introduced a second, subtler bug: it used an `#ignoreNextFrontmostChange` boolean meant to be consumed by the next run of the `frontmost` effect. But `WindowManagerService.frontmost` is a `computed()` that reduces over window objects by `zIndex` — closing a *background* (non-frontmost) window doesn't necessarily change which object that reduction returns, and Angular's `computed()` only notifies effects on an actual value change (`Object.is`), not on every recompute. So closing VS Code while Notes stays frontmost could leave the effect never re-firing at all — meaning the flag never got consumed, stayed `true`, and silently swallowed the *next* unrelated frontmost change (e.g. the user simply clicking a different dock icon afterward), permanently desyncing the URL from the visible window until some other event happened to flip the flag back. Fixed by replacing the one-shot flag with `#lastSyncedAppId: AppId | null` — a value comparison against "which app the URL currently reflects," checked at the top of `#syncUrlToFrontmost` and updated by both that method and `#onPopState`. This is correct regardless of whether the effect fires zero, one, or more times after a given mutation, since it never depends on catching one specific effect run.
+
+A related gap surfaced by the same review: `#onPopState`'s `existing` lookup used to be hardcoded `undefined` whenever `appId === 'about'`, so popping back to `/` never refocused an already-open-but-not-frontmost About window — the URL/title would say root/About while the screen kept showing whatever was previously frontmost. Fixed by not special-casing `'about'` out of the `existing` lookup itself (only `needsOpen` still excludes `'about'`, so a *closed* About window is never force-reopened — matching the original intent — but an already-open one is refocused like any other app).
 
 - [ ] **Step 1: Replace the stub with the real sync logic**
 
@@ -534,7 +540,7 @@ import { DOCK_APPS } from '../dock-apps/dock-apps.data';
 import { SeoService } from '../seo/seo.service';
 import { APP_ROUTE_SLUGS, appIdForSlug } from './app-routes.data';
 import { WindowManagerService } from './window-manager.service';
-import { WindowState } from './window.model';
+import { AppId, WindowState } from './window.model';
 
 /**
  * Client-side only (browser-guarded): this direction of sync only matters for live
@@ -550,18 +556,22 @@ export class WindowUrlSyncService {
 
   readonly #knownWindowIds = new Set<string>();
   #hasSyncedOnce = false;
-  #ignoreNextFrontmostChange = false;
   #pushedWindowId: string | null = null;
+
+  // Tracks which app the URL/title/meta currently reflect. A value comparison rather than a
+  // one-shot "ignore the next change" flag: closing a *background* window can leave
+  // `frontmost()` returning the same object reference (Angular's computed() only notifies
+  // consumers on an actual value change), so a flag meant to be consumed by the next effect
+  // run can go unconsumed and then wrongly swallow a later, unrelated navigation. Comparing
+  // against the last-synced appId works regardless of whether the effect fires zero, one, or
+  // more times after a given window-manager mutation.
+  #lastSyncedAppId: AppId | null = null;
 
   constructor() {
     if (!isPlatformBrowser(this.#platformId)) return;
 
     effect(() => {
       const front = this.#windowManager.frontmost();
-      if (this.#ignoreNextFrontmostChange) {
-        this.#ignoreNextFrontmostChange = false;
-        return;
-      }
       this.#syncUrlToFrontmost(front);
     });
 
@@ -572,6 +582,12 @@ export class WindowUrlSyncService {
 
   #syncUrlToFrontmost(front: WindowState | null): void {
     const appId = front?.appId ?? 'about';
+    if (appId === this.#lastSyncedAppId) {
+      // Already reflects this app — either a no-op recompute, or #onPopState already drove
+      // both window state and the URL to match this transition itself.
+      return;
+    }
+
     const slug = APP_ROUTE_SLUGS[appId] ?? '';
 
     // The very first run just mirrors whatever window App already opened for the
@@ -586,6 +602,7 @@ export class WindowUrlSyncService {
       if (isPush) this.#pushedWindowId = front.id;
     }
 
+    this.#lastSyncedAppId = appId;
     this.#seo.applyForRoute(appId);
     void this.#router.navigate([`/${slug}`], { replaceUrl: !isPush });
   }
@@ -602,21 +619,25 @@ export class WindowUrlSyncService {
       : undefined;
     const shouldClosePushed = !!pushedStillOpen && pushedStillOpen.appId !== appId;
 
-    const existing =
-      appId === 'about' ? undefined : this.#windowManager.windows().find((w) => w.appId === appId);
+    // Unlike #syncUrlToFrontmost, 'about' is not special-cased out of this lookup: if the
+    // About window is still open (just not frontmost), popping back to '/' should bring it
+    // forward so the visible window matches the URL/title — it just never gets force-opened
+    // if it was closed (that's what `needsOpen`'s `appId !== 'about'` guards against).
+    const existing = this.#windowManager.windows().find((w) => w.appId === appId);
     const needsOpen = appId !== 'about' && !existing;
     const needsFocus = !!existing && this.#windowManager.frontmost()?.id !== existing.id;
 
     if (!shouldClosePushed && !needsOpen && !needsFocus) {
-      // Truly nothing to reconcile — don't touch #ignoreNextFrontmostChange, since no
-      // window-manager mutation is about to fire the frontmost effect for it to guard.
+      // Truly nothing to reconcile.
+      this.#lastSyncedAppId = appId;
       this.#seo.applyForRoute(appId);
       return;
     }
 
-    // Our own subsequent window-manager calls must not re-trigger the frontmost effect
-    // above and push/replace another (redundant) history entry.
-    this.#ignoreNextFrontmostChange = true;
+    // Mark the URL as already in sync with this target before mutating window state, so
+    // #syncUrlToFrontmost never tries to re-navigate for a transition this method already
+    // drove — regardless of whether the frontmost effect ends up re-firing for it or not.
+    this.#lastSyncedAppId = appId;
 
     if (shouldClosePushed && pushedStillOpen) {
       this.#windowManager.close(pushedStillOpen.id);
@@ -624,7 +645,17 @@ export class WindowUrlSyncService {
     }
     if (needsOpen) {
       const titleKey = DOCK_APPS.find((app) => app.id === appId)?.labelKey;
-      if (titleKey) this.#windowManager.open(appId, titleKey);
+      if (titleKey) {
+        this.#windowManager.open(appId, titleKey);
+        // Keep #syncUrlToFrontmost's own bookkeeping consistent regardless of which method
+        // ends up creating a window, so a later, unrelated refocus of this same window isn't
+        // misclassified as a brand-new open (and pushed) by #syncUrlToFrontmost.
+        const opened = this.#windowManager.windows().find((w) => w.appId === appId);
+        if (opened) {
+          this.#knownWindowIds.add(opened.id);
+          this.#pushedWindowId = opened.id;
+        }
+      }
     } else if (needsFocus && existing) {
       this.#windowManager.restore(existing.id);
       this.#windowManager.focus(existing.id);
