@@ -51,3 +51,6 @@ Thumbs.db
 
 # Claude Code local tool config/cache
 /.claude/
+
+# Local-only docs (not pushed)
+/docs/
