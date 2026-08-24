@@ -11,9 +11,9 @@ import { I18nService } from '../../core/i18n/i18n.service';
 import { Photo } from '../../content/content.model';
 import { PHOTOS } from '../../content/photos.data';
 
-const COLUMN_COUNT = 5;
 /** Seconds per full loop, one per column — deliberately uneven so columns desync visually. */
 const COLUMN_DURATIONS_S = [60, 68, 78, 64, 72] as const;
+const COLUMN_COUNT = COLUMN_DURATIONS_S.length;
 
 interface PhotoColumn {
   readonly photos: readonly Photo[];

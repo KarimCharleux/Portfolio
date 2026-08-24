@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 # One-time pipeline: resize/compress/rename the source photos in public/photos/
-# into two size tiers, verify no GPS/location metadata survives, and print a
-# Photo[] literal to paste into content/photos.data.ts. Re-running after the
-# first run is a no-op for already-processed photos (the source *.jpg files
-# no longer exist).
+# into two size tiers, verify no EXIF GPS IFD survives, and print a Photo[]
+# literal to paste into content/photos.data.ts. Re-running after the first run
+# is a no-op for already-processed photos (the source *.jpg files no longer
+# exist).
 #
 # Metadata: `sips`'s JPEG re-encode (below) drops EXIF as a side effect of how
 # it writes the file, not via an explicit strip flag — sips has none. Given
 # these are personal phone/camera photos going into a public repo, that's
-# verified rather than assumed: the check at the end parses each output
-# file's raw EXIF IFD0 and fails the whole script if a GPS IFD pointer
-# (tag 0x8825) is found anywhere, so a future macOS/sips version behaving
-# differently is caught here instead of shipping quietly.
+# verified rather than assumed: the check (before the originals are deleted,
+# so a failure is still recoverable) parses each output file's raw EXIF IFD0
+# and fails the whole script if a GPS IFD pointer (tag 0x8825) is found
+# anywhere, so a future macOS/sips version behaving differently is caught here
+# instead of shipping quietly. Scoped to EXIF specifically — it does not
+# inspect XMP or IPTC blocks, which this pipeline's inputs haven't been seen
+# to carry GPS data in.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -41,12 +44,10 @@ for f in "${files[@]}"; do
   i=$((i + 1))
 done
 
-for f in "${files[@]}"; do
-  rm "$f"
-done
-
 echo "Processed ${#ids[@]} photos into $GRID_DIR and $FULL_DIR." >&2
 
+# Runs before the originals are deleted below: if this fails, the source files are still
+# there to reprocess, instead of being left with only the offending outputs and no way back.
 python3 - "$GRID_DIR" "$FULL_DIR" <<'PYEOF'
 # Fails (exit 1) if any processed file still carries a GPS IFD pointer (EXIF tag
 # 0x8825) in its IFD0 — see the header comment for why this is a check, not an
@@ -91,6 +92,10 @@ if offenders:
 
 print(f"Metadata check passed: no GPS IFD in any of {checked} processed files.", file=sys.stderr)
 PYEOF
+
+for f in "${files[@]}"; do
+  rm "$f"
+done
 
 echo >&2
 echo "export const PHOTOS: Photo[] = ["
