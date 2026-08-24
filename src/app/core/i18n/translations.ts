@@ -38,8 +38,8 @@ export const TRANSLATIONS = {
     en: 'Placeholder description — swap with a real repo summary.',
     fr: 'Description temporaire — à remplacer par un vrai résumé de dépôt.',
   },
-  placeholderPhoto: { en: 'Placeholder photo', fr: 'Photo temporaire' },
-  photoCaption: { en: 'Swap with a real photo.', fr: 'À remplacer par une vraie photo.' },
+  photoAlt: { en: 'Photo', fr: 'Photo' },
+  photosClose: { en: 'Close photo', fr: 'Fermer la photo' },
   placeholderDesign: { en: 'Placeholder design', fr: 'Design temporaire' },
   designCaption: {
     en: 'Swap with real design work.',

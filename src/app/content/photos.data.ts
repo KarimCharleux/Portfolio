@@ -1,20 +1,188 @@
 import { Photo } from './content.model';
-import { Lang, TRANSLATIONS } from '../core/i18n/translations';
 
-const ACCENTS = ['#8E8E93', '#A2845E', '#5E5CE6', '#34C759'];
+export const PHOTOS: Photo[] = [
+  {
+    id: 'photo-01',
+    gridSrc: '/photos/grid/photo-01.jpg',
+    fullSrc: '/photos/full/photo-01.jpg',
+    width: 610,
+    height: 900,
+  },
+  {
+    id: 'photo-02',
+    gridSrc: '/photos/grid/photo-02.jpg',
+    fullSrc: '/photos/full/photo-02.jpg',
+    width: 675,
+    height: 900,
+  },
+  {
+    id: 'photo-03',
+    gridSrc: '/photos/grid/photo-03.jpg',
+    fullSrc: '/photos/full/photo-03.jpg',
+    width: 675,
+    height: 900,
+  },
+  {
+    id: 'photo-04',
+    gridSrc: '/photos/grid/photo-04.jpg',
+    fullSrc: '/photos/full/photo-04.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-05',
+    gridSrc: '/photos/grid/photo-05.jpg',
+    fullSrc: '/photos/full/photo-05.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-06',
+    gridSrc: '/photos/grid/photo-06.jpg',
+    fullSrc: '/photos/full/photo-06.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-07',
+    gridSrc: '/photos/grid/photo-07.jpg',
+    fullSrc: '/photos/full/photo-07.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-08',
+    gridSrc: '/photos/grid/photo-08.jpg',
+    fullSrc: '/photos/full/photo-08.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-09',
+    gridSrc: '/photos/grid/photo-09.jpg',
+    fullSrc: '/photos/full/photo-09.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-10',
+    gridSrc: '/photos/grid/photo-10.jpg',
+    fullSrc: '/photos/full/photo-10.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-11',
+    gridSrc: '/photos/grid/photo-11.jpg',
+    fullSrc: '/photos/full/photo-11.jpg',
+    width: 900,
+    height: 600,
+  },
+  {
+    id: 'photo-12',
+    gridSrc: '/photos/grid/photo-12.jpg',
+    fullSrc: '/photos/full/photo-12.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-13',
+    gridSrc: '/photos/grid/photo-13.jpg',
+    fullSrc: '/photos/full/photo-13.jpg',
+    width: 900,
+    height: 600,
+  },
+  {
+    id: 'photo-14',
+    gridSrc: '/photos/grid/photo-14.jpg',
+    fullSrc: '/photos/full/photo-14.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-15',
+    gridSrc: '/photos/grid/photo-15.jpg',
+    fullSrc: '/photos/full/photo-15.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-16',
+    gridSrc: '/photos/grid/photo-16.jpg',
+    fullSrc: '/photos/full/photo-16.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-17',
+    gridSrc: '/photos/grid/photo-17.jpg',
+    fullSrc: '/photos/full/photo-17.jpg',
+    width: 900,
+    height: 600,
+  },
+  {
+    id: 'photo-18',
+    gridSrc: '/photos/grid/photo-18.jpg',
+    fullSrc: '/photos/full/photo-18.jpg',
+    width: 900,
+    height: 600,
+  },
+  {
+    id: 'photo-19',
+    gridSrc: '/photos/grid/photo-19.jpg',
+    fullSrc: '/photos/full/photo-19.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-20',
+    gridSrc: '/photos/grid/photo-20.jpg',
+    fullSrc: '/photos/full/photo-20.jpg',
+    width: 900,
+    height: 600,
+  },
+  {
+    id: 'photo-21',
+    gridSrc: '/photos/grid/photo-21.jpg',
+    fullSrc: '/photos/full/photo-21.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-22',
+    gridSrc: '/photos/grid/photo-22.jpg',
+    fullSrc: '/photos/full/photo-22.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-23',
+    gridSrc: '/photos/grid/photo-23.jpg',
+    fullSrc: '/photos/full/photo-23.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-24',
+    gridSrc: '/photos/grid/photo-24.jpg',
+    fullSrc: '/photos/full/photo-24.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-25',
+    gridSrc: '/photos/grid/photo-25.jpg',
+    fullSrc: '/photos/full/photo-25.jpg',
+    width: 600,
+    height: 900,
+  },
+  {
+    id: 'photo-26',
+    gridSrc: '/photos/grid/photo-26.jpg',
+    fullSrc: '/photos/full/photo-26.jpg',
+    width: 600,
+    height: 900,
+  },
+];
 
-function buildPhotos(lang: Lang): Photo[] {
-  return ACCENTS.map((accentColor, i) => ({
-    id: `photo-${i + 1}`,
-    title: `${TRANSLATIONS.placeholderPhoto[lang]} ${i + 1}`,
-    caption: TRANSLATIONS.photoCaption[lang],
-    accentColor,
-  }));
-}
-
-export const PHOTOS: Record<Lang, Photo[]> = {
-  en: buildPhotos('en'),
-  fr: buildPhotos('fr'),
-};
-
-export const PHOTOS_COUNT = ACCENTS.length;
+export const PHOTOS_COUNT = PHOTOS.length;
