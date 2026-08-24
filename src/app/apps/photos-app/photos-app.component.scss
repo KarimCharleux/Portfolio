@@ -13,12 +13,17 @@
 .photos__masonry {
   display: flex;
   gap: var(--photos-gap);
-  height: 100%;
+  // Positioned (not padded) inset: padding only pushes the *content* inward while the box
+  // itself still touches .photos' edges — same rectangle the window already clips, so a
+  // border-radius there has nothing distinct to cut. Insetting the box itself leaves a real
+  // gutter (showing the window's glass background) around a genuinely rounded floating panel.
+  position: absolute;
   // Extra top clearance: the window titlebar is a floating strip with no background of its own
   // (see shell/window/window.component.scss) — the traffic lights sit directly over this app's
-  // content unless the first row of tiles is pushed down to clear them.
-  padding: calc(var(--window-titlebar-height) + 8px) 10px 10px;
-  box-sizing: border-box;
+  // content unless the panel is pushed down to clear them.
+  inset: calc(var(--window-titlebar-height)) var(--photos-gap) var(--photos-gap);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .photos__column {
@@ -40,7 +45,11 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 
-  &:hover {
+  // Mouse convenience (:hover) and keyboard equivalent (:focus-within, since the tile that
+  // receives focus is a descendant, not this element itself) both pause the loop so its
+  // content can actually be read/aimed at.
+  &:hover,
+  &:focus-within {
     animation-play-state: paused;
   }
 
