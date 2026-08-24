@@ -48,13 +48,18 @@
 
 @container photos (min-width: 420px) {
   .photos__column:nth-child(3) {
-    display: flex;
+    // `.photos__column` is a plain block clipping box (see above), not a flex container — the
+    // inner `.photos__column-track` supplies its own `display: flex`. Reintroducing `display:
+    // flex` here would make this column a one-item flex row, whose default `align-items:
+    // stretch` re-stretches `.photos__column-track` to the column's clipped height instead of
+    // its own content height — silently breaking the loop-seam fix above for this column only.
+    display: block;
   }
 }
 
 @container photos (min-width: 740px) {
   .photos__column:nth-child(n + 4) {
-    display: flex;
+    display: block;
   }
 }
 
