@@ -64,7 +64,12 @@
   }
 
   to {
-    transform: translateY(-50%);
+    // -50% of the doubled track's height overshoots the true loop point by half a gap: the
+    // doubled list has 2n items but only 2n-1 gaps (the seam between the two copies reuses one
+    // gap), so -50% lands short of "one copy plus its trailing gap" by exactly gap/2. The -5px
+    // here is that correction (half of this file's 10px column gap) — keep it in sync if the
+    // gap value ever changes.
+    transform: translateY(calc(-50% - 5px));
   }
 }
 
