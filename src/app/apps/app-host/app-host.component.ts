@@ -7,9 +7,9 @@ import { FinderAppComponent } from '../finder-app/finder-app.component';
 import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { TerminalAppComponent } from '../terminal-app/terminal-app.component';
 import { NotesAppComponent } from '../notes-app/notes-app.component';
+import { PhotosAppComponent } from '../photos-app/photos-app.component';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
-import { PHOTOS } from '../../content/photos.data';
 import { DESIGNS } from '../../content/designs.data';
 import { VIDEOS } from '../../content/videos.data';
 import { I18nService } from '../../core/i18n/i18n.service';
@@ -25,7 +25,6 @@ const LIST_SOURCES: Partial<
 const GRID_SOURCES: Partial<
   Record<AppId, { headingKey: TranslationKey; source: Record<Lang, GridItem[]> }>
 > = {
-  photoshop: { headingKey: 'photos', source: PHOTOS },
   figma: { headingKey: 'designWork', source: DESIGNS },
   youtube: { headingKey: 'videoProjects', source: VIDEOS },
 };
@@ -39,6 +38,7 @@ const GRID_SOURCES: Partial<
     AboutPortfolioComponent,
     TerminalAppComponent,
     NotesAppComponent,
+    PhotosAppComponent,
   ],
   template: `
     @if (appId() === 'finder') {
@@ -49,6 +49,8 @@ const GRID_SOURCES: Partial<
       <app-terminal />
     } @else if (appId() === 'notes') {
       <app-notes />
+    } @else if (appId() === 'photoshop') {
+      <app-photos />
     } @else if (listContent(); as list) {
       <app-content-list [heading]="list.heading" [items]="list.items" />
     } @else if (gridContent(); as grid) {
