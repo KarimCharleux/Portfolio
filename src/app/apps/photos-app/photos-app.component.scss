@@ -1,16 +1,23 @@
 .photos {
+  // Deliberately doesn't @include window.container (the shared app-body mixin): that mixin's
+  // padding + overflow-y: auto are sized for scrollable text content, not this edge-to-edge,
+  // internally-clipped ambient gallery.
   position: relative;
   height: 100%;
   overflow: hidden;
   container-type: inline-size;
   container-name: photos;
+  --photos-gap: 10px;
 }
 
 .photos__masonry {
   display: flex;
-  gap: 10px;
+  gap: var(--photos-gap);
   height: 100%;
-  padding: 10px;
+  // Extra top clearance: the window titlebar is a floating strip with no background of its own
+  // (see shell/window/window.component.scss) — the traffic lights sit directly over this app's
+  // content unless the first row of tiles is pushed down to clear them.
+  padding: calc(var(--window-titlebar-height) + 8px) 10px 10px;
   box-sizing: border-box;
 }
 
@@ -27,7 +34,7 @@
 .photos__column-track {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--photos-gap);
   width: 100%;
   animation-name: photos-scroll-loop;
   animation-timing-function: linear;
@@ -71,10 +78,10 @@
   to {
     // -50% of the doubled track's height overshoots the true loop point by half a gap: the
     // doubled list has 2n items but only 2n-1 gaps (the seam between the two copies reuses one
-    // gap), so -50% lands short of "one copy plus its trailing gap" by exactly gap/2. The -5px
-    // here is that correction (half of this file's 10px column gap) — keep it in sync if the
-    // gap value ever changes.
-    transform: translateY(calc(-50% - 5px));
+    // gap), so -50% lands short of "one copy plus its trailing gap" by exactly gap/2. Deriving
+    // the correction from --photos-gap (rather than a hardcoded half-value) keeps it correct
+    // automatically if the gap ever changes.
+    transform: translateY(calc(-50% - (var(--photos-gap) / 2)));
   }
 }
 
@@ -107,12 +114,30 @@
   position: absolute;
   inset: 0;
   z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.photos__lightbox-backdrop {
+  position: absolute;
+  inset: 0;
   background: rgb(0 0 0 / 0.72);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+}
+
+.photos__lightbox-dialog {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Transparent to clicks over its own empty (flex-centering) space, so a click there still
+  // reaches .photos__lightbox-backdrop underneath and closes the lightbox — only its actual
+  // content (the close button, the image) should intercept the pointer.
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 }
 
 .photos__lightbox-img {
