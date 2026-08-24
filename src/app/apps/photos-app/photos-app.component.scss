@@ -17,10 +17,18 @@
 .photos__column {
   flex: 1 1 0;
   min-width: 0;
+  overflow: hidden;
+
+  &:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+.photos__column-track {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow: hidden;
+  width: 100%;
   animation-name: photos-scroll-loop;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -33,8 +41,8 @@
     animation-direction: reverse;
   }
 
-  &:nth-child(n + 3) {
-    display: none;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
@@ -57,12 +65,6 @@
 
   to {
     transform: translateY(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .photos__column {
-    animation: none;
   }
 }
 
