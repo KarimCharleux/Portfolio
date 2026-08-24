@@ -1,0 +1,136 @@
+.photos {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  container-type: inline-size;
+  container-name: photos;
+}
+
+.photos__masonry {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.photos__column {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  animation-name: photos-scroll-loop;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  &--reverse {
+    animation-direction: reverse;
+  }
+
+  &:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@container photos (min-width: 420px) {
+  .photos__column:nth-child(3) {
+    display: flex;
+  }
+}
+
+@container photos (min-width: 740px) {
+  .photos__column:nth-child(n + 4) {
+    display: flex;
+  }
+}
+
+@keyframes photos-scroll-loop {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photos__column {
+    animation: none;
+  }
+}
+
+.photos__tile {
+  appearance: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  width: 100%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+
+  &:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.photos__lightbox {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.photos__lightbox-img {
+  max-width: 88%;
+  max-height: 88%;
+  border-radius: 10px;
+  box-shadow: 0 20px 48px rgb(0 0 0 / 0.5);
+}
+
+.photos__lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  appearance: none;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(255 255 255 / 0.28);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
