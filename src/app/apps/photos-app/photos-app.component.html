@@ -1,7 +1,7 @@
 <div class="photos">
   <div class="photos__masonry">
-    @for (column of columns(); track $index) {
-      <div class="photos__column">
+    @for (column of columns; track $index) {
+      <div class="photos__column" (focusin)="onColumnFocusIn($event)">
         <div
           class="photos__column-track"
           [class.photos__column-track--reverse]="column.reverse"
@@ -43,22 +43,25 @@
   </div>
 
   @if (selectedPhoto(); as photo) {
-    <div class="photos__lightbox" role="presentation" (click)="close()">
-      <button
-        type="button"
-        class="photos__lightbox-close"
-        [attr.aria-label]="i18n.t('photosClose')"
-        (click)="close()"
+    <div class="photos__lightbox">
+      <div class="photos__lightbox-backdrop" role="presentation" (click)="close()"></div>
+      <div
+        class="photos__lightbox-dialog"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-label]="altFor(photo)"
       >
-        ✕
-      </button>
-      <img
-        class="photos__lightbox-img"
-        role="presentation"
-        [src]="photo.fullSrc"
-        [alt]="altFor(photo)"
-        (click)="$event.stopPropagation()"
-      />
+        <button
+          #closeBtn
+          type="button"
+          class="photos__lightbox-close"
+          [attr.aria-label]="i18n.t('photosClose')"
+          (click)="close()"
+        >
+          ✕
+        </button>
+        <img class="photos__lightbox-img" [src]="photo.fullSrc" [alt]="altFor(photo)" />
+      </div>
     </div>
   }
 </div>
