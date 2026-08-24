@@ -29,6 +29,15 @@ export interface NoteSection {
 
 export type CodeProject = ListItem;
 export type SocialLink = ListItem;
-export type Photo = GridItem;
+export interface Photo {
+  id: string;
+  /** Resized (~900px), compressed tile shown in the masonry grid. */
+  gridSrc: string;
+  /** Resized (~1800px), compressed image shown in the lightbox. */
+  fullSrc: string;
+  /** Pixel dimensions of `gridSrc` — sets `<img width/height>` to prevent layout shift. */
+  width: number;
+  height: number;
+}
 export type DesignWork = GridItem;
 export type Video = GridItem;
