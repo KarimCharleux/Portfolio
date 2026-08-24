@@ -1,0 +1,63 @@
+<div class="photos">
+  <div class="photos__masonry">
+    @for (column of columns(); track $index) {
+      <div
+        class="photos__column"
+        [class.photos__column--reverse]="column.reverse"
+        [style.animation-duration.s]="column.durationS"
+      >
+        @for (photo of column.photos; track photo.id) {
+          <button type="button" class="photos__tile" (click)="open(photo)">
+            <img
+              loading="lazy"
+              decoding="async"
+              [src]="photo.gridSrc"
+              [alt]="altFor(photo)"
+              [width]="photo.width"
+              [height]="photo.height"
+            />
+          </button>
+        }
+        @for (photo of column.photos; track photo.id) {
+          <button
+            type="button"
+            class="photos__tile"
+            aria-hidden="true"
+            tabindex="-1"
+            (click)="open(photo)"
+          >
+            <img
+              alt=""
+              loading="lazy"
+              decoding="async"
+              [src]="photo.gridSrc"
+              [width]="photo.width"
+              [height]="photo.height"
+            />
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  @if (selectedPhoto(); as photo) {
+    <div class="photos__lightbox" role="presentation" (click)="close()" (keydown.escape)="close()">
+      <button
+        type="button"
+        class="photos__lightbox-close"
+        [attr.aria-label]="i18n.t('photosClose')"
+        (click)="close()"
+      >
+        ✕
+      </button>
+      <img
+        class="photos__lightbox-img"
+        role="presentation"
+        [src]="photo.fullSrc"
+        [alt]="altFor(photo)"
+        (click)="$event.stopPropagation()"
+        (keydown.escape)="$event.stopPropagation()"
+      />
+    </div>
+  }
+</div>
