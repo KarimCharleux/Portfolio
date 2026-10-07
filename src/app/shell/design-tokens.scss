@@ -27,6 +27,47 @@
   --ios-status-bar-height: 47px;
 
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  // Sampled damped spring (ζ≈0.72) for the post-boot desktop entrance:
+  // a real overshoot-and-settle that cubic-bezier can't express.
+  --ease-spring-bounce: linear(
+    0,
+    0.05,
+    0.168,
+    0.317,
+    0.471,
+    0.613,
+    0.736,
+    0.835,
+    0.911,
+    0.965,
+    1.001,
+    1.023,
+    1.035,
+    1.038,
+    1.037,
+    1.033,
+    1.027,
+    1.021,
+    1.016,
+    1.011,
+    1.007,
+    1.004,
+    1.002,
+    1,
+    0.999,
+    1
+  );
+
+  // Boot "Aurora" bloom palette — zone averages measured on public/wallpaper.jpg
+  // (sky, haze, snowy Alps, sea, shaded sea, sunlit rock, rock highlight), so the
+  // bloom reads as the wallpaper's own light rather than an arbitrary gradient.
+  --aurora-sky: #9cd9e9;
+  --aurora-haze: #b3d9e4;
+  --aurora-alps: #afcad2;
+  --aurora-sea: #106682;
+  --aurora-sea-deep: #316677;
+  --aurora-rock: #c68059;
+  --aurora-rock-lit: #e0a27a;
   // Fixed regardless of theme, like the traffic-light colors above — a cursor
   // needs to read against any background (wallpaper, glass, either theme),
   // not blend in with the current one.

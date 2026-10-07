@@ -13,10 +13,21 @@
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 0.9s ease;
+    // The zoom-out timing matches the boot screen's Aurora deblur (0.9s delay, 3.4s).
+    transition:
+      opacity 0.9s ease,
+      transform 3.4s 0.9s cubic-bezier(0.2, 0.75, 0.25, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: opacity 0.4s ease;
+    }
 
     &--loaded {
       opacity: 1;
+    }
+
+    &--zoomed {
+      transform: scale(1.06);
     }
   }
 }

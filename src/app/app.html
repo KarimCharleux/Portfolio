@@ -1,8 +1,9 @@
-<app-wallpaper />
+<app-wallpaper [zoomed]="wallpaperZoomed()" />
 <app-cursor />
-@if (!booted()) {
-  <app-boot-screen (finished)="onBooted()" />
-} @else {
+@if (bootPhase() !== 'done') {
+  <app-boot-screen (phaseChange)="onBootPhase($event)" />
+}
+@if (showShell()) {
   @if (isMobile()) {
     <app-mobile-shell />
   } @else {

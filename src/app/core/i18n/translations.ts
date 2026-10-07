@@ -93,6 +93,11 @@ export const TRANSLATIONS = {
   windowZoom: { en: 'Zoom', fr: 'Zoomer' },
   back: { en: 'Back', fr: 'Retour' },
 
+  // Boot lock screen prompt: the click/tap/Enter that starts the arrival animation
+  // (and unlocks Web Audio for its chime, which browsers only allow after a gesture).
+  bootUnlockClick: { en: 'Click to enter', fr: 'Cliquez pour entrer' },
+  bootUnlockTap: { en: 'Tap to enter', fr: 'Touchez pour entrer' },
+
   aboutPortfolio: { en: 'About This Portfolio', fr: 'À propos de ce portfolio' },
   aboutPortfolioOS: { en: 'Portfolio OS 1.0', fr: 'Portfolio OS 1.0' },
   aboutPortfolioRole: { en: 'Role', fr: 'Rôle' },

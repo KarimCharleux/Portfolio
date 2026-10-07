@@ -1,8 +1,13 @@
-<div class="boot" [class.boot--fading]="fading()">
-  <div class="boot__scrim"></div>
+<div
+  #root
+  class="boot"
+  [class.boot--locked]="phase() === 'locked'"
+  [class.boot--passthrough]="phase() === 'revealing'"
+>
+  <div #scrim class="boot__scrim"></div>
 
   <div class="boot__content">
-    <div class="boot__avatar">
+    <div #avatar class="boot__avatar">
       @if (!avatarFailed()) {
         <img
           class="boot__avatar-img"
@@ -15,10 +20,23 @@
       }
     </div>
 
-    <span class="boot__name">Karim Charleux</span>
+    <div #meta class="boot__meta">
+      <span class="boot__name">Karim Charleux</span>
 
-    <div class="boot__progress-track">
-      <div class="boot__progress-fill" [style.width.%]="progress()"></div>
+      <div class="boot__status">
+        @if (phase() === 'loading') {
+          <div class="boot__progress-track">
+            <div class="boot__progress-fill" [style.width.%]="progress()"></div>
+          </div>
+        } @else {
+          <button #unlockButton type="button" class="boot__unlock">
+            {{ unlockLabel() }}
+          </button>
+        }
+      </div>
     </div>
   </div>
+
+  <div #bloom class="boot__bloom" aria-hidden="true"></div>
+  <div #bloomCore class="boot__bloom-core" aria-hidden="true"></div>
 </div>

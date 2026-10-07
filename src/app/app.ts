@@ -3,6 +3,7 @@ import {
   Component,
   PLATFORM_ID,
   afterNextRender,
+  computed,
   effect,
   inject,
   signal,
@@ -21,7 +22,7 @@ import { CursorService } from './core/cursor/cursor.service';
 import { SeoService } from './core/seo/seo.service';
 import { WallpaperComponent } from './shell/wallpaper/wallpaper.component';
 import { CursorComponent } from './shell/cursor/cursor.component';
-import { BootScreenComponent } from './shell/boot-screen/boot-screen.component';
+import { BootPhase, BootScreenComponent } from './shell/boot-screen/boot-screen.component';
 import { DesktopShellComponent } from './shell/desktop-shell/desktop-shell.component';
 import { MobileShellComponent } from './shell/mobile-shell/mobile-shell.component';
 
@@ -48,7 +49,18 @@ export class App {
   readonly #cursor = inject(CursorService);
 
   // Skip the boot animation in SSR/prerendered output — only the browser plays it.
-  protected readonly booted = signal(!isPlatformBrowser(inject(PLATFORM_ID)));
+  protected readonly bootPhase = signal<BootPhase>(
+    isPlatformBrowser(inject(PLATFORM_ID)) ? 'loading' : 'done',
+  );
+  // The desktop mounts mid-animation (`revealing`), under the bloom still flying out.
+  protected readonly showShell = computed(() => {
+    const phase = this.bootPhase();
+    return phase === 'revealing' || phase === 'done';
+  });
+  protected readonly wallpaperZoomed = computed(() => {
+    const phase = this.bootPhase();
+    return phase === 'loading' || phase === 'locked';
+  });
 
   readonly #initialAppId: AppId;
 
@@ -67,17 +79,17 @@ export class App {
     this.#windowUrlSync.seedInitialAppId(this.#initialAppId);
 
     this.#seo.applyForRoute(this.#initialAppId);
-    if (this.booted()) {
-      // Server/prerender: the boot screen never renders (booted starts true), so nothing
+    if (this.bootPhase() === 'done') {
+      // Server/prerender: the boot screen never renders (bootPhase starts at 'done'), so nothing
       // would otherwise open this window — this is what makes each route's prerendered
       // HTML contain that app's real content instead of an empty desktop.
       this.#openInitialWindow();
     }
 
-    // There's nothing to hover during boot, so the cursor's normal
+    // There's nothing to hover while assets load, so the cursor's normal
     // hover-detection has no signal to work with — force the loading glyph
-    // for that stretch instead.
-    effect(() => this.#cursor.setForcedVariant(this.booted() ? null : 'loading'));
+    // for that stretch instead. From the lock prompt on, normal hover applies.
+    effect(() => this.#cursor.setForcedVariant(this.bootPhase() === 'loading' ? 'loading' : null));
 
     afterNextRender(async () => {
       try {
@@ -93,9 +105,11 @@ export class App {
     });
   }
 
-  onBooted(): void {
-    this.booted.set(true);
-    this.#openInitialWindow();
+  onBootPhase(phase: BootPhase): void {
+    this.bootPhase.set(phase);
+    if (phase === 'revealing') {
+      this.#openInitialWindow();
+    }
   }
 
   #resolveInitialAppId(): AppId {
