@@ -10,6 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { WindowState } from '../../core/window-manager/window.model';
 import { I18nService } from '../../core/i18n/i18n.service';
+import { UiSoundService } from '../../core/ui-sound/ui-sound.service';
 
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
@@ -24,6 +25,7 @@ const MENU_BAR_HEIGHT = 24;
 export class WindowComponent {
   readonly #windowManager = inject(WindowManagerService);
   readonly #platformId = inject(PLATFORM_ID);
+  readonly #sound = inject(UiSoundService);
   protected readonly i18n = inject(I18nService);
 
   readonly state = input.required<WindowState>();
@@ -41,6 +43,7 @@ export class WindowComponent {
   }
 
   close(): void {
+    this.#sound.close();
     this.#windowManager.close(this.state().id);
   }
 
