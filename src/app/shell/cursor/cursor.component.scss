@@ -6,7 +6,8 @@
   width: 32px;
   height: 32px;
   pointer-events: none;
-  transform-origin: 4px 4px;
+  // Matches CURSOR_HOTSPOT_PX in cursor.component.ts — the arrow glyph's tip.
+  transform-origin: 4.553px 4.553px;
   transition: opacity 150ms ease;
   will-change: transform;
 }
