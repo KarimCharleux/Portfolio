@@ -5,6 +5,7 @@ import { DockAppDef } from '../../core/dock-apps/dock-app.model';
 import { AppId } from '../../core/window-manager/window.model';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { I18nService } from '../../core/i18n/i18n.service';
+import { UiSoundService } from '../../core/ui-sound/ui-sound.service';
 
 // Same tiered magnification as https://codepen.io/kokotsakis/pen/XWVPLee,
 // scaled down — still too strong at 1.4/1.15/1.03, dialed back further.
@@ -23,6 +24,7 @@ const TIERS = [
 })
 export class DockComponent {
   readonly #windowManager = inject(WindowManagerService);
+  readonly #sound = inject(UiSoundService);
   protected readonly i18n = inject(I18nService);
 
   protected readonly apps = DOCK_APPS;
@@ -43,6 +45,7 @@ export class DockComponent {
   }
 
   onIconEnter(index: number, appId: AppId): void {
+    if (this.#hoveredIndex() !== index) this.#sound.hover();
     this.#hoveredIndex.set(index);
     this.hoveredApp.set(appId);
   }
@@ -57,6 +60,7 @@ export class DockComponent {
   }
 
   open(app: DockAppDef): void {
+    this.#sound.click();
     if (app.externalUrl) {
       window.open(app.externalUrl, '_blank', 'noopener,noreferrer');
       return;
