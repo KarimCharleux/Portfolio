@@ -6,10 +6,13 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: opacity 0.45s ease;
 
-  &--fading {
-    opacity: 0;
+  &--locked {
+    cursor: pointer;
+  }
+
+  // The desktop is already mounted underneath while the bloom flies out: let clicks through.
+  &--passthrough {
     pointer-events: none;
   }
 
@@ -60,11 +63,26 @@
     background: linear-gradient(160deg, #5e5ce6, #0a84ff);
   }
 
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
   &__name {
     color: #fff;
     font-size: 19px;
     font-weight: 600;
     text-shadow: 0 1px 6px rgb(0 0 0 / 0.4);
+  }
+
+  // Fixed height so swapping the progress bar for the prompt never shifts the avatar.
+  &__status {
+    height: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
   }
 
   &__progress-track {
@@ -80,5 +98,79 @@
     border-radius: 3px;
     background: rgb(255 255 255 / 0.95);
     transition: width 0.25s ease-out;
+  }
+
+  &__unlock {
+    padding: 6px 16px;
+    border: 0;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    background: rgb(255 255 255 / 0.16);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.3);
+    cursor: pointer;
+    animation: boot-unlock-in 0.5s var(--ease-spring) both;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgb(255 255 255 / 0.24);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgb(255 255 255 / 0.85);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  // Aurora bloom: radial blobs in the wallpaper's own measured colors, heavily
+  // blurred. Positioned on the avatar's center by the component at unlock time;
+  // its transform (translate + scale + rotate) is driven entirely by WAAPI.
+  &__bloom,
+  &__bloom-core {
+    position: fixed;
+    z-index: 2;
+    width: 70vmax;
+    height: 70vmax;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  &__bloom {
+    background:
+      radial-gradient(circle at 36% 36%, var(--aurora-sky) 0, transparent 42%),
+      radial-gradient(circle at 64% 34%, var(--aurora-haze) 0, transparent 40%),
+      radial-gradient(circle at 26% 50%, var(--aurora-alps) 0, transparent 34%),
+      radial-gradient(circle at 62% 66%, var(--aurora-rock) 0, transparent 40%),
+      radial-gradient(circle at 74% 52%, var(--aurora-rock-lit) 0, transparent 30%),
+      radial-gradient(circle at 36% 68%, var(--aurora-sea) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, var(--aurora-sea-deep) 0, transparent 72%);
+    filter: blur(46px) saturate(0.75);
+  }
+
+  &__bloom-core {
+    background: radial-gradient(circle, rgb(255 255 255 / 0.75) 0 5%, transparent 20%);
+    filter: blur(46px);
+  }
+}
+
+@keyframes boot-unlock-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

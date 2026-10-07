@@ -22,7 +22,7 @@
   // focus-in with a gentle overshoot, since it's the first thing anyone
   // sees and deserves to feel like an occasion rather than a utility popup.
   &--about {
-    animation: window-open-about 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: window-open-about 1s 0.35s var(--ease-spring) both;
 
     @media (prefers-reduced-motion: reduce) {
       animation: none;

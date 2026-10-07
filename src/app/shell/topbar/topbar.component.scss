@@ -16,7 +16,7 @@
   font-weight: 400;
   z-index: 10000;
   box-shadow: 0 0.5px 0 var(--hairline);
-  animation: topbar-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: topbar-in 0.84s var(--ease-spring) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
