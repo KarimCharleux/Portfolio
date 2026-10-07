@@ -57,6 +57,10 @@ export class DockComponent {
   }
 
   open(app: DockAppDef): void {
+    if (app.externalUrl) {
+      window.open(app.externalUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
     if (app.noWindow) return;
     this.#windowManager.open(app.id, app.labelKey);
   }

@@ -20,6 +20,15 @@ const TERMINAL_WINDOW = { width: 648, height: 442 };
 export const DOCK_APPS: DockAppDef[] = [
   { id: 'notes', labelKey: 'dockNotes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
   {
+    id: 'soluxia',
+    labelKey: 'dockSoluxia',
+    icon: 'soluxia',
+    pinnedMobile: false,
+    tooltip: 'soluxiaWeb',
+    noWindow: true,
+    externalUrl: 'https://soluxiaweb.fr/',
+  },
+  {
     id: 'vscode',
     labelKey: 'dockVscode',
     icon: 'vscode',

@@ -26,6 +26,9 @@
   @case ('terminal') {
     <img src="/apps/terminal.png" alt="" />
   }
+  @case ('soluxia') {
+    <img alt="" [src]="dark() ? '/apps/soluxia-dark.png' : '/apps/soluxia-light.png'" />
+  }
   @case ('trash') {
     <img alt="" [src]="dark() ? '/apps/trash-dark.png' : '/apps/trash-light.png'" />
   }

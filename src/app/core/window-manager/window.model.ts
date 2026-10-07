@@ -10,6 +10,7 @@ export type AppId =
   | 'finder'
   | 'messages'
   | 'terminal'
+  | 'soluxia'
   | 'trash'
   | 'about';
 

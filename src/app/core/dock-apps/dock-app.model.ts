@@ -13,6 +13,11 @@ export interface DockAppDef {
   /** No window behind this icon (e.g. Trash) — dock click is a no-op. */
   noWindow?: boolean;
   /**
+   * Opens this URL in a new tab instead of a window. Pair with `noWindow: true` so
+   * nothing else (routes, window manager) ever treats it as a windowed app.
+   */
+  externalUrl?: string;
+  /**
    * Opening size for this app's window, when the manager's default is wrong for
    * it. Lives here so every call site — dock, mobile home screen, Finder — gets
    * it without each one having to know about individual apps.
