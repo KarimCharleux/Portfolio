@@ -32,11 +32,13 @@ export class FinderAppComponent {
 
   protected readonly heading = computed(() => this.i18n.t('allProjects'));
 
-  readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder').map((app) => ({
-    id: app.id,
-    labelKey: app.labelKey,
-    count: CONTENT_COUNTS[app.id] ?? 0,
-  }));
+  readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder' && !app.externalUrl).map(
+    (app) => ({
+      id: app.id,
+      labelKey: app.labelKey,
+      count: CONTENT_COUNTS[app.id] ?? 0,
+    }),
+  );
 
   open(appId: AppId, labelKey: TranslationKey): void {
     this.#windowManager.open(appId, labelKey);

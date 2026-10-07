@@ -16,6 +16,7 @@ export const TRANSLATIONS = {
   messages: { en: 'Messages', fr: 'Messages' },
   terminal: { en: 'Terminal', fr: 'Terminal' },
   trash: { en: 'Trash', fr: 'Corbeille' },
+  soluxiaWeb: { en: 'My web agency', fr: 'Mon agence web' },
 
   // App names as shown in the dock, the mobile home screen, Finder rows and window titles.
   // Brand names stay identical across locales but still go through the table so every
@@ -30,6 +31,7 @@ export const TRANSLATIONS = {
   dockMessages: { en: 'Messages', fr: 'Messages' },
   dockTerminal: { en: 'Terminal', fr: 'Terminal' },
   dockTrash: { en: 'Trash', fr: 'Corbeille' },
+  dockSoluxia: { en: 'Soluxia Web', fr: 'Soluxia Web' },
 
   siteOwner: { en: 'Karim Charleux', fr: 'Karim Charleux' },
 
