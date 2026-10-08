@@ -1,6 +1,6 @@
 // Builds the Sport app snapshot.
 //   node scripts/strava/fetch-strava.mjs --input <activities.json> [--today YYYY-MM-DD]
-//   node scripts/strava/fetch-strava.mjs            (fetches from Strava, see Task 2)
+//   node scripts/strava/fetch-strava.mjs            (fetches from Strava; needs STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_REFRESH_TOKEN)
 // Writes src/app/content/sport-stats.json and public/sport/routes.json, or nothing on error.
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -17,10 +17,57 @@ function arg(name) {
   return i > 0 ? process.argv[i + 1] : undefined;
 }
 
+function requireEnv(name) {
+  const value = process.env[name];
+  if (!value) throw new Error(`Missing environment variable ${name}.`);
+  return value;
+}
+
+async function stravaJson(url, init) {
+  const res = await fetch(url, init);
+  if (!res.ok) {
+    throw new Error(
+      `Strava ${init?.method ?? 'GET'} ${new URL(url).pathname} -> ${res.status} ${await res.text()}`,
+    );
+  }
+  return res.json();
+}
+
+async function fetchFromStrava() {
+  const token = await stravaJson('https://www.strava.com/oauth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id: requireEnv('STRAVA_CLIENT_ID'),
+      client_secret: requireEnv('STRAVA_CLIENT_SECRET'),
+      grant_type: 'refresh_token',
+      refresh_token: requireEnv('STRAVA_REFRESH_TOKEN'),
+    }),
+  });
+  if (token.refresh_token && token.refresh_token !== process.env.STRAVA_REFRESH_TOKEN) {
+    // Not fatal today (the old token keeps working until the new one is used), but the
+    // secret should be updated before it is: see authorize.mjs.
+    console.warn('Strava returned a new refresh token: update the STRAVA_REFRESH_TOKEN secret.');
+  }
+
+  const activities = [];
+  for (let page = 1; page <= 50; page++) {
+    const batch = await stravaJson(
+      `https://www.strava.com/api/v3/athlete/activities?per_page=200&page=${page}`,
+      { headers: { Authorization: `Bearer ${token.access_token}` } },
+    );
+    if (!Array.isArray(batch))
+      throw new Error('Unexpected Strava response: activities is not an array.');
+    if (batch.length === 0) break;
+    activities.push(...batch);
+  }
+  return activities;
+}
+
 async function loadActivities() {
   const input = arg('--input');
   if (input) return JSON.parse(readFileSync(input, 'utf8'));
-  throw new Error('Live Strava fetch not implemented yet: pass --input <file>.');
+  return fetchFromStrava();
 }
 
 async function main() {
