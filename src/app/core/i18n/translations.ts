@@ -184,6 +184,13 @@ export const TRANSLATIONS = {
   sportPoweredBy: { en: 'Powered by Strava', fr: 'Powered by Strava' },
   sportEmpty: { en: 'No activity', fr: 'Pas d’activité' },
   sportKm: { en: 'km', fr: 'km' },
+  sportRoutesLoading: { en: 'Loading routes…', fr: 'Chargement des tracés…' },
+  sportRoutesError: { en: 'Routes could not be loaded.', fr: 'Impossible de charger les tracés.' },
+  sportShowMore: { en: 'Show more', fr: 'Afficher plus' },
+  sportRoutesNote: {
+    en: 'Every outdoor activity, as a shape. No map, no location.',
+    fr: 'Chaque sortie en extérieur, réduite à sa forme. Sans carte, sans lieu.',
+  },
   sportHours: { en: 'hours', fr: 'heures' },
   sportHoursShort: { en: 'h', fr: 'h' },
   sportMetricLabel: { en: 'Measure', fr: 'Mesure' },

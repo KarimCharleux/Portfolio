@@ -9,6 +9,7 @@ import { SportBreakdownComponent } from '../sport-breakdown/sport-breakdown.comp
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { YearlyCumulativeComponent } from '../yearly-cumulative/yearly-cumulative.component';
+import { RouteGridComponent } from '../route-grid/route-grid.component';
 import { WeeklyVolumeComponent } from '../weekly-volume/weekly-volume.component';
 
 export type SportSection = 'overview' | 'calendar' | 'volume' | 'years' | 'routes' | 'sports';
@@ -57,6 +58,7 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
     WeeklyVolumeComponent,
     YearlyCumulativeComponent,
     SportBreakdownComponent,
+    RouteGridComponent,
   ],
   templateUrl: './sport-app.component.html',
   styleUrl: './sport-app.component.scss',
