@@ -13,42 +13,55 @@
     }
   </div>
 
-  <svg
-    class="heatmap__chart"
-    role="img"
-    [attr.viewBox]="`0 0 ${width} ${height}`"
-    [attr.aria-label]="`${i18n.t('sportCalendar')} ${year()}`"
-    [style.--heat-color]="color()"
-  >
-    @for (m of months(); track m.id) {
-      <text class="heatmap__axis" y="10" [attr.x]="m.x">{{ m.label }}</text>
-    }
-    @for (d of weekdays(); track d.id) {
-      <text class="heatmap__axis" x="0" [attr.y]="d.y">{{ d.label }}</text>
-    }
-    @for (c of cells(); track c.date) {
-      <rect
-        rx="2"
-        [class]="`heatmap__cell heatmap__cell--l${c.level}`"
-        [attr.x]="c.x"
-        [attr.y]="c.y"
-        [attr.width]="cellSize"
-        [attr.height]="cellSize"
-      >
-        <title>{{ c.title }}</title>
-      </rect>
-    }
-  </svg>
+  <div class="heatmap__card">
+    <svg
+      class="heatmap__chart"
+      role="img"
+      [attr.viewBox]="`0 0 ${width} ${height}`"
+      [attr.aria-label]="`${i18n.t('sportCalendar')} ${year()}`"
+      [style.--heat-color]="color()"
+    >
+      @for (m of months(); track m.id) {
+        <text class="heatmap__axis" y="10" [attr.x]="m.x">{{ m.label }}</text>
+      }
+      @for (d of weekdays(); track d.id) {
+        <text class="heatmap__axis" x="0" [attr.y]="d.y">{{ d.label }}</text>
+      }
+      @for (c of cells(); track c.date) {
+        <rect
+          rx="2"
+          [class]="`heatmap__cell heatmap__cell--l${c.level}`"
+          [attr.x]="c.x"
+          [attr.y]="c.y"
+          [attr.width]="cellSize"
+          [attr.height]="cellSize"
+        >
+          <title>{{ c.title }}</title>
+        </rect>
+      }
+    </svg>
 
-  @if (isEmpty()) {
-    <p class="heatmap__empty">{{ i18n.t('sportEmpty') }}</p>
-  }
-
-  <div class="heatmap__legend" aria-hidden="true" [style.--heat-color]="color()">
-    {{ i18n.t('sportLess') }}
-    @for (l of legendLevels; track l) {
-      <span [class]="`heatmap__swatch heatmap__cell--l${l}`"></span>
+    @if (isEmpty()) {
+      <p class="heatmap__empty">{{ i18n.t('sportEmpty') }}</p>
     }
-    {{ i18n.t('sportMore') }}
+
+    <div class="heatmap__legend" aria-hidden="true" [style.--heat-color]="color()">
+      {{ i18n.t('sportLess') }}
+      @for (l of legendLevels; track l) {
+        <span [class]="`heatmap__swatch heatmap__cell--l${l}`"></span>
+      }
+      {{ i18n.t('sportMore') }}
+    </div>
   </div>
+
+  <ul class="heatmap__summary">
+    @for (item of summary(); track item.id) {
+      <li class="heatmap__stat">
+        <span class="heatmap__stat-label">{{ i18n.t(item.labelKey) }}</span>
+        <span class="heatmap__stat-value">
+          {{ item.value }} <span class="heatmap__stat-unit">{{ item.unit }}</span>
+        </span>
+      </li>
+    }
+  </ul>
 </div>

@@ -18,6 +18,7 @@ interface Cell {
   x: number;
   y: number;
   level: number;
+  minutes: number;
   title: string;
 }
 
@@ -92,6 +93,7 @@ export class CalendarHeatmapComponent {
         x: LEFT + Math.floor(index / 7) * STEP,
         y: TOP + (index % 7) * STEP,
         level,
+        minutes,
         title: [fmt.format(new Date(ms)), ...parts].join(' · '),
       });
     }
@@ -99,6 +101,57 @@ export class CalendarHeatmapComponent {
   });
 
   protected readonly isEmpty = computed(() => this.cells().every((c) => c.level === 0));
+
+  readonly #int = computed(
+    () => new Intl.NumberFormat(this.i18n.locale(), { maximumFractionDigits: 0 }),
+  );
+
+  /** Totals for the selected year and sport, shown as tiles under the grid. */
+  protected readonly summary = computed(() => {
+    const cells = this.cells();
+    const int = this.#int();
+    let activeDays = 0;
+    let streak = 0;
+    let longest = 0;
+    let minutes = 0;
+    for (const c of cells) {
+      minutes += c.minutes;
+      if (c.minutes > 0) {
+        activeDays++;
+        longest = Math.max(longest, ++streak);
+      } else {
+        streak = 0;
+      }
+    }
+    const km = SPORT_STATS.yearlyCumulativeKm[this.sport()][String(this.#year())]?.at(-1) ?? 0;
+    const days = this.i18n.t('sportDaysUnit');
+    return [
+      {
+        id: 'distance',
+        labelKey: 'sportDistance' as const,
+        value: int.format(km),
+        unit: this.i18n.t('sportKm'),
+      },
+      {
+        id: 'duration',
+        labelKey: 'sportDuration' as const,
+        value: int.format(minutes / 60),
+        unit: this.i18n.t('sportHoursShort'),
+      },
+      {
+        id: 'active',
+        labelKey: 'sportActiveDays' as const,
+        value: int.format(activeDays),
+        unit: days,
+      },
+      {
+        id: 'streak',
+        labelKey: 'sportLongestStreak' as const,
+        value: int.format(longest),
+        unit: days,
+      },
+    ];
+  });
 
   protected readonly months = computed(() => {
     const year = this.#year();

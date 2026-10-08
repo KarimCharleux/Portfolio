@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 100%;
 
   &__toggle {
     display: inline-flex;
@@ -18,10 +19,11 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    min-height: 24px;
-    padding: 3px 12px;
+    min-height: 28px;
+    padding: 4px 14px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
 
     &:focus-visible {
@@ -36,16 +38,20 @@
   }
 
   &__body {
+    flex: 1;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 24px 32px;
+    justify-content: center;
+    gap: 24px 48px;
   }
 
+  // Grows with the window, capped so the ring never dwarfs the legend.
   &__chart {
-    width: 220px;
-    height: 220px;
-    flex: none;
+    flex: 1 1 260px;
+    max-width: 400px;
+    aspect-ratio: 1;
+    height: auto;
   }
 
   &__slice {
@@ -75,10 +81,11 @@
     padding: 0;
     display: grid;
     grid-template-columns: auto 1fr auto auto;
-    gap: 8px 12px;
+    gap: 14px 16px;
     align-items: center;
-    flex: 1;
-    min-width: 220px;
+    flex: 1 1 260px;
+    max-width: 420px;
+    font-size: 15px;
   }
 
   &__item {
@@ -95,9 +102,9 @@
 
   &__swatch {
     transition: opacity 0.25s;
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
   }
 
   &__value,
@@ -108,6 +115,7 @@
 
   &__share {
     @include window.secondary-text;
+    font-size: 14px;
   }
 
   &__empty {

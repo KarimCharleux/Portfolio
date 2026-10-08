@@ -126,6 +126,8 @@
   --sport-chip-ink-light: #fff;
   --sport-chip-ink-dark: #1d1d1f;
   --sport-grid: rgb(255 255 255 / 0.08);
+  // Inactive filter chip outline: >= 3:1 against --surface-secondary (non-text contrast).
+  --sport-chip-border: rgb(255 255 255 / 0.32);
   --sport-past-year: rgb(255 255 255 / 0.28);
 }
 
@@ -154,5 +156,6 @@
   --sport-chip-ink-light: #fff;
   --sport-chip-ink-dark: #1d1d1f;
   --sport-grid: rgb(0 0 0 / 0.07);
+  --sport-chip-border: rgb(0 0 0 / 0.42);
   --sport-past-year: rgb(0 0 0 / 0.25);
 }

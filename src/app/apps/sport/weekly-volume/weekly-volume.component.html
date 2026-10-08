@@ -5,7 +5,7 @@
     class="volume"
     role="img"
     [attr.width]="width()"
-    [attr.height]="height"
+    [attr.height]="height()"
     [attr.aria-label]="i18n.t('sportVolume')"
     (pointermove)="onPointerMove($event)"
     (pointerleave)="onPointerLeave()"
@@ -23,7 +23,7 @@
       </text>
     }
     @for (t of xTicks(); track t.id) {
-      <text class="volume__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height - 6">
+      <text class="volume__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height() - 6">
         {{ t.label }}
       </text>
     }
@@ -36,7 +36,7 @@
         [attr.x1]="h.x"
         [attr.x2]="h.x"
         [attr.y1]="margin.top"
-        [attr.y2]="height - margin.bottom"
+        [attr.y2]="height() - margin.bottom"
       />
     }
   </svg>

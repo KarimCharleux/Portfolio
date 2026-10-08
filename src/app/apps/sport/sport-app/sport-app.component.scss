@@ -81,6 +81,9 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
+    // Opaque content pane, like a real macOS app: chart text, axes and chips stay
+    // readable instead of sitting on the translucent glass over the wallpaper.
+    background: var(--surface);
   }
 
   &__toolbar {
@@ -108,13 +111,19 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    min-height: 24px;
-    padding: 3px 10px;
+    min-height: 28px;
+    padding: 4px 12px;
     border-radius: 999px;
-    font-size: 12px;
-    background: var(--hairline);
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--surface-secondary);
+    border: 1px solid var(--sport-chip-border);
     color: var(--text-primary);
     cursor: pointer;
+
+    &:hover {
+      border-color: var(--text-secondary);
+    }
 
     &:focus-visible {
       outline: 2px solid var(--chip-color);
@@ -123,7 +132,9 @@
 
     &--active {
       background: var(--chip-color);
+      border-color: var(--chip-color);
       color: var(--sport-chip-ink-light);
+      font-weight: 600;
     }
 
     &--dark-ink#{&}--active {
@@ -152,6 +163,15 @@
     min-height: 0;
     overflow-y: auto;
     padding: 0 24px 24px;
+    // Each view stretches to the pane's full height so its charts can fill the window.
+    display: flex;
+    flex-direction: column;
+
+    // Grow to fill, never shrink below content (long views like the route grid scroll).
+    // Size-tracking charts override this on their own host to shrink with the window.
+    > * {
+      flex: 1 0 auto;
+    }
   }
 
   &--mobile {
