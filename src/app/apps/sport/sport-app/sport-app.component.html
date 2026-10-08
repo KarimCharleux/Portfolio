@@ -1,0 +1,68 @@
+<div class="sport" [class.sport--mobile]="isMobile()">
+  @if (showList()) {
+    <nav class="sport__sidebar" [attr.aria-label]="i18n.t('sportSectionsLabel')">
+      <ul class="sport__sections">
+        @for (item of sections; track item.id) {
+          <li>
+            <button
+              type="button"
+              class="sport__section"
+              [class.sport__section--active]="!isMobile() && section() === item.id"
+              [attr.aria-current]="!isMobile() && section() === item.id ? 'page' : null"
+              (click)="selectSection(item.id)"
+            >
+              <span class="sport__section-icon" aria-hidden="true">{{ item.icon }}</span>
+              {{ i18n.t(item.labelKey) }}
+            </button>
+          </li>
+        }
+      </ul>
+      <footer class="sport__attribution">
+        <span class="sport__updated">{{ updatedLabel() }}</span>
+        <a
+          class="sport__strava"
+          href="https://www.strava.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img width="130" height="13" [src]="attributionSrc()" [alt]="i18n.t('sportPoweredBy')" />
+        </a>
+      </footer>
+    </nav>
+  }
+
+  @if (showDetail()) {
+    <section class="sport__main">
+      <header class="sport__toolbar">
+        @if (isMobile()) {
+          <button type="button" class="sport__back" (click)="backToList()">
+            <span aria-hidden="true">‹</span> {{ i18n.t('sportBackToSections') }}
+          </button>
+        }
+        <h2 class="sport__title">{{ i18n.t(sectionLabelKey()) }}</h2>
+        <div class="sport__filter" role="group" [attr.aria-label]="i18n.t('sportFilterLabel')">
+          @for (key of filters; track key) {
+            <button
+              type="button"
+              class="sport__chip"
+              [class.sport__chip--active]="sport() === key"
+              [attr.aria-pressed]="sport() === key"
+              [style.--chip-color]="color(key)"
+              (click)="selectSport(key)"
+            >
+              {{ i18n.t(labelKeys[key]) }}
+            </button>
+          }
+        </div>
+      </header>
+
+      <div class="sport__view">
+        @switch (section()) {
+          @case ('overview') {
+            <app-sport-overview [sport]="sport()" />
+          }
+        }
+      </div>
+    </section>
+  }
+</div>

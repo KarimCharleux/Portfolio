@@ -1,0 +1,31 @@
+@if (isEmpty()) {
+  <p class="overview__empty">{{ i18n.t('sportEmpty') }}</p>
+} @else {
+  <div class="overview">
+    <ul class="overview__figures">
+      @for (figure of figures(); track figure.id) {
+        <li class="overview__figure">
+          <span class="overview__label">{{ i18n.t(figure.labelKey) }}</span>
+          <span class="overview__value">
+            {{ figure.value }}
+            @if (figure.unit) {
+              <span class="overview__unit">{{ figure.unit }}</span>
+            }
+          </span>
+        </li>
+      }
+    </ul>
+
+    @if (equivalences().length) {
+      <h3 class="overview__subheading">{{ i18n.t('sportEquivTitle') }}</h3>
+      <ul class="overview__equivalences">
+        @for (item of equivalences(); track item.id) {
+          <li class="overview__equivalence">
+            <span class="overview__equivalence-value">{{ item.value }}</span>
+            {{ item.label }}
+          </li>
+        }
+      </ul>
+    }
+  </div>
+}

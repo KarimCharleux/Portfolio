@@ -110,6 +110,17 @@
   --glass-window-bg: rgb(20 20 22 / 0.5);
   --glass-titlebar-bg: rgb(36 36 39 / 0.88);
   --shadow-color: rgb(0 0 0 / 0.55);
+
+  // Sport app palette ("palette B", Strava-orange family). Five close hues on
+  // purpose: every chart pairs them with a legend or direct labels.
+  --sport-run: #fc4c02;
+  --sport-ride: #ff8a3d;
+  --sport-swim: #ffc078;
+  --sport-hike: #e8590c;
+  --sport-walk: #a63c06;
+  --sport-accent: #fc4c02;
+  --sport-grid: rgb(255 255 255 / 0.08);
+  --sport-past-year: rgb(255 255 255 / 0.28);
 }
 
 :root:not([data-theme='dark']) {
@@ -125,4 +136,13 @@
   --glass-window-bg: rgb(255 255 255 / 0.48);
   --glass-titlebar-bg: rgb(248 248 250 / 0.93);
   --shadow-color: rgb(0 0 0 / 0.28);
+
+  --sport-run: #fc4c02;
+  --sport-ride: #f97316;
+  --sport-swim: #fdba74;
+  --sport-hike: #c2410c;
+  --sport-walk: #7c2d12;
+  --sport-accent: #fc4c02;
+  --sport-grid: rgb(0 0 0 / 0.07);
+  --sport-past-year: rgb(0 0 0 / 0.25);
 }
