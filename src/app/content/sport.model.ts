@@ -23,8 +23,10 @@ export interface SportWeek {
  * The app only reads this; it never aggregates.
  */
 export interface SportStats {
-  /** ISO date the snapshot was generated ("today" for the pipeline). */
+  /** ISO date of the last data change (the snapshot is only rewritten when `sourceHash` changes). */
   generatedAt: string;
+  /** sha256 of the activity fields the pipeline uses; lets the sync skip when nothing changed. */
+  sourceHash: string;
   /** ISO date of the oldest included activity. */
   firstActivity: string;
   totals: Record<SportFilter, SportTotals>;

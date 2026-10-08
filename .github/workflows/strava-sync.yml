@@ -9,9 +9,13 @@ concurrency:
   group: strava-sync
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       # A push made with the default GITHUB_TOKEN never triggers other workflows, so the
       # checkout uses a fine-grained PAT (contents: write on this repo only). That way the
@@ -23,7 +27,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Build snapshot
-        run: node scripts/strava/fetch-strava.mjs
+        run: node scripts/strava/fetch-strava.mjs --skip-if-unchanged
         env:
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
