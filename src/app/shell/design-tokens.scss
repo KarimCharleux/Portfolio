@@ -123,6 +123,8 @@
   --sport-accent-text: #ff8a3d;
   // Ink on an active hike chip: white is 3.6:1 on the lighter dark-theme orange, dark ink 4.7:1.
   --sport-hike-ink: #1d1d1f;
+  --sport-chip-ink-light: #fff;
+  --sport-chip-ink-dark: #1d1d1f;
   --sport-grid: rgb(255 255 255 / 0.08);
   --sport-past-year: rgb(255 255 255 / 0.28);
 }
@@ -149,6 +151,8 @@
   --sport-accent: #fc4c02;
   --sport-accent-text: #a33303;
   --sport-hike-ink: #fff;
+  --sport-chip-ink-light: #fff;
+  --sport-chip-ink-dark: #1d1d1f;
   --sport-grid: rgb(0 0 0 / 0.07);
   --sport-past-year: rgb(0 0 0 / 0.25);
 }

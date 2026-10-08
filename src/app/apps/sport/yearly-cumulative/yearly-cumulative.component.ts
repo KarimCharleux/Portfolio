@@ -5,7 +5,7 @@ import { max } from 'd3-array';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
-import { sportColor } from '../sport-app/sport-app.component';
+import { sportColor } from '../sport-palette/sport-palette';
 import { injectChartWidth } from '../chart-width/chart-width';
 import { ChartTooltipComponent } from '../chart-tooltip/chart-tooltip.component';
 

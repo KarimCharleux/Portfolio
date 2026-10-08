@@ -5,6 +5,7 @@ import { ThemeService } from '../../../core/theme/theme.service';
 import { BreakpointService } from '../../../core/breakpoint/breakpoint.service';
 import { SPORT_FILTERS, SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
+import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
 import { SportBreakdownComponent } from '../sport-breakdown/sport-breakdown.component';
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
@@ -13,20 +14,6 @@ import { RouteGridComponent } from '../route-grid/route-grid.component';
 import { WeeklyVolumeComponent } from '../weekly-volume/weekly-volume.component';
 
 export type SportSection = 'overview' | 'calendar' | 'volume' | 'years' | 'routes' | 'sports';
-
-/** CSS color for a sport (or the accent for "all"), resolved from design tokens. */
-export function sportColor(key: SportFilter): string {
-  return key === 'all' ? 'var(--sport-accent)' : `var(--sport-${key})`;
-}
-
-export const SPORT_LABEL_KEYS: Record<SportFilter, TranslationKey> = {
-  all: 'sportAll',
-  run: 'sportRun',
-  ride: 'sportRide',
-  swim: 'sportSwim',
-  hike: 'sportHike',
-  walk: 'sportWalk',
-};
 
 /**
  * Active-chip ink class per filter, picked so text is >= 4.5:1 on the chip color.
@@ -70,7 +57,10 @@ export class SportAppComponent {
   protected readonly i18n = inject(I18nService);
 
   protected readonly sections = SECTIONS;
-  protected readonly filters = SPORT_FILTERS;
+  /** Only sports that have activity get a chip. */
+  protected readonly filters = SPORT_FILTERS.filter(
+    (k) => k === 'all' || SPORT_STATS.totals[k].activities > 0,
+  );
   protected readonly labelKeys = SPORT_LABEL_KEYS;
   protected readonly color = sportColor;
   protected readonly chipInk = CHIP_INK_CLASS;

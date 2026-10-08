@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { RouteShape, SportFilter } from '../../../content/sport.model';
-import { SPORT_LABEL_KEYS, sportColor } from '../sport-app/sport-app.component';
+import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
 
 const PAGE = 120;
 

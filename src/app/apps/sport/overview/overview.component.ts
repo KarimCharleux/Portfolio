@@ -87,7 +87,7 @@ export class OverviewComponent {
         id: 'climb',
         labelKey: 'sportClimb' as const,
         value: int.format(t.elevationM * p),
-        unit: 'm',
+        unit: this.i18n.t('sportMeters'),
       },
       {
         id: 'count',

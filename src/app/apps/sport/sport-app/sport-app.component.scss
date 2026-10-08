@@ -123,11 +123,11 @@
 
     &--active {
       background: var(--chip-color);
-      color: #fff;
+      color: var(--sport-chip-ink-light);
     }
 
     &--dark-ink#{&}--active {
-      color: #1d1d1f;
+      color: var(--sport-chip-ink-dark);
     }
 
     &--hike-ink#{&}--active {
@@ -137,6 +137,10 @@
 
   &__back {
     all: unset;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 24px;
     color: var(--sport-accent-text);
     cursor: pointer;
     width: 100%;

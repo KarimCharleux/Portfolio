@@ -3,7 +3,7 @@ import { PieArcDatum, arc, pie } from 'd3-shape';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { SPORT_KEYS, SportFilter, SportKey } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
-import { SPORT_LABEL_KEYS, sportColor } from '../sport-app/sport-app.component';
+import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
 
 type Metric = 'hours' | 'km';
 const SIZE = 240;
