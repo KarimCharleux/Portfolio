@@ -199,6 +199,10 @@ export const TRANSLATIONS = {
   equivMontBlanc: { en: 'Mont Blanc climbs from sea level', fr: 'ascensions du Mont-Blanc' },
   equivMarathons: { en: 'marathons', fr: 'marathons' },
   equivChannel: { en: 'English Channel crossings', fr: 'traversées de la Manche' },
+  sportYearLabel: { en: 'Year', fr: 'Année' },
+  sportLess: { en: 'Less', fr: 'Moins' },
+  sportMore: { en: 'More', fr: 'Plus' },
+  sportMinutesShort: { en: 'min', fr: 'min' },
   sportBackToSections: { en: 'Sections', fr: 'Sections' },
 } as const satisfies Record<string, Record<Lang, string>>;
 

@@ -63,6 +63,9 @@
           @case ('overview') {
             <app-sport-overview [sport]="sport()" />
           }
+          @case ('calendar') {
+            <app-sport-calendar-heatmap [sport]="sport()" />
+          }
         }
       </div>
     </section>

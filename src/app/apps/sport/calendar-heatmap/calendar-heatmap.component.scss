@@ -1,0 +1,93 @@
+@use '../../app-window-content' as window;
+
+.heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__years {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  &__year {
+    all: unset;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    color: var(--text-secondary);
+
+    &:focus-visible {
+      outline: 2px solid var(--sport-accent);
+    }
+
+    &--active {
+      background: var(--hairline);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+  }
+
+  &__chart {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  &__axis {
+    font-size: 9px;
+    fill: var(--text-secondary);
+  }
+
+  &__cell {
+    transition: opacity 0.2s;
+
+    &--l0 {
+      fill: var(--sport-grid);
+      background: var(--sport-grid);
+    }
+
+    &--l1 {
+      fill: color-mix(in srgb, var(--heat-color) 30%, transparent);
+      background: color-mix(in srgb, var(--heat-color) 30%, transparent);
+    }
+
+    &--l2 {
+      fill: color-mix(in srgb, var(--heat-color) 55%, transparent);
+      background: color-mix(in srgb, var(--heat-color) 55%, transparent);
+    }
+
+    &--l3 {
+      fill: color-mix(in srgb, var(--heat-color) 78%, transparent);
+      background: color-mix(in srgb, var(--heat-color) 78%, transparent);
+    }
+
+    &--l4 {
+      fill: var(--heat-color);
+      background: var(--heat-color);
+    }
+  }
+
+  &__legend {
+    @include window.secondary-text;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    align-self: flex-end;
+  }
+
+  &__swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  &__empty {
+    @include window.secondary-text;
+    margin: 0;
+  }
+}
