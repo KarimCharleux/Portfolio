@@ -8,7 +8,7 @@ const FLIP_MARGIN = 180;
   template: '<ng-content />',
   styleUrl: './chart-tooltip.component.scss',
   host: {
-    role: 'status',
+    'aria-hidden': 'true',
     '[style.left.px]': 'left()',
     '[style.top.px]': 'y()',
     '[class.chart-tooltip--flipped]': 'flipped()',
