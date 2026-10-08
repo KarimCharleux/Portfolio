@@ -56,7 +56,7 @@ export const ROUTE_SEO: Partial<Record<AppId, RouteSeoEntry>> = {
   sport: {
     title: 'Karim Charleux · Sport',
     description:
-      'Course, vélo, natation, randonnée et marche de Karim Charleux depuis 2018, en statistiques et graphiques faits main, synchronisés chaque nuit depuis Strava.',
+      'Course, vélo, natation, randonnée et marche de Karim Charleux depuis 2018, en statistiques et graphiques faits main, synchronisés chaque semaine depuis Strava.',
   },
   terminal: {
     title: 'Karim Charleux · Terminal',
