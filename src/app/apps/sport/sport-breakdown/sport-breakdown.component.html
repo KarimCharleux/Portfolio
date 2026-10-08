@@ -1,0 +1,59 @@
+@if (isEmpty()) {
+  <p class="breakdown__empty">{{ i18n.t('sportEmpty') }}</p>
+} @else {
+  <div class="breakdown">
+    <div class="breakdown__toggle" role="group" [attr.aria-label]="i18n.t('sportMetricLabel')">
+      <button
+        type="button"
+        class="breakdown__metric"
+        [class.breakdown__metric--active]="metric() === 'hours'"
+        [attr.aria-pressed]="metric() === 'hours'"
+        (click)="setMetric('hours')"
+      >
+        {{ i18n.t('sportByHours') }}
+      </button>
+      <button
+        type="button"
+        class="breakdown__metric"
+        [class.breakdown__metric--active]="metric() === 'km'"
+        [attr.aria-pressed]="metric() === 'km'"
+        (click)="setMetric('km')"
+      >
+        {{ i18n.t('sportByKm') }}
+      </button>
+    </div>
+
+    <div class="breakdown__body">
+      <svg
+        class="breakdown__chart"
+        role="img"
+        [attr.viewBox]="viewBox"
+        [attr.aria-label]="i18n.t('sportBreakdown')"
+      >
+        @for (s of slices(); track s.key) {
+          <path
+            class="breakdown__slice"
+            [class.breakdown__slice--dimmed]="s.dimmed"
+            [attr.d]="s.d"
+            [style.fill]="s.color"
+          >
+            <title>{{ s.label }} · {{ s.value }} · {{ s.share }}</title>
+          </path>
+        }
+        <text class="breakdown__center-value" text-anchor="middle" y="4">{{ centerValue() }}</text>
+        <text class="breakdown__center-unit" text-anchor="middle" y="24">{{ centerUnit() }}</text>
+      </svg>
+
+      <ul class="breakdown__legend">
+        @for (s of slices(); track s.key) {
+          <li class="breakdown__item" [class.breakdown__item--dimmed]="s.dimmed">
+            <span class="breakdown__swatch" [style.background]="s.color"></span>
+            <span class="breakdown__name">{{ s.label }}</span>
+            <span class="breakdown__value">{{ s.value }}</span>
+            <span class="breakdown__share">{{ s.share }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+}

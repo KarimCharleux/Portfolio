@@ -5,6 +5,7 @@ import { ThemeService } from '../../../core/theme/theme.service';
 import { BreakpointService } from '../../../core/breakpoint/breakpoint.service';
 import { SPORT_FILTERS, SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
+import { SportBreakdownComponent } from '../sport-breakdown/sport-breakdown.component';
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { YearlyCumulativeComponent } from '../yearly-cumulative/yearly-cumulative.component';
@@ -55,6 +56,7 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
     CalendarHeatmapComponent,
     WeeklyVolumeComponent,
     YearlyCumulativeComponent,
+    SportBreakdownComponent,
   ],
   templateUrl: './sport-app.component.html',
   styleUrl: './sport-app.component.scss',
