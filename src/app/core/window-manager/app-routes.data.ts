@@ -16,6 +16,7 @@ export const APP_ROUTE_SLUGS: Partial<Record<AppId, string>> = {
   youtube: 'videos',
   safari: 'links',
   terminal: 'terminal',
+  sport: 'sport',
 };
 
 function appIdForSlug(slug: string): AppId | undefined {

@@ -17,6 +17,9 @@ import { DockAppDef } from './dock-app.model';
  */
 const TERMINAL_WINDOW = { width: 648, height: 442 };
 
+/** Sidebar (200px) + charts need more room than the 720x480 default. */
+const SPORT_WINDOW = { width: 960, height: 620 };
+
 export const DOCK_APPS: DockAppDef[] = [
   { id: 'notes', labelKey: 'dockNotes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
   {
@@ -49,6 +52,14 @@ export const DOCK_APPS: DockAppDef[] = [
     icon: 'youtube',
     pinnedMobile: false,
     tooltip: 'videoProjects',
+  },
+  {
+    id: 'sport',
+    labelKey: 'dockSport',
+    icon: 'sport',
+    pinnedMobile: false,
+    tooltip: 'sportStats',
+    windowSize: SPORT_WINDOW,
   },
   { id: 'safari', labelKey: 'dockSafari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
   {

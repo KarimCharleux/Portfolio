@@ -7,6 +7,7 @@ import { FinderAppComponent } from '../finder-app/finder-app.component';
 import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { TerminalAppComponent } from '../terminal-app/terminal-app.component';
 import { NotesAppComponent } from '../notes-app/notes-app.component';
+import { SportAppComponent } from '../sport/sport-app/sport-app.component';
 import { PhotosAppComponent } from '../photos-app/photos-app.component';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
@@ -39,6 +40,7 @@ const GRID_SOURCES: Partial<
     TerminalAppComponent,
     NotesAppComponent,
     PhotosAppComponent,
+    SportAppComponent,
   ],
   template: `
     @if (appId() === 'finder') {
@@ -51,6 +53,8 @@ const GRID_SOURCES: Partial<
       <app-notes />
     } @else if (appId() === 'photoshop') {
       <app-photos />
+    } @else if (appId() === 'sport') {
+      <app-sport />
     } @else if (listContent(); as list) {
       <app-content-list [heading]="list.heading" [items]="list.items" />
     } @else if (gridContent(); as grid) {

@@ -53,6 +53,11 @@ export const ROUTE_SEO: Partial<Record<AppId, RouteSeoEntry>> = {
     description:
       'Les réseaux et liens de Karim Charleux (LinkedIn, GitHub, Instagram, YouTube), présentés dans une fenêtre Safari de son bureau interactif.',
   },
+  sport: {
+    title: 'Karim Charleux · Sport',
+    description:
+      'Cinq ans de course, vélo, natation, randonnée et marche de Karim Charleux en statistiques et graphiques faits main, synchronisés depuis Strava.',
+  },
   terminal: {
     title: 'Karim Charleux · Terminal',
     description:
