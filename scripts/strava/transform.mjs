@@ -224,7 +224,10 @@ export function shapeFromPolyline(encoded) {
   if (span === 0) return null;
   const offX = (1 - (Math.max(...xs) - minX) / span) / 2;
   const offY = (1 - (Math.max(...ys) - minY) / span) / 2;
-  return plane.flatMap(([x, y]) => [round((x - minX) / span + offX, 3), round((y - minY) / span + offY, 3)]);
+  return plane.flatMap(([x, y]) => [
+    round((x - minX) / span + offX, 3),
+    round((y - minY) / span + offY, 3),
+  ]);
 }
 
 /** Newest first, only activities with a usable track. */

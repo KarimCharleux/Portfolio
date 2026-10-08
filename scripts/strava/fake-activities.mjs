@@ -58,7 +58,10 @@ function fakeTrack(rand, km) {
   for (let i = 0; i <= n; i++) {
     const t = (i / n) * Math.PI * 2;
     const r = radius * (1 + 0.35 * Math.sin(lobes * t + phase) + 0.1 * (rand() - 0.5));
-    pts.push([43.58 + r * Math.sin(t), 7.12 + (r * Math.cos(t)) / Math.cos((43.58 * Math.PI) / 180)]);
+    pts.push([
+      43.58 + r * Math.sin(t),
+      7.12 + (r * Math.cos(t)) / Math.cos((43.58 * Math.PI) / 180),
+    ]);
   }
   return encodePolyline(pts);
 }
