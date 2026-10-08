@@ -54,6 +54,12 @@ export function weekOfYear(isoDate) {
 const zeroTotals = () => ({ distanceKm: 0, movingHours: 0, elevationM: 0, activities: 0 });
 const zeroBySport = () => Object.fromEntries(SPORT_KEYS.map((k) => [k, 0]));
 
+/** Everyone-visible, non-trainer. Falls back to `!private` when `visibility` is absent. */
+function isPublicOutdoor(a) {
+  const visible = a.visibility !== undefined ? a.visibility === 'everyone' : !a.private;
+  return visible && !a.trainer && !String(a.sport_type).startsWith('Virtual');
+}
+
 /** Keeps the five sports and normalizes the fields the pipeline uses. */
 export function normalizeActivities(raw) {
   return raw
@@ -64,6 +70,8 @@ export function normalizeActivities(raw) {
       movingHours: (a.moving_time ?? 0) / 3600,
       elevationM: a.total_elevation_gain ?? 0,
       polyline: a.map?.summary_polyline || null,
+      // Route publication only: Strava `activity:read` also returns Followers-only and virtual activities.
+      publicOutdoor: isPublicOutdoor(a),
     }))
     .filter((a) => a.sport !== null)
     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
@@ -233,7 +241,7 @@ export function shapeFromPolyline(encoded) {
 /** Newest first, only activities with a usable track. */
 export function buildRoutes(raw) {
   return normalizeActivities(raw)
-    .filter((a) => a.polyline)
+    .filter((a) => a.polyline && a.publicOutdoor)
     .map((a) => ({
       sport: a.sport,
       date: a.date,
