@@ -12,6 +12,7 @@ module.exports = defineConfig([
     'coverage/**',
     'public/**',
     'docs/**',
+    '.superpowers/**',
     // Static SEO shell, not an Angular template.
     'src/index.html',
   ]),
