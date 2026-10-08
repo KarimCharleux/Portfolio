@@ -146,18 +146,6 @@
     }
   }
 
-  &__back {
-    all: unset;
-    display: inline-flex;
-    align-items: center;
-    box-sizing: border-box;
-    min-height: 24px;
-    color: var(--sport-accent-text);
-    cursor: pointer;
-    width: 100%;
-    padding: 4px 0;
-  }
-
   &__view {
     flex: 1;
     min-height: 0;
@@ -174,6 +162,12 @@
     }
   }
 
+  &__list-title {
+    @include window.heading;
+  }
+
+  // Mobile: the section list is an iOS inset-grouped table — 44pt rows,
+  // hairline separators inset past the icon, a disclosure chevron per row.
   &--mobile {
     flex-direction: column;
   }
@@ -181,21 +175,70 @@
   &--mobile &__sidebar {
     width: 100%;
     flex: 1;
-    padding-top: 12px;
+    justify-content: flex-start;
+    padding: 8px 16px 16px;
     border-right: none;
-    background: transparent;
+    background: var(--surface);
+    overflow-y: auto;
   }
 
-  // Sidebar is transparent over the wallpaper on mobile: give the footer its own glass chip.
-  &--mobile &__attribution {
-    align-self: flex-start;
-    padding: 8px 12px;
+  &--mobile &__sections {
+    gap: 0;
     border-radius: 10px;
-    background: var(--glass-bg-strong);
+    overflow: hidden;
+    background: var(--surface-secondary);
+  }
+
+  &--mobile &__sections li + li &__section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 46px;
+    right: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  &--mobile &__section {
+    position: relative;
+    min-height: var(--ios-hit-target);
+    padding: 0 16px;
+    gap: 14px;
+    border-radius: 0;
+    font-size: 17px;
+
+    &::after {
+      content: '›';
+      margin-left: auto;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--text-secondary);
+    }
+
+    &:hover {
+      background: none;
+    }
+
+    &:active {
+      background: var(--hairline);
+    }
+  }
+
+  &--mobile &__section-icon {
+    width: 16px;
+    color: var(--sport-accent-text);
+  }
+
+  &--mobile &__attribution {
+    margin-top: auto;
+    padding: 24px 4px 0;
   }
 
   &--mobile &__toolbar {
-    padding-top: 12px;
+    padding: 0 16px 12px;
+  }
+
+  &--mobile &__chip {
+    min-height: 32px;
   }
 
   &--mobile &__view {

@@ -1,15 +1,17 @@
 /** Shared layout for every app window body: scrollable pane, heading, divider row, dim text. */
 
+// Custom properties default to the desktop window metrics; the mobile shell
+// overrides them (no title bar to clear, iOS large title, tighter gutters).
 @mixin container {
-  padding: 36px 24px 24px;
+  padding: calc(var(--window-titlebar-height) + 8px) var(--app-content-padding-x, 24px) 24px;
   overflow-y: auto;
   height: 100%;
   box-sizing: border-box;
 }
 
 @mixin heading {
-  font-size: 22px;
-  font-weight: 600;
+  font-size: var(--app-heading-size, 22px);
+  font-weight: var(--app-heading-weight, 600);
   margin: 0 0 16px;
 }
 

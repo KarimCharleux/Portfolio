@@ -1,10 +1,26 @@
-<div class="mobile-shell">
+<div
+  class="mobile-shell"
+  [class.mobile-shell--app-open]="frontmost()"
+  [class.mobile-shell--dark-chrome]="darkChrome()"
+>
   <app-mobile-status-bar />
   @if (frontmost(); as win) {
     <div class="mobile-shell__app">
-      <button type="button" class="mobile-shell__back" (click)="back()">
-        <span aria-hidden="true">‹</span> {{ i18n.t('back') }}
-      </button>
+      <nav class="mobile-shell__nav-bar">
+        <button type="button" class="mobile-shell__back" (click)="back()">
+          <svg class="mobile-shell__chevron" viewBox="0 0 12 21" aria-hidden="true">
+            <path
+              d="M10.5 1.5 1.5 10.5l9 9"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {{ i18n.t(backLabelKey()) }}
+        </button>
+      </nav>
       <app-host [appId]="win.appId" />
     </div>
   } @else {

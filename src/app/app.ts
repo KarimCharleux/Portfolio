@@ -117,6 +117,12 @@ export class App {
   }
 
   #openInitialWindow(): void {
+    // "About this Mac" is a desktop idiom: a phone lands on its home screen, like iOS.
+    // Deep links (`/sport`, …) still open their app. Server-side isMobile() is always
+    // false, so the prerendered `/` keeps the About content for crawlers.
+    if (this.#initialAppId === 'about' && this.isMobile()) {
+      return;
+    }
     if (this.#initialAppId === 'about') {
       this.#windowManager.open('about', 'aboutPortfolio', ABOUT_WINDOW_OPTIONS);
       return;

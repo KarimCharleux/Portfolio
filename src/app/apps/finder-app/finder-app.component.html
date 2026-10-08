@@ -9,7 +9,9 @@
           (click)="open(category.id, category.labelKey)"
         >
           <span class="finder__row-label">{{ i18n.t(category.labelKey) }}</span>
-          <span class="finder__row-count">{{ category.count }}</span>
+          @if (category.count !== undefined) {
+            <span class="finder__row-count">{{ category.count }}</span>
+          }
         </button>
       </li>
     }
