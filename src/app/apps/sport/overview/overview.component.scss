@@ -51,20 +51,23 @@
   &__equivalences {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    border-radius: 12px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--hairline);
   }
 
   &__equivalence {
-    @include window.secondary-text;
+    color: var(--text-primary);
     font-size: 14px;
   }
 
   &__equivalence-value {
     font-weight: 600;
-    color: var(--sport-accent);
+    color: var(--sport-accent-text);
     font-variant-numeric: tabular-nums;
     margin-right: 4px;
   }
