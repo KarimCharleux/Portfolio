@@ -3,7 +3,8 @@
 .heatmap {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  height: 100%;
 
   &__years {
     display: flex;
@@ -16,10 +17,10 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    min-height: 24px;
-    padding: 3px 10px;
+    min-height: 28px;
+    padding: 4px 12px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
     cursor: pointer;
     color: var(--text-secondary);
@@ -35,6 +36,20 @@
     }
   }
 
+  // The grid's height is set by its width, so the card takes the leftover space and
+  // centers it, instead of leaving a gap under the summary tiles.
+  &__card {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--hairline);
+  }
+
   &__chart {
     width: 100%;
     height: auto;
@@ -42,7 +57,7 @@
   }
 
   &__axis {
-    font-size: 9px;
+    font-size: 10px;
     fill: var(--text-secondary);
   }
 
@@ -77,17 +92,61 @@
 
   &__legend {
     @include window.secondary-text;
-    font-size: 11px;
+    font-size: 12px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     align-self: flex-end;
   }
 
   &__swatch {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  // Fills the rest of the pane with the selected year's totals.
+  &__summary {
+    flex: 0 0 auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-auto-rows: minmax(120px, auto);
+    gap: 14px;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--hairline);
+  }
+
+  &__stat-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  &__stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  &__stat-unit {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--text-secondary);
   }
 
   &__empty {

@@ -214,6 +214,9 @@ export const TRANSLATIONS = {
   sportLess: { en: 'Less', fr: 'Moins' },
   sportMore: { en: 'More', fr: 'Plus' },
   sportMinutesShort: { en: 'min', fr: 'min' },
+  sportActiveDays: { en: 'Active days', fr: 'Jours actifs' },
+  sportLongestStreak: { en: 'Longest streak', fr: 'Plus longue série' },
+  sportDaysUnit: { en: 'days', fr: 'jours' },
   sportBackToSections: { en: 'Sections', fr: 'Sections' },
 } as const satisfies Record<string, Record<Lang, string>>;
 

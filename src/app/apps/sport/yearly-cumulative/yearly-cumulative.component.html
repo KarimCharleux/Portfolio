@@ -5,7 +5,7 @@
     class="years"
     role="img"
     [attr.width]="width()"
-    [attr.height]="height"
+    [attr.height]="height()"
     [attr.aria-label]="i18n.t('sportYears')"
     [style.--year-color]="color()"
     (pointermove)="onPointerMove($event)"
@@ -24,7 +24,7 @@
       </text>
     }
     @for (t of xTicks(); track t.id) {
-      <text class="years__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height - 6">
+      <text class="years__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height() - 6">
         {{ t.label }}
       </text>
     }
@@ -51,7 +51,7 @@
         [attr.x1]="h.x"
         [attr.x2]="h.x"
         [attr.y1]="margin.top"
-        [attr.y2]="height - margin.bottom"
+        [attr.y2]="height() - margin.bottom"
       />
     }
   </svg>

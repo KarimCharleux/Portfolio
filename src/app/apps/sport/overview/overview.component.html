@@ -17,15 +17,17 @@
     </ul>
 
     @if (equivalences().length) {
-      <h3 class="overview__subheading">{{ i18n.t('sportEquivTitle') }}</h3>
-      <ul class="overview__equivalences">
-        @for (item of equivalences(); track item.id) {
-          <li class="overview__equivalence">
-            <span class="overview__equivalence-value">{{ item.value }}</span>
-            {{ item.label }}
-          </li>
-        }
-      </ul>
+      <section class="overview__equivalences-section">
+        <h3 class="overview__subheading">{{ i18n.t('sportEquivTitle') }}</h3>
+        <ul class="overview__equivalences">
+          @for (item of equivalences(); track item.id) {
+            <li class="overview__equivalence">
+              <span class="overview__equivalence-value">{{ item.value }}</span>
+              <span class="overview__equivalence-label">{{ item.label }}</span>
+            </li>
+          }
+        </ul>
+      </section>
     }
   </div>
 }

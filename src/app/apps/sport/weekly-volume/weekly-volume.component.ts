@@ -6,10 +6,12 @@ import { I18nService } from '../../../core/i18n/i18n.service';
 import { SPORT_KEYS, SportFilter, SportKey, SportWeek } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
 import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
-import { injectChartWidth } from '../chart-width/chart-width';
+import { injectChartSize } from '../chart-size/chart-size';
 import { ChartTooltipComponent } from '../chart-tooltip/chart-tooltip.component';
 
-const HEIGHT = 300;
+/** Prerender size, and the floor below which the chart scrolls instead of squashing. */
+const FALLBACK = { width: 640, height: 300 };
+const MIN_HEIGHT = 220;
 const M = { top: 12, right: 12, bottom: 24, left: 32 };
 const weekDate = (w: SportWeek) => new Date(`${w.start}T00:00:00Z`);
 
@@ -18,7 +20,7 @@ const weekDate = (w: SportWeek) => new Date(`${w.start}T00:00:00Z`);
   imports: [ChartTooltipComponent],
   templateUrl: './weekly-volume.component.html',
   styleUrl: './weekly-volume.component.scss',
-  host: { style: 'display: block; position: relative' },
+  host: { style: 'display: block; position: relative; flex: 1 1 0; min-height: 0' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeeklyVolumeComponent {
@@ -26,8 +28,10 @@ export class WeeklyVolumeComponent {
 
   readonly sport = input.required<SportFilter>();
 
-  protected readonly width = injectChartWidth(640);
-  protected readonly height = HEIGHT;
+  readonly #size = injectChartSize(FALLBACK);
+  protected readonly width = computed(() => this.#size().width);
+  // The unit caption under the chart takes 24px of the host's height.
+  protected readonly height = computed(() => Math.max(MIN_HEIGHT, this.#size().height - 24));
   protected readonly margin = M;
   readonly #hoverIndex = signal<number | null>(null);
 
@@ -56,7 +60,7 @@ export class WeeklyVolumeComponent {
     return scaleLinear()
       .domain([0, Math.max(top, 1)])
       .nice()
-      .range([HEIGHT - M.bottom, M.top]);
+      .range([this.height() - M.bottom, M.top]);
   });
 
   protected readonly isEmpty = computed(() =>

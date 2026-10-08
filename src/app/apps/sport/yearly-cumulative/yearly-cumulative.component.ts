@@ -6,10 +6,12 @@ import { I18nService } from '../../../core/i18n/i18n.service';
 import { SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
 import { sportColor } from '../sport-palette/sport-palette';
-import { injectChartWidth } from '../chart-width/chart-width';
+import { injectChartSize } from '../chart-size/chart-size';
 import { ChartTooltipComponent } from '../chart-tooltip/chart-tooltip.component';
 
-const HEIGHT = 320;
+/** Prerender size, and the floor below which the chart scrolls instead of squashing. */
+const FALLBACK = { width: 640, height: 320 };
+const MIN_HEIGHT = 240;
 const M = { top: 12, right: 64, bottom: 24, left: 44 };
 const CURRENT_YEAR = SPORT_STATS.generatedAt.slice(0, 4);
 /** Minimum vertical distance between two end-of-line labels sharing the same x (10px text). */
@@ -38,7 +40,7 @@ function spreadLabels(ys: readonly number[], min: number, max: number): number[]
   imports: [ChartTooltipComponent],
   templateUrl: './yearly-cumulative.component.html',
   styleUrl: './yearly-cumulative.component.scss',
-  host: { style: 'display: block; position: relative' },
+  host: { style: 'display: block; position: relative; flex: 1 1 0; min-height: 0' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YearlyCumulativeComponent {
@@ -46,8 +48,9 @@ export class YearlyCumulativeComponent {
 
   readonly sport = input.required<SportFilter>();
 
-  protected readonly width = injectChartWidth(640);
-  protected readonly height = HEIGHT;
+  readonly #size = injectChartSize(FALLBACK);
+  protected readonly width = computed(() => this.#size().width);
+  protected readonly height = computed(() => Math.max(MIN_HEIGHT, this.#size().height));
   protected readonly margin = M;
   readonly #hoverWeek = signal<number | null>(null);
 
@@ -72,7 +75,7 @@ export class YearlyCumulativeComponent {
     scaleLinear()
       .domain([0, Math.max(max(this.#years(), (y) => y.values.at(-1) ?? 0) ?? 0, 1)])
       .nice()
-      .range([HEIGHT - M.bottom, M.top]),
+      .range([this.height() - M.bottom, M.top]),
   );
 
   readonly #int = computed(
@@ -100,7 +103,7 @@ export class YearlyCumulativeComponent {
       const spread = spreadLabels(
         indexes.map((i) => raw[i].y),
         M.top + 3,
-        HEIGHT - M.bottom + 3,
+        this.height() - M.bottom + 3,
       );
       indexes.forEach((i, k) => (labelYs[i] = spread[k]));
     }
@@ -153,7 +156,7 @@ export class YearlyCumulativeComponent {
     if (rows.length === 0) return null;
     return {
       x,
-      y: (M.top + HEIGHT - M.bottom) / 2,
+      y: (M.top + this.height() - M.bottom) / 2,
       title: `${this.i18n.t('sportWeekNumber')} ${week + 1}`,
       rows,
     };
