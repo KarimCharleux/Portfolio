@@ -15,6 +15,10 @@
 
   &__metric {
     all: unset;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 24px;
     padding: 3px 12px;
     border-radius: 6px;
     font-size: 12px;
@@ -80,12 +84,17 @@
   &__item {
     display: contents;
 
-    &--dimmed > * {
-      opacity: 0.4;
+    &--dimmed {
+      color: var(--text-secondary);
+
+      .breakdown__swatch {
+        opacity: 0.3;
+      }
     }
   }
 
   &__swatch {
+    transition: opacity 0.25s;
     width: 10px;
     height: 10px;
     border-radius: 3px;

@@ -105,6 +105,10 @@
 
   &__chip {
     all: unset;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 24px;
     padding: 3px 10px;
     border-radius: 999px;
     font-size: 12px;
