@@ -162,6 +162,14 @@
     background: transparent;
   }
 
+  // Sidebar is transparent over the wallpaper on mobile: give the footer its own glass chip.
+  &--mobile &__attribution {
+    align-self: flex-start;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--glass-bg-strong);
+  }
+
   &--mobile &__toolbar {
     padding-top: 12px;
   }
