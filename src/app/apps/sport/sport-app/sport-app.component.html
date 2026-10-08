@@ -66,6 +66,9 @@
           @case ('calendar') {
             <app-sport-calendar-heatmap [sport]="sport()" />
           }
+          @case ('volume') {
+            <app-sport-weekly-volume [sport]="sport()" />
+          }
         }
       </div>
     </section>

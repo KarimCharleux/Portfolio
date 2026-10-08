@@ -1,0 +1,21 @@
+:host {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  min-width: 120px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 6px 20px var(--shadow-color);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transform: translateY(-50%);
+}
+
+:host(.chart-tooltip--flipped) {
+  transform: translate(-100%, -50%);
+}
