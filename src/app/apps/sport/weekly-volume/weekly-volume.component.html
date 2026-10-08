@@ -1,0 +1,55 @@
+@if (isEmpty()) {
+  <p class="volume__empty">{{ i18n.t('sportEmpty') }}</p>
+} @else {
+  <svg
+    class="volume"
+    role="img"
+    [attr.width]="width()"
+    [attr.height]="height"
+    [attr.aria-label]="i18n.t('sportVolume')"
+    (pointermove)="onPointerMove($event)"
+    (pointerleave)="onPointerLeave()"
+  >
+    @for (t of yTicks(); track t.v) {
+      <line
+        class="volume__grid"
+        [attr.x1]="margin.left"
+        [attr.x2]="width() - margin.right"
+        [attr.y1]="t.y"
+        [attr.y2]="t.y"
+      />
+      <text class="volume__axis" text-anchor="end" [attr.x]="margin.left - 6" [attr.y]="t.y + 3">
+        {{ t.v }}
+      </text>
+    }
+    @for (t of xTicks(); track t.id) {
+      <text class="volume__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height - 6">
+        {{ t.label }}
+      </text>
+    }
+    @for (layer of layers(); track layer.key) {
+      <path class="volume__layer" [attr.d]="layer.d" [style.fill]="layer.color" />
+    }
+    @if (hover(); as h) {
+      <line
+        class="volume__cursor"
+        [attr.x1]="h.x"
+        [attr.x2]="h.x"
+        [attr.y1]="margin.top"
+        [attr.y2]="height - margin.bottom"
+      />
+    }
+  </svg>
+  <p class="volume__unit">{{ i18n.t('sportHoursPerWeek') }}</p>
+  @if (hover(); as h) {
+    <app-sport-chart-tooltip [x]="h.x" [y]="h.y" [containerWidth]="width()">
+      <strong>{{ h.title }}</strong>
+      @for (row of h.rows; track row.key) {
+        <div class="volume__row">
+          <span class="volume__dot" [style.background]="row.color"></span>
+          {{ row.label }} <span class="volume__value">{{ row.value }}</span>
+        </div>
+      }
+    </app-sport-chart-tooltip>
+  }
+}

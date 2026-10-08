@@ -1,0 +1,65 @@
+@use '../../app-window-content' as window;
+
+.volume {
+  display: block;
+  overflow: visible;
+  touch-action: pan-y;
+
+  &__grid {
+    stroke: var(--sport-grid);
+  }
+
+  &__axis {
+    font-size: 10px;
+    fill: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__layer {
+    opacity: 0.92;
+    animation: volume-rise 0.7s var(--ease-spring) both;
+    transform-origin: bottom;
+    transform-box: fill-box;
+  }
+
+  &__cursor {
+    stroke: var(--text-secondary);
+    stroke-dasharray: 2 3;
+  }
+
+  &__unit,
+  &__empty {
+    @include window.secondary-text;
+    font-size: 11px;
+    margin: 4px 0 0;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  &__value {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes volume-rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .volume__layer {
+    animation: none;
+  }
+}
