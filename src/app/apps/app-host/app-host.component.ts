@@ -54,7 +54,10 @@ const GRID_SOURCES: Partial<
     } @else if (appId() === 'photoshop') {
       <app-photos />
     } @else if (appId() === 'sport') {
-      <app-sport />
+      <!-- Deferred for the bundle budget (d3); incremental hydration keeps it prerendered. -->
+      @defer (on immediate; hydrate on immediate) {
+        <app-sport />
+      }
     } @else if (listContent(); as list) {
       <app-content-list [heading]="list.heading" [items]="list.items" />
     } @else if (gridContent(); as grid) {
