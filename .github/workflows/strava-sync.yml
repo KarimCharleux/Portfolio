@@ -1,0 +1,41 @@
+name: Strava sync
+
+'on':
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: strava-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      # A push made with the default GITHUB_TOKEN never triggers other workflows, so the
+      # checkout uses a fine-grained PAT (contents: write on this repo only). That way the
+      # bot commit goes through the normal deploy workflow instead of a second deploy path.
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SYNC_PUSH_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - name: Build snapshot
+        run: node scripts/strava/fetch-strava.mjs
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- src/app/content/sport-stats.json public/sport/routes.json; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name "strava-sync[bot]"
+          git config user.email "strava-sync[bot]@users.noreply.github.com"
+          git add src/app/content/sport-stats.json public/sport/routes.json
+          git commit -m "chore(sport): refresh stats"
+          git push
