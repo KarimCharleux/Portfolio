@@ -25,6 +25,12 @@
   --icon-radius: 22%;
 
   --ios-status-bar-height: 47px;
+  // UIKit metrics (HIG): standard navigation bar, large title (34pt bold),
+  // minimum hit target, home-screen icon on a 6.1" iPhone.
+  --ios-nav-bar-height: 44px;
+  --ios-large-title-size: 34px;
+  --ios-hit-target: 44px;
+  --ios-home-icon-size: 60px;
 
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   // Sampled damped spring (ζ≈0.72) for the post-boot desktop entrance:
@@ -88,6 +94,8 @@
   // case — this fill composited over a light window in light mode — not against
   // an idealised opaque black.
   --terminal-bg: rgb(16 16 20 / 0.86);
+  // Opaque twin of --terminal-bg for the mobile status/nav bars around the terminal.
+  --terminal-chrome: rgb(16 16 20);
   --terminal-text: #e8e8ed;
   --terminal-dim: #a8a8b0;
   --terminal-accent: #6ac4ff;
@@ -98,6 +106,9 @@
 }
 
 :root[data-theme='dark'] {
+  // UIKit systemBlue, increased-contrast dark variant: plain #0a84ff is ~4.4:1 on
+  // --surface, under the 4.5:1 AA floor for the 17px back-button label.
+  --ios-tint: #409cff;
   --surface: #1e1e1e;
   --surface-secondary: #2c2c2e;
   --text-primary: #f5f5f7;
@@ -132,6 +143,8 @@
 }
 
 :root:not([data-theme='dark']) {
+  // apple.com's link blue: plain systemBlue (#007aff) is ~4:1 on white, under AA.
+  --ios-tint: #06c;
   --surface: #fff;
   --surface-secondary: #f5f5f7;
   --text-primary: #1d1d1f;

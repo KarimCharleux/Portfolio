@@ -1,8 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { TranslationKey } from '../../../core/i18n/translations';
 import { ThemeService } from '../../../core/theme/theme.service';
 import { BreakpointService } from '../../../core/breakpoint/breakpoint.service';
+import { MobileNavService } from '../../../core/mobile-nav/mobile-nav.service';
 import { SPORT_FILTERS, SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
 import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
@@ -54,6 +63,7 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
 export class SportAppComponent {
   readonly #theme = inject(ThemeService);
   readonly #breakpoint = inject(BreakpointService);
+  readonly #mobileNav = inject(MobileNavService);
   protected readonly i18n = inject(I18nService);
 
   protected readonly sections = SECTIONS;
@@ -97,13 +107,25 @@ export class SportAppComponent {
       `${this.i18n.t('sportUpdated')} ${this.#dateFormat().format(new Date(`${SPORT_STATS.generatedAt}T12:00:00Z`))}`,
   );
 
+  constructor() {
+    // On mobile the section is a pushed screen: the shell's single navigation bar pops it
+    // back to the list, rather than a second back button rendered inside the content.
+    effect(() => {
+      if (this.isMobile() && this.#mobileDetail()) {
+        this.#mobileNav.push({
+          backLabelKey: 'sportBackToSections',
+          back: () => this.#mobileDetail.set(false),
+        });
+      } else {
+        this.#mobileNav.clear();
+      }
+    });
+    inject(DestroyRef).onDestroy(() => this.#mobileNav.clear());
+  }
+
   protected selectSection(id: SportSection): void {
     this.#section.set(id);
     this.#mobileDetail.set(true);
-  }
-
-  protected backToList(): void {
-    this.#mobileDetail.set(false);
   }
 
   protected selectSport(key: SportFilter): void {

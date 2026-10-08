@@ -1,61 +1,76 @@
 @use '../glass';
 
+// Without its own sizing the host collapses to content height inside the shell's
+// flex column, which left the dock floating mid-screen under the last icon row.
+:host {
+  display: block;
+  flex: 1;
+  min-height: 0;
+}
+
 .mobile-home {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: 100%;
   box-sizing: border-box;
-  padding: 24px 24px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  padding: 16px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
   gap: 28px;
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px 12px;
+    gap: 24px 8px;
+    align-content: start;
   }
 
   &__dock {
     @include glass.liquid-glass('--glass-bg');
     position: relative;
-    display: flex;
-    justify-content: space-around;
-    padding: 14px 18px;
-    border-radius: 28px;
-
-    .mobile-home__icon app-icon {
-      width: 52px;
-      height: 52px;
-    }
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 14px 8px;
+    border-radius: 32px;
   }
 
   &__icon {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     width: 100%;
     border: none;
     background: none;
     padding: 0;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     transition: transform 0.15s var(--ease-spring);
 
     &:active {
       transform: scale(0.9);
     }
 
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 4px;
+      border-radius: 16px;
+    }
+
     app-icon {
-      width: 58px;
-      height: 58px;
+      width: var(--ios-home-icon-size);
+      height: var(--ios-home-icon-size);
       display: block;
     }
   }
 
   &__label {
-    font-size: 11px;
-    font-weight: 500;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 400;
     color: #fff;
-    text-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.55);
   }
 }

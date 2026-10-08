@@ -61,7 +61,7 @@ export const DOCK_APPS: DockAppDef[] = [
     tooltip: 'sportStats',
     windowSize: SPORT_WINDOW,
   },
-  { id: 'safari', labelKey: 'dockSafari', icon: 'safari', pinnedMobile: false, tooltip: 'links' },
+  { id: 'safari', labelKey: 'dockSafari', icon: 'safari', pinnedMobile: true, tooltip: 'links' },
   {
     id: 'finder',
     labelKey: 'dockFinder',

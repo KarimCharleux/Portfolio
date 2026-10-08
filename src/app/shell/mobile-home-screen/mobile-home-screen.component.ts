@@ -5,6 +5,12 @@ import { DockAppDef } from '../../core/dock-apps/dock-app.model';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
 import { I18nService } from '../../core/i18n/i18n.service';
 
+/**
+ * Desktop-only props (Messages, Trash) open nothing anywhere; on a touch home screen a
+ * tappable icon that does nothing reads as broken, so they're left off entirely.
+ */
+const MOBILE_APPS = DOCK_APPS.filter((app) => !app.noWindow || app.externalUrl);
+
 @Component({
   selector: 'app-mobile-home-screen',
   imports: [AppIconComponent],
@@ -16,8 +22,8 @@ export class MobileHomeScreenComponent {
   readonly #windowManager = inject(WindowManagerService);
   protected readonly i18n = inject(I18nService);
 
-  protected readonly pinnedApps = DOCK_APPS.filter((app) => app.pinnedMobile);
-  protected readonly gridApps = DOCK_APPS.filter((app) => !app.pinnedMobile);
+  protected readonly pinnedApps = MOBILE_APPS.filter((app) => app.pinnedMobile);
+  protected readonly gridApps = MOBILE_APPS.filter((app) => !app.pinnedMobile);
 
   open(app: DockAppDef): void {
     if (app.externalUrl) {

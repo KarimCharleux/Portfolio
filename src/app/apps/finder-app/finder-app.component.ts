@@ -32,11 +32,13 @@ export class FinderAppComponent {
 
   protected readonly heading = computed(() => this.i18n.t('allProjects'));
 
-  readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder' && !app.externalUrl).map(
+  // Window-less props (Messages, Trash) have nothing to open, so they get no row.
+  readonly categories = DOCK_APPS.filter((app) => app.id !== 'finder' && !app.noWindow).map(
     (app) => ({
       id: app.id,
       labelKey: app.labelKey,
-      count: CONTENT_COUNTS[app.id] ?? 0,
+      // Apps that aren't item collections (Sport, Terminal) show no count rather than a false 0.
+      count: CONTENT_COUNTS[app.id],
     }),
   );
 

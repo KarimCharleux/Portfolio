@@ -1,6 +1,9 @@
 <div class="sport" [class.sport--mobile]="isMobile()">
   @if (showList()) {
     <nav class="sport__sidebar" [attr.aria-label]="i18n.t('sportSectionsLabel')">
+      @if (isMobile()) {
+        <h2 class="sport__list-title">{{ i18n.t('dockSport') }}</h2>
+      }
       <ul class="sport__sections">
         @for (item of sections; track item.id) {
           <li>
@@ -34,11 +37,6 @@
   @if (showDetail()) {
     <section class="sport__main">
       <header class="sport__toolbar">
-        @if (isMobile()) {
-          <button type="button" class="sport__back" (click)="backToList()">
-            <span aria-hidden="true">‹</span> {{ i18n.t('sportBackToSections') }}
-          </button>
-        }
         <h2 class="sport__title">{{ i18n.t(sectionLabelKey()) }}</h2>
         <div class="sport__filter" role="group" [attr.aria-label]="i18n.t('sportFilterLabel')">
           @for (key of filters; track key) {
