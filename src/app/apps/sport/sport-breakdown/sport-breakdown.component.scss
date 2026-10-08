@@ -1,0 +1,120 @@
+@use '../../app-window-content' as window;
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__toggle {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 2px;
+    border-radius: 8px;
+    background: var(--hairline);
+  }
+
+  &__metric {
+    all: unset;
+    padding: 3px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--sport-accent);
+    }
+
+    &--active {
+      background: var(--surface);
+      box-shadow: 0 1px 2px var(--shadow-color);
+      font-weight: 600;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px 32px;
+  }
+
+  &__chart {
+    width: 220px;
+    height: 220px;
+    flex: none;
+  }
+
+  &__slice {
+    transition: opacity 0.25s;
+    animation: breakdown-pop 0.6s var(--ease-spring) both;
+
+    &--dimmed {
+      opacity: 0.25;
+    }
+  }
+
+  &__center-value {
+    font-size: 26px;
+    font-weight: 600;
+    fill: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__center-unit {
+    font-size: 12px;
+    fill: var(--text-secondary);
+  }
+
+  &__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 8px 12px;
+    align-items: center;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  &__item {
+    display: contents;
+
+    &--dimmed > * {
+      opacity: 0.4;
+    }
+  }
+
+  &__swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  &__value,
+  &__share {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  &__share {
+    @include window.secondary-text;
+  }
+
+  &__empty {
+    @include window.secondary-text;
+  }
+}
+
+@keyframes breakdown-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breakdown__slice {
+    animation: none;
+  }
+}
