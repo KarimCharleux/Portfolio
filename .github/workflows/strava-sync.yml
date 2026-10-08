@@ -2,7 +2,8 @@ name: Strava sync
 
 'on':
   schedule:
-    - cron: '0 3 * * *'
+    # Weekly, Monday 03:00 UTC (05:00 Paris in summer, 04:00 in winter).
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 concurrency:
