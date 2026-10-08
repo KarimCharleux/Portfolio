@@ -50,7 +50,7 @@
 
     &--active {
       background: color-mix(in srgb, var(--sport-accent) 18%, transparent);
-      color: var(--sport-accent);
+      color: var(--sport-accent-text);
     }
   }
 
@@ -121,13 +121,22 @@
       background: var(--chip-color);
       color: #fff;
     }
+
+    &--dark-ink#{&}--active {
+      color: #1d1d1f;
+    }
+
+    &--hike-ink#{&}--active {
+      color: var(--sport-hike-ink);
+    }
   }
 
   &__back {
     all: unset;
-    color: var(--sport-accent);
+    color: var(--sport-accent-text);
     cursor: pointer;
     width: 100%;
+    padding: 4px 0;
   }
 
   &__view {

@@ -119,6 +119,10 @@
   --sport-hike: #e8590c;
   --sport-walk: #a63c06;
   --sport-accent: #fc4c02;
+  // Accent as TEXT (>= 4.5:1 on the dark surfaces); --sport-accent stays for fills and strokes.
+  --sport-accent-text: #ff8a3d;
+  // Ink on an active hike chip: white is 3.6:1 on the lighter dark-theme orange, dark ink 4.7:1.
+  --sport-hike-ink: #1d1d1f;
   --sport-grid: rgb(255 255 255 / 0.08);
   --sport-past-year: rgb(255 255 255 / 0.28);
 }
@@ -143,6 +147,8 @@
   --sport-hike: #c2410c;
   --sport-walk: #7c2d12;
   --sport-accent: #fc4c02;
+  --sport-accent-text: #b93a04;
+  --sport-hike-ink: #fff;
   --sport-grid: rgb(0 0 0 / 0.07);
   --sport-past-year: rgb(0 0 0 / 0.25);
 }

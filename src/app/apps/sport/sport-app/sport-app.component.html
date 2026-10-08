@@ -45,6 +45,8 @@
             <button
               type="button"
               class="sport__chip"
+              [class.sport__chip--dark-ink]="chipInk[key] === 'dark-ink'"
+              [class.sport__chip--hike-ink]="chipInk[key] === 'hike-ink'"
               [class.sport__chip--active]="sport() === key"
               [attr.aria-pressed]="sport() === key"
               [style.--chip-color]="color(key)"

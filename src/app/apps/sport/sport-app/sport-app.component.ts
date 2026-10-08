@@ -23,6 +23,19 @@ export const SPORT_LABEL_KEYS: Record<SportFilter, TranslationKey> = {
   walk: 'sportWalk',
 };
 
+/**
+ * Active-chip ink class per filter, picked so text is >= 4.5:1 on the chip color.
+ * White fails on all/run/ride/swim (and hike in dark); dark ink fails on hike (light) and walk.
+ */
+const CHIP_INK_CLASS: Record<SportFilter, 'dark-ink' | 'hike-ink' | null> = {
+  all: 'dark-ink',
+  run: 'dark-ink',
+  ride: 'dark-ink',
+  swim: 'dark-ink',
+  hike: 'hike-ink',
+  walk: null,
+};
+
 const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon: string }> = [
   { id: 'overview', labelKey: 'sportOverview', icon: '◉' },
   { id: 'calendar', labelKey: 'sportCalendar', icon: '▦' },
@@ -48,6 +61,7 @@ export class SportAppComponent {
   protected readonly filters = SPORT_FILTERS;
   protected readonly labelKeys = SPORT_LABEL_KEYS;
   protected readonly color = sportColor;
+  protected readonly chipInk = CHIP_INK_CLASS;
 
   readonly #section = signal<SportSection>('overview');
   protected readonly section = this.#section.asReadonly();
