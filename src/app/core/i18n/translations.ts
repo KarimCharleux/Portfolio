@@ -186,6 +186,7 @@ export const TRANSLATIONS = {
   sportKm: { en: 'km', fr: 'km' },
   sportHours: { en: 'hours', fr: 'heures' },
   sportHoursShort: { en: 'h', fr: 'h' },
+  sportWeekNumber: { en: 'Week', fr: 'Semaine' },
   sportWeekOf: { en: 'Week of', fr: 'Semaine du' },
   sportHoursPerWeek: { en: 'hours / week', fr: 'heures / semaine' },
   sportElevation: { en: 'elevation gain', fr: 'de dénivelé' },

@@ -1,0 +1,68 @@
+@if (isEmpty()) {
+  <p class="years__empty">{{ i18n.t('sportEmpty') }}</p>
+} @else {
+  <svg
+    class="years"
+    role="img"
+    [attr.width]="width()"
+    [attr.height]="height"
+    [attr.aria-label]="i18n.t('sportYears')"
+    [style.--year-color]="color()"
+    (pointermove)="onPointerMove($event)"
+    (pointerleave)="onPointerLeave()"
+  >
+    @for (t of yTicks(); track t.v) {
+      <line
+        class="years__grid"
+        [attr.x1]="margin.left"
+        [attr.x2]="width() - margin.right"
+        [attr.y1]="t.y"
+        [attr.y2]="t.y"
+      />
+      <text class="years__axis" text-anchor="end" [attr.x]="margin.left - 6" [attr.y]="t.y + 3">
+        {{ t.label }}
+      </text>
+    }
+    @for (t of xTicks(); track t.id) {
+      <text class="years__axis" text-anchor="middle" [attr.x]="t.x" [attr.y]="height - 6">
+        {{ t.label }}
+      </text>
+    }
+    @for (l of lines(); track l.year) {
+      <path
+        class="years__line"
+        pathLength="1"
+        [class.years__line--current]="l.current"
+        [attr.d]="l.d"
+        [style.opacity]="l.opacity"
+      />
+      <text
+        class="years__label"
+        [class.years__label--current]="l.current"
+        [attr.x]="l.labelX"
+        [attr.y]="l.labelY"
+      >
+        {{ l.label }}
+      </text>
+    }
+    @if (hover(); as h) {
+      <line
+        class="years__cursor"
+        [attr.x1]="h.x"
+        [attr.x2]="h.x"
+        [attr.y1]="margin.top"
+        [attr.y2]="height - margin.bottom"
+      />
+    }
+  </svg>
+  @if (hover(); as h) {
+    <app-sport-chart-tooltip [x]="h.x" [y]="h.y" [containerWidth]="width()">
+      <strong>{{ h.title }}</strong>
+      @for (row of h.rows; track row.year) {
+        <div class="years__row">
+          {{ row.year }} <span class="years__value">{{ row.value }}</span>
+        </div>
+      }
+    </app-sport-chart-tooltip>
+  }
+}

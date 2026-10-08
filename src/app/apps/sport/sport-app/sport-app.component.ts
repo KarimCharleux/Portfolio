@@ -7,6 +7,7 @@ import { SPORT_FILTERS, SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
+import { YearlyCumulativeComponent } from '../yearly-cumulative/yearly-cumulative.component';
 import { WeeklyVolumeComponent } from '../weekly-volume/weekly-volume.component';
 
 export type SportSection = 'overview' | 'calendar' | 'volume' | 'years' | 'routes' | 'sports';
@@ -49,7 +50,12 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
 
 @Component({
   selector: 'app-sport',
-  imports: [OverviewComponent, CalendarHeatmapComponent, WeeklyVolumeComponent],
+  imports: [
+    OverviewComponent,
+    CalendarHeatmapComponent,
+    WeeklyVolumeComponent,
+    YearlyCumulativeComponent,
+  ],
   templateUrl: './sport-app.component.html',
   styleUrl: './sport-app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

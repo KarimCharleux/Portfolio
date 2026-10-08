@@ -69,6 +69,9 @@
           @case ('volume') {
             <app-sport-weekly-volume [sport]="sport()" />
           }
+          @case ('years') {
+            <app-sport-yearly-cumulative [sport]="sport()" />
+          }
         }
       </div>
     </section>
