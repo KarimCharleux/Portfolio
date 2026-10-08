@@ -12,6 +12,26 @@ import { ChartTooltipComponent } from '../chart-tooltip/chart-tooltip.component'
 const HEIGHT = 320;
 const M = { top: 12, right: 64, bottom: 24, left: 44 };
 const CURRENT_YEAR = SPORT_STATS.generatedAt.slice(0, 4);
+/** Minimum vertical distance between two end-of-line labels sharing the same x (10px text). */
+const LABEL_GAP = 12;
+
+/**
+ * Pushes overlapping labels apart, keeping their order and staying inside [min, max]:
+ * a downward pass enforces the gap, then an upward pass pulls back anything pushed past max.
+ */
+function spreadLabels(ys: readonly number[], min: number, max: number): number[] {
+  const order = ys.map((y, i) => ({ y, i })).sort((a, b) => a.y - b.y);
+  for (let k = 1; k < order.length; k++) {
+    order[k].y = Math.max(order[k].y, order[k - 1].y + LABEL_GAP);
+  }
+  order[order.length - 1].y = Math.min(order[order.length - 1].y, max);
+  for (let k = order.length - 2; k >= 0; k--) {
+    order[k].y = Math.max(Math.min(order[k].y, order[k + 1].y - LABEL_GAP), min);
+  }
+  const out = [...ys];
+  for (const { y, i } of order) out[i] = y;
+  return out;
+}
 
 @Component({
   selector: 'app-sport-yearly-cumulative',
@@ -67,6 +87,23 @@ export class YearlyCumulativeComponent {
       .x((_, i) => x(i))
       .y((v) => y(v))
       .curve(curveMonotoneX);
+    const raw = years.map((entry) => {
+      const last = entry.values.length - 1;
+      return { x: x(last) + 6, y: y(entry.values[last] ?? 0) + 3 };
+    });
+    // Past years all end at week 52, so their labels share one column and can collide;
+    // the current year ends earlier and is spread on its own.
+    const labelYs = [...raw.map((p) => p.y)];
+    const columns = new Map<number, number[]>();
+    raw.forEach((p, i) => columns.set(p.x, [...(columns.get(p.x) ?? []), i]));
+    for (const indexes of columns.values()) {
+      const spread = spreadLabels(
+        indexes.map((i) => raw[i].y),
+        M.top + 3,
+        HEIGHT - M.bottom + 3,
+      );
+      indexes.forEach((i, k) => (labelYs[i] = spread[k]));
+    }
     return years.map((entry, i) => {
       const current = entry.year === CURRENT_YEAR;
       const last = entry.values.length - 1;
@@ -76,8 +113,8 @@ export class YearlyCumulativeComponent {
         current,
         // Past years fade with age: the oldest is the faintest.
         opacity: current ? 1 : 0.35 + (0.5 * (i + 1)) / years.length,
-        labelX: x(last) + 6,
-        labelY: y(entry.values[last] ?? 0) + 3,
+        labelX: raw[i].x,
+        labelY: labelYs[i],
         label: `${entry.year} · ${this.#int().format(entry.values[last] ?? 0)}`,
       };
     });
