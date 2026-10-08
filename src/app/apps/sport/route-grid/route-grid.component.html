@@ -1,0 +1,35 @@
+<p class="routes__note">{{ i18n.t('sportRoutesNote') }}</p>
+@switch (state()) {
+  @case ('loading') {
+    <p class="routes__status" role="status">{{ i18n.t('sportRoutesLoading') }}</p>
+  }
+  @case ('error') {
+    <p class="routes__status" role="alert">{{ i18n.t('sportRoutesError') }}</p>
+  }
+  @case ('ready') {
+    @if (isEmpty()) {
+      <p class="routes__status">{{ i18n.t('sportEmpty') }}</p>
+    } @else {
+      <ul class="routes">
+        @for (s of shapes(); track s.id) {
+          <li class="routes__item" [style.--delay]="`${($index % 40) * 15}ms`">
+            <svg
+              class="routes__shape"
+              viewBox="-0.08 -0.08 1.16 1.16"
+              role="img"
+              [attr.aria-label]="s.title"
+            >
+              <title>{{ s.title }}</title>
+              <path [attr.d]="s.d" [style.stroke]="s.color" />
+            </svg>
+          </li>
+        }
+      </ul>
+      @if (hasMore()) {
+        <button type="button" class="routes__more" (click)="showMore()">
+          {{ i18n.t('sportShowMore') }}
+        </button>
+      }
+    }
+  }
+}
