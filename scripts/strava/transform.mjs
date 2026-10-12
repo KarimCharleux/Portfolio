@@ -35,14 +35,6 @@ const round = (value, decimals) => {
 const localDate = (activity) => activity.start_date_local.slice(0, 10);
 
 const utcMs = (isoDate) => Date.parse(`${isoDate}T00:00:00Z`);
-const isoFromMs = (ms) => new Date(ms).toISOString().slice(0, 10);
-
-/** Monday of the ISO week containing `isoDate`. */
-export function weekStart(isoDate) {
-  const ms = utcMs(isoDate);
-  const dayFromMonday = (new Date(ms).getUTCDay() + 6) % 7;
-  return isoFromMs(ms - dayFromMonday * DAY_MS);
-}
 
 /** 0-based index of the 7-day block of the year (days 1-7 -> 0 ... days 358-366 -> 51 or 52). */
 export function weekOfYear(isoDate) {
@@ -52,7 +44,6 @@ export function weekOfYear(isoDate) {
 }
 
 const zeroTotals = () => ({ distanceKm: 0, movingHours: 0, elevationM: 0, activities: 0 });
-const zeroBySport = () => Object.fromEntries(SPORT_KEYS.map((k) => [k, 0]));
 
 /** Everyone-visible, non-trainer. Falls back to `!private` when `visibility` is absent. */
 function isPublicOutdoor(a) {
@@ -85,7 +76,6 @@ export function buildStats(raw, today) {
 
   const totals = Object.fromEntries(SPORT_FILTERS.map((f) => [f, zeroTotals()]));
   const days = {};
-  const weekHours = new Map();
 
   for (const a of activities) {
     for (const key of ['all', a.sport]) {
@@ -97,10 +87,6 @@ export function buildStats(raw, today) {
     }
     days[a.date] ??= {};
     days[a.date][a.sport] = (days[a.date][a.sport] ?? 0) + Math.round(a.movingHours * 60);
-
-    const ws = weekStart(a.date);
-    if (!weekHours.has(ws)) weekHours.set(ws, zeroBySport());
-    weekHours.get(ws)[a.sport] += a.movingHours;
   }
 
   for (const t of Object.values(totals)) {
@@ -110,22 +96,11 @@ export function buildStats(raw, today) {
   }
 
   const firstActivity = activities[0].date;
-  const weeks = [];
-  for (let ms = utcMs(weekStart(firstActivity)); ms <= utcMs(weekStart(today)); ms += 7 * DAY_MS) {
-    const start = isoFromMs(ms);
-    const hours = weekHours.get(start) ?? zeroBySport();
-    weeks.push({
-      start,
-      hours: Object.fromEntries(SPORT_KEYS.map((k) => [k, round(hours[k], 2)])),
-    });
-  }
-
   return {
     generatedAt: today,
     firstActivity,
     totals,
     days,
-    weeks,
     yearlyCumulativeKm: buildYearlyCumulative(activities, firstActivity, today),
   };
 }

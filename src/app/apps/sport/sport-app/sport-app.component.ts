@@ -20,9 +20,8 @@ import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.c
 import { OverviewComponent } from '../overview/overview.component';
 import { YearlyCumulativeComponent } from '../yearly-cumulative/yearly-cumulative.component';
 import { RouteGridComponent } from '../route-grid/route-grid.component';
-import { WeeklyVolumeComponent } from '../weekly-volume/weekly-volume.component';
 
-export type SportSection = 'overview' | 'calendar' | 'volume' | 'years' | 'routes' | 'sports';
+export type SportSection = 'overview' | 'calendar' | 'years' | 'routes' | 'sports';
 
 /**
  * Active-chip ink class per filter, picked so text is >= 4.5:1 on the chip color.
@@ -40,7 +39,6 @@ const CHIP_INK_CLASS: Record<SportFilter, 'dark-ink' | 'hike-ink' | null> = {
 const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon: string }> = [
   { id: 'overview', labelKey: 'sportOverview', icon: '◉' },
   { id: 'calendar', labelKey: 'sportCalendar', icon: '▦' },
-  { id: 'volume', labelKey: 'sportVolume', icon: '≋' },
   { id: 'years', labelKey: 'sportYears', icon: '⟋' },
   { id: 'routes', labelKey: 'sportRoutes', icon: '✎' },
   { id: 'sports', labelKey: 'sportBreakdown', icon: '◔' },
@@ -51,7 +49,6 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
   imports: [
     OverviewComponent,
     CalendarHeatmapComponent,
-    WeeklyVolumeComponent,
     YearlyCumulativeComponent,
     SportBreakdownComponent,
     RouteGridComponent,

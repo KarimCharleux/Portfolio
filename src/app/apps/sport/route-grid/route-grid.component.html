@@ -10,18 +10,64 @@
     @if (isEmpty()) {
       <p class="routes__status">{{ i18n.t('sportEmpty') }}</p>
     } @else {
+      @for (f of featured(); track f.id) {
+        <section class="routes__hero" [style.--route-color]="f.color">
+          <svg
+            class="routes__hero-shape"
+            viewBox="-0.06 -0.06 1.12 1.12"
+            role="img"
+            [attr.aria-label]="f.title"
+          >
+            <path class="routes__glow" pathLength="1" [attr.d]="f.d" />
+            <path class="routes__line" pathLength="1" [attr.d]="f.d" />
+            <circle class="routes__start" r="0.018" [attr.cx]="f.start.x" [attr.cy]="f.start.y" />
+            <circle class="routes__end" r="0.022" [attr.cx]="f.end.x" [attr.cy]="f.end.y" />
+          </svg>
+          <div class="routes__details">
+            <span class="routes__sport">{{ f.sportLabel }}</span>
+            <span class="routes__distance">{{ f.km }}</span>
+            <span class="routes__date">{{ f.date }}</span>
+            <div class="routes__nav">
+              <button
+                type="button"
+                class="routes__nav-button"
+                [attr.aria-label]="i18n.t('sportPrevRoute')"
+                (click)="step(-1)"
+              >
+                <span aria-hidden="true">‹</span>
+              </button>
+              <span class="routes__position">{{ f.index + 1 }} / {{ count() }}</span>
+              <button
+                type="button"
+                class="routes__nav-button"
+                [attr.aria-label]="i18n.t('sportNextRoute')"
+                (click)="step(1)"
+              >
+                <span aria-hidden="true">›</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      }
+
       <ul class="routes">
         @for (s of shapes(); track s.id) {
-          <li class="routes__item" [style.--delay]="`${($index % 40) * 15}ms`">
-            <svg
-              class="routes__shape"
-              viewBox="-0.08 -0.08 1.16 1.16"
-              role="img"
+          <li class="routes__item" [style.--delay]="`${(s.index % 40) * 20}ms`">
+            <button
+              type="button"
+              class="routes__tile"
+              [class.routes__tile--selected]="s.index === selected()"
+              [attr.aria-pressed]="s.index === selected()"
               [attr.aria-label]="s.title"
+              [title]="s.title"
+              [style.--route-color]="s.color"
+              (click)="select(s.index)"
             >
-              <title>{{ s.title }}</title>
-              <path [attr.d]="s.d" [style.stroke]="s.color" />
-            </svg>
+              <svg class="routes__shape" viewBox="-0.1 -0.1 1.2 1.2" aria-hidden="true">
+                <path class="routes__line" pathLength="1" [attr.d]="s.d" />
+              </svg>
+              <span class="routes__tile-km">{{ s.km }}</span>
+            </button>
           </li>
         }
       </ul>

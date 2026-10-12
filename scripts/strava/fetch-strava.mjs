@@ -114,8 +114,8 @@ async function main() {
   writeFileSync(STATS_PATH, JSON.stringify(stats));
   writeFileSync(ROUTES_PATH, JSON.stringify(routes));
   console.log(
-    `Snapshot: ${stats.totals.all.activities} activities, ${routes.length} routes, ` +
-      `${stats.weeks.length} weeks (${stats.firstActivity} -> ${today}).`,
+    `Snapshot: ${stats.totals.all.activities} activities, ${routes.length} routes ` +
+      `(${stats.firstActivity} -> ${today}).`,
   );
 }
 
