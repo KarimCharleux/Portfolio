@@ -46,7 +46,7 @@ export const ROUTE_SEO: Partial<Record<AppId, RouteSeoEntry>> = {
   youtube: {
     title: 'Karim Charleux · Vidéos',
     description:
-      'Projets vidéo de Karim Charleux, présentés dans une fenêtre YouTube de son bureau interactif.',
+      'Les dernières vidéos FPV de Karim Charleux, en extraits plein écran dans une fenêtre de son bureau interactif.',
   },
   safari: {
     title: 'Karim Charleux · Liens',

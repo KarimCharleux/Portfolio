@@ -12,7 +12,7 @@ import { AppId } from '../../core/window-manager/window.model';
  * Apps whose content is dark in both themes. Like a real iOS app, their status and
  * navigation bars adopt the app's own background instead of a white strip above it.
  */
-const DARK_CHROME_APPS: ReadonlySet<AppId> = new Set<AppId>(['terminal']);
+const DARK_CHROME_APPS: ReadonlySet<AppId> = new Set<AppId>(['terminal', 'youtube']);
 
 @Component({
   selector: 'app-mobile-shell',
