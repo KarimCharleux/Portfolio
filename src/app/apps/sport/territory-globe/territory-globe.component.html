@@ -1,0 +1,77 @@
+<svg
+  class="globe"
+  role="img"
+  [attr.width]="width()"
+  [attr.height]="height()"
+  [attr.viewBox]="`0 0 ${width()} ${height()}`"
+  [attr.aria-label]="i18n.t('sportGlobeLabel')"
+  [style.--cell-color]="color()"
+  (wheel)="onWheel($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerUp($event)"
+>
+  <defs>
+    <radialGradient id="globe-shade" cx="35%" cy="30%" r="75%">
+      <stop class="globe__shade-light" offset="0%" />
+      <stop class="globe__shade-dark" offset="100%" />
+    </radialGradient>
+    <filter id="globe-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+  </defs>
+  <path class="globe__ocean" [attr.d]="sphere()" />
+  <path class="globe__graticule" [attr.d]="graticule()" />
+  <path class="globe__land" [attr.d]="land()" />
+  <path class="globe__borders" [attr.d]="borderPath()" />
+  @if (!dragging()) {
+    <g class="globe__heat" filter="url(#globe-glow)">
+      @for (l of levels(); track l.id) {
+        <path [attr.d]="l.d" [style.opacity]="l.opacity" />
+      }
+    </g>
+  }
+  <g class="globe__cells">
+    @for (l of levels(); track l.id) {
+      <path [attr.d]="l.d" [style.fill-opacity]="l.opacity" />
+    }
+  </g>
+  <path class="globe__shade" fill="url(#globe-shade)" [attr.d]="sphere()" />
+  <path class="globe__rim" [attr.d]="sphere()" />
+</svg>
+
+<div class="globe__controls">
+  <button
+    type="button"
+    class="globe__button"
+    [attr.aria-label]="i18n.t('sportZoomIn')"
+    (click)="zoomBy(1.8)"
+  >
+    <span aria-hidden="true">+</span>
+  </button>
+  <button
+    type="button"
+    class="globe__button"
+    [attr.aria-label]="i18n.t('sportZoomOut')"
+    (click)="zoomBy(1 / 1.8)"
+  >
+    <span aria-hidden="true">−</span>
+  </button>
+  <button
+    type="button"
+    class="globe__button"
+    [attr.aria-label]="i18n.t('sportRecenter')"
+    (click)="recenter()"
+  >
+    <span aria-hidden="true">◎</span>
+  </button>
+  <button
+    type="button"
+    class="globe__button"
+    [attr.aria-label]="i18n.t('sportWholeGlobe')"
+    (click)="wholeGlobe()"
+  >
+    <span aria-hidden="true">◯</span>
+  </button>
+</div>

@@ -19,9 +19,10 @@ import { SportBreakdownComponent } from '../sport-breakdown/sport-breakdown.comp
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
 import { YearlyCumulativeComponent } from '../yearly-cumulative/yearly-cumulative.component';
-import { RouteGridComponent } from '../route-grid/route-grid.component';
+import { RecordsComponent } from '../records/records.component';
+import { TerritoryComponent } from '../territory/territory.component';
 
-export type SportSection = 'overview' | 'calendar' | 'years' | 'routes' | 'sports';
+export type SportSection = 'overview' | 'calendar' | 'years' | 'records' | 'territory' | 'sports';
 
 /**
  * Active-chip ink class per filter, picked so text is >= 4.5:1 on the chip color.
@@ -40,7 +41,8 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
   { id: 'overview', labelKey: 'sportOverview', icon: '◉' },
   { id: 'calendar', labelKey: 'sportCalendar', icon: '▦' },
   { id: 'years', labelKey: 'sportYears', icon: '⟋' },
-  { id: 'routes', labelKey: 'sportRoutes', icon: '✎' },
+  { id: 'records', labelKey: 'sportRecords', icon: '✦' },
+  { id: 'territory', labelKey: 'sportTerritory', icon: '⊕' },
   { id: 'sports', labelKey: 'sportBreakdown', icon: '◔' },
 ];
 
@@ -51,7 +53,8 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
     CalendarHeatmapComponent,
     YearlyCumulativeComponent,
     SportBreakdownComponent,
-    RouteGridComponent,
+    RecordsComponent,
+    TerritoryComponent,
   ],
   templateUrl: './sport-app.component.html',
   styleUrl: './sport-app.component.scss',

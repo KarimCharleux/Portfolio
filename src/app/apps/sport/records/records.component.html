@@ -1,0 +1,38 @@
+<p class="records__note">{{ i18n.t('sportRecordsNote') }}</p>
+@switch (state()) {
+  @case ('loading') {
+    <p class="records__status" role="status">{{ i18n.t('sportRoutesLoading') }}</p>
+  }
+  @case ('error') {
+    <p class="records__status" role="alert">{{ i18n.t('sportRoutesError') }}</p>
+  }
+  @case ('ready') {
+    @if (cards().length === 0) {
+      <p class="records__status">{{ i18n.t('sportEmpty') }}</p>
+    } @else {
+      <ul class="records">
+        @for (c of cards(); track c.id) {
+          <li
+            class="records__card"
+            [style.--route-color]="c.color"
+            [style.--delay]="`${$index * 120}ms`"
+          >
+            <svg class="records__shape" viewBox="-0.08 -0.08 1.16 1.16" aria-hidden="true">
+              <path class="records__glow" pathLength="1" [attr.d]="c.d" />
+              <path class="records__line" pathLength="1" [attr.d]="c.d" />
+              <circle class="records__start" r="0.02" [attr.cx]="c.start.x" [attr.cy]="c.start.y" />
+              <circle class="records__end" r="0.026" [attr.cx]="c.end.x" [attr.cy]="c.end.y" />
+            </svg>
+            <div class="records__details">
+              <span class="records__kicker">{{ c.kickers }}</span>
+              <span class="records__distance">
+                {{ c.km }} <span class="records__unit">{{ i18n.t('sportKm') }}</span>
+              </span>
+              <span class="records__meta">{{ c.sportLabel }} · {{ c.date }}</span>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  }
+}

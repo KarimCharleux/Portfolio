@@ -67,8 +67,11 @@
           @case ('years') {
             <app-sport-yearly-cumulative [sport]="sport()" />
           }
-          @case ('routes') {
-            <app-sport-route-grid [sport]="sport()" />
+          @case ('records') {
+            <app-sport-records [sport]="sport()" />
+          }
+          @case ('territory') {
+            <app-sport-territory [sport]="sport()" />
           }
           @case ('sports') {
             <app-sport-breakdown [sport]="sport()" />

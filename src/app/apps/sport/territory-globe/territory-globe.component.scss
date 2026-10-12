@@ -1,0 +1,102 @@
+// Takes whatever height the territory view leaves; the controls float over its corner.
+:host {
+  display: block;
+  position: relative;
+  flex: 1 1 0;
+  min-height: 260px;
+}
+
+.globe {
+  display: block;
+  cursor: grab;
+  // Drag and pinch belong to the globe, not to page scrolling or browser zoom.
+  touch-action: none;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__ocean {
+    fill: var(--sport-globe-ocean);
+  }
+
+  &__graticule {
+    fill: none;
+    stroke: var(--sport-globe-graticule);
+    stroke-width: 1;
+  }
+
+  &__land {
+    fill: var(--sport-globe-land);
+  }
+
+  &__borders {
+    fill: none;
+    stroke: var(--sport-globe-border);
+    stroke-width: 0.6;
+  }
+
+  &__heat path {
+    fill: var(--cell-color);
+  }
+
+  &__cells path {
+    fill: var(--cell-color);
+    stroke: var(--cell-color);
+    stroke-width: 0.5;
+  }
+
+  &__shade {
+    pointer-events: none;
+  }
+
+  &__shade-light {
+    stop-color: rgb(255 255 255 / 0.1);
+  }
+
+  &__shade-dark {
+    stop-color: rgb(0 0 0 / 0.22);
+  }
+
+  &__rim {
+    fill: none;
+    stroke: var(--hairline);
+    stroke-width: 1;
+  }
+
+  &__controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__button {
+    all: unset;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--text-primary);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--hairline);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in srgb, var(--sport-accent) 18%, var(--glass-bg-strong));
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sport-accent);
+      outline-offset: 1px;
+    }
+  }
+}

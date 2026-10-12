@@ -1,0 +1,142 @@
+@use '../../app-window-content' as window;
+
+.records {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+
+  &__note,
+  &__status {
+    @include window.secondary-text;
+    margin: 0 0 12px;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 14px;
+    background:
+      radial-gradient(
+        circle at 50% 35%,
+        color-mix(in srgb, var(--route-color) 14%, transparent),
+        transparent 70%
+      ),
+      var(--surface-secondary);
+    border: 1px solid var(--hairline);
+    animation: records-in 0.5s var(--ease-spring) both;
+    animation-delay: var(--delay);
+  }
+
+  &__shape {
+    width: 100%;
+    max-height: 220px;
+    aspect-ratio: 1;
+    display: block;
+  }
+
+  // pathLength="1" makes the dash run the whole route, so offset 1 -> 0 draws it in.
+  &__line,
+  &__glow {
+    fill: none;
+    stroke: var(--route-color);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    animation: records-draw 1.8s var(--ease-spring) both;
+    animation-delay: var(--delay);
+  }
+
+  &__line {
+    stroke-width: 0.016;
+  }
+
+  &__glow {
+    stroke-width: 0.055;
+    opacity: 0.18;
+  }
+
+  &__start {
+    fill: var(--surface-secondary);
+    stroke: var(--route-color);
+    stroke-width: 0.012;
+  }
+
+  &__end {
+    fill: var(--route-color);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: records-pop 0.4s var(--ease-spring) both;
+    animation-delay: calc(var(--delay) + 1.4s);
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__kicker {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sport-accent-text);
+  }
+
+  &__distance {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__unit {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--text-secondary);
+  }
+
+  &__meta {
+    @include window.secondary-text;
+  }
+}
+
+@keyframes records-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes records-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes records-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .records__card,
+  .records__line,
+  .records__glow,
+  .records__end {
+    animation: none;
+  }
+}

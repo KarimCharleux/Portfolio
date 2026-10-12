@@ -40,3 +40,18 @@ export interface RouteShape {
   /** Flat [x0, y0, x1, y1, ...] in the unit square, y pointing down (SVG), 3 decimals. */
   points: number[];
 }
+
+export interface TerritoryCell {
+  /** [south, west, north, east] in degrees. */
+  bounds: [number, number, number, number];
+  areaKm2: number;
+  /** Activities that crossed the cell, per sport, in `SPORT_KEYS` order. */
+  counts: number[];
+}
+
+/** Grid cells crossed by public outdoor tracks, built by `scripts/strava/transform.mjs`. */
+export interface Territory {
+  /** Approximate cell edge. */
+  cellKm: number;
+  cells: TerritoryCell[];
+}

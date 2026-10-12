@@ -155,7 +155,7 @@
     display: flex;
     flex-direction: column;
 
-    // Grow to fill, never shrink below content (long views like the route grid scroll).
+    // Grow to fill, never shrink below content (long views like the records grid scroll).
     // Size-tracking charts override this on their own host to shrink with the window.
     > * {
       flex: 1 0 auto;
