@@ -1,0 +1,53 @@
+{
+  "syncedAt": "2026-10-12",
+  "videos": [
+    {
+      "id": "scZMp75Xlss",
+      "title": "Mountains | Cinematic FPV",
+      "publishedAt": "2023-03-12",
+      "views": 624,
+      "duration": 121,
+      "clipStart": 42
+    },
+    {
+      "id": "129LTX7PnQ8",
+      "title": "Escape drone 2021 - FPV Chasing",
+      "publishedAt": "2021-09-04",
+      "views": 625,
+      "duration": 159,
+      "clipStart": 55
+    },
+    {
+      "id": "THm7vXgOwgA",
+      "title": "IFLIGHT PROTEK35 FPV x MTB - GoPro 8",
+      "publishedAt": "2021-02-06",
+      "views": 1176,
+      "duration": 180,
+      "clipStart": 62
+    },
+    {
+      "id": "u0NG_gI1jAM",
+      "title": "Cinematic FPV - Hero 6 Black",
+      "publishedAt": "2020-06-24",
+      "views": 13962,
+      "duration": 180,
+      "clipStart": 62
+    },
+    {
+      "id": "CaR3ttWnq-s",
+      "title": "FPV FREESTYLE IN ABANDONED AQUATIC PARK ! - Nazgul5",
+      "publishedAt": "2020-05-28",
+      "views": 12381,
+      "duration": 178,
+      "clipStart": 62
+    },
+    {
+      "id": "DH33suA9wmQ",
+      "title": "Freestyle Forest - Nazgul5",
+      "publishedAt": "2020-04-14",
+      "views": 5890,
+      "duration": 207,
+      "clipStart": 72
+    }
+  ]
+}
