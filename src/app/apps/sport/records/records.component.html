@@ -24,11 +24,30 @@
               <circle class="records__end" r="0.026" [attr.cx]="c.end.x" [attr.cy]="c.end.y" />
             </svg>
             <div class="records__details">
-              <span class="records__kicker">{{ c.kickers }}</span>
+              <span class="records__badge" aria-hidden="true">
+                <app-sport-icon [name]="c.sport" />
+              </span>
+              <ul class="records__kickers">
+                @for (k of c.kickers; track k.key) {
+                  <li class="records__kicker">
+                    <app-sport-icon [name]="k.icon" />
+                    {{ k.label }}
+                  </li>
+                }
+              </ul>
               <span class="records__distance">
                 {{ c.km }} <span class="records__unit">{{ i18n.t('sportKm') }}</span>
               </span>
-              <span class="records__meta">{{ c.sportLabel }} · {{ c.date }}</span>
+              <span class="records__meta">
+                <span class="records__meta-item">
+                  <app-sport-icon [name]="c.sport" />
+                  {{ c.sportLabel }}
+                </span>
+                <span class="records__meta-item">
+                  <app-sport-icon name="calendar" />
+                  {{ c.date }}
+                </span>
+              </span>
             </div>
           </li>
         }

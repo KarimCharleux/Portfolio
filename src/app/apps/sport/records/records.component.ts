@@ -8,15 +8,24 @@ import {
   signal,
 } from '@angular/core';
 import { I18nService } from '../../../core/i18n/i18n.service';
-import { TranslationKey } from '../../../core/i18n/translations';
-import { RouteShape, SPORT_KEYS, SportFilter } from '../../../content/sport.model';
+import { RouteShape, SPORT_KEYS, SportFilter, SportKey } from '../../../content/sport.model';
 import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
+import { SportIconComponent, SportIconName } from '../sport-icon/sport-icon.component';
 
 type LoadState = 'loading' | 'ready' | 'error';
 
+type RecordKey = 'sportRecordLongest' | 'sportRecordFirst' | 'sportRecordLatest';
+
+const RECORD_ICONS: Record<RecordKey, SportIconName> = {
+  sportRecordLongest: 'trophy',
+  sportRecordFirst: 'flag',
+  sportRecordLatest: 'sparkles',
+};
+
 interface RecordCard {
   id: string;
-  kickers: string;
+  kickers: Array<{ key: RecordKey; icon: SportIconName; label: string }>;
+  sport: SportKey;
   sportLabel: string;
   km: string;
   date: string;
@@ -40,6 +49,7 @@ function toPath(points: number[]): string {
  */
 @Component({
   selector: 'app-sport-records',
+  imports: [SportIconComponent],
   templateUrl: './records.component.html',
   styleUrl: './records.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -72,8 +82,8 @@ export class RecordsComponent {
     if (routes.length === 0) return [];
 
     // Route -> the records it holds, so one route holding two records is drawn once.
-    const held = new Map<RouteShape, TranslationKey[]>();
-    const hold = (route: RouteShape | undefined, key: TranslationKey) => {
+    const held = new Map<RouteShape, RecordKey[]>();
+    const hold = (route: RouteShape | undefined, key: RecordKey) => {
       if (route) held.set(route, [...(held.get(route) ?? []), key]);
     };
     for (const k of s === 'all' ? SPORT_KEYS : [s]) {
@@ -92,7 +102,8 @@ export class RecordsComponent {
       const p = r.points;
       return {
         id: `${r.date}-${r.sport}-${r.distanceKm}`,
-        kickers: keys.map((k) => this.i18n.t(k)).join(' · '),
+        kickers: keys.map((key) => ({ key, icon: RECORD_ICONS[key], label: this.i18n.t(key) })),
+        sport: r.sport,
         sportLabel: this.i18n.t(SPORT_LABEL_KEYS[r.sport]),
         km: this.#km().format(r.distanceKm),
         date: this.#dateFormat().format(new Date(`${r.date}T00:00:00Z`)),
