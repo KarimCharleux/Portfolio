@@ -1,6 +1,8 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const environment = {
   production: true,
+  // Dev-only shortcut: `environment.development.ts` flips this to skip the boot/splash screen.
+  skipBootScreen: false,
   firebaseConfig: {
     apiKey: 'AIzaSyAtcE8Mk52G7J2ldGfrF4UwGRb0YwQYmB0',
     authDomain: 'karimagine-c1afb.firebaseapp.com',

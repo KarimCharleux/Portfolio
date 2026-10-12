@@ -29,7 +29,8 @@ import { I18nService } from '../../core/i18n/i18n.service';
 export type BootPhase = 'loading' | 'locked' | 'unlocking' | 'revealing' | 'done';
 
 const HOLD_AT_FULL_MS = 300;
-const STATIC_BOOT_ID = 'app-boot-static';
+/** `index.html`'s pre-bootstrap placeholder, removed once Angular takes over. */
+export const STATIC_BOOT_ID = 'app-boot-static';
 
 // Fake, eased ramp toward 92% (à la Apple/macOS boot bar) — the bar never
 // visually reflects raw network speed, it just decelerates as it climbs.

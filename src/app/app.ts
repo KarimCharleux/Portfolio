@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Location, isPlatformBrowser } from '@angular/common';
+import { environment } from '../environments/environment';
 import { getFirebaseApp } from './core/firebase-app';
 import { BreakpointService } from './core/breakpoint/breakpoint.service';
 import { I18nService } from './core/i18n/i18n.service';
@@ -22,7 +23,11 @@ import { CursorService } from './core/cursor/cursor.service';
 import { SeoService } from './core/seo/seo.service';
 import { WallpaperComponent } from './shell/wallpaper/wallpaper.component';
 import { CursorComponent } from './shell/cursor/cursor.component';
-import { BootPhase, BootScreenComponent } from './shell/boot-screen/boot-screen.component';
+import {
+  BootPhase,
+  BootScreenComponent,
+  STATIC_BOOT_ID,
+} from './shell/boot-screen/boot-screen.component';
 import { DesktopShellComponent } from './shell/desktop-shell/desktop-shell.component';
 import { MobileShellComponent } from './shell/mobile-shell/mobile-shell.component';
 
@@ -47,10 +52,12 @@ export class App {
   readonly #windowUrlSync = inject(WindowUrlSyncService);
   readonly #seo = inject(SeoService);
   readonly #cursor = inject(CursorService);
+  readonly #isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  // Skip the boot animation in SSR/prerendered output — only the browser plays it.
+  // Skip the boot animation in SSR/prerendered output (only the browser plays it) and in dev
+  // builds (`environment.skipBootScreen`, see `environment.development.ts`).
   protected readonly bootPhase = signal<BootPhase>(
-    isPlatformBrowser(inject(PLATFORM_ID)) ? 'loading' : 'done',
+    this.#isBrowser && !environment.skipBootScreen ? 'loading' : 'done',
   );
   // The desktop mounts mid-animation (`revealing`), under the bloom still flying out.
   protected readonly showShell = computed(() => {
@@ -80,10 +87,14 @@ export class App {
 
     this.#seo.applyForRoute(this.#initialAppId);
     if (this.bootPhase() === 'done') {
-      // Server/prerender: the boot screen never renders (bootPhase starts at 'done'), so nothing
-      // would otherwise open this window — this is what makes each route's prerendered
-      // HTML contain that app's real content instead of an empty desktop.
+      // Server/prerender (or dev skip): the boot screen never renders (bootPhase starts at
+      // 'done'), so nothing would otherwise open this window — this is what makes each route's
+      // prerendered HTML contain that app's real content instead of an empty desktop.
       this.#openInitialWindow();
+      if (this.#isBrowser) {
+        // BootScreenComponent normally removes the static placeholder; it never mounts here.
+        document.getElementById(STATIC_BOOT_ID)?.remove();
+      }
     }
 
     // There's nothing to hover while assets load, so the cursor's normal
