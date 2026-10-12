@@ -45,9 +45,16 @@ export function weekOfYear(isoDate) {
 
 const zeroTotals = () => ({ distanceKm: 0, movingHours: 0, elevationM: 0, activities: 0 });
 
-/** Everyone-visible, non-trainer. Falls back to `!private` when `visibility` is absent. */
-function isPublicOutdoor(a) {
-  const visible = a.visibility !== undefined ? a.visibility === 'everyone' : !a.private;
+/**
+ * Visible to someone besides the athlete (Everyone or Followers), non-trainer, non-virtual.
+ * "Only You" activities stay out of routes and territory. Falls back to `!private` when
+ * `visibility` is absent.
+ */
+function isSharedOutdoor(a) {
+  const visible =
+    a.visibility !== undefined
+      ? a.visibility === 'everyone' || a.visibility === 'followers_only'
+      : !a.private;
   return visible && !a.trainer && !String(a.sport_type).startsWith('Virtual');
 }
 
@@ -61,8 +68,8 @@ export function normalizeActivities(raw) {
       movingHours: (a.moving_time ?? 0) / 3600,
       elevationM: a.total_elevation_gain ?? 0,
       polyline: a.map?.summary_polyline || null,
-      // Route publication only: Strava `activity:read` also returns Followers-only and virtual activities.
-      publicOutdoor: isPublicOutdoor(a),
+      // Routes and territory only: `activity:read_all` also returns "Only You" and virtual activities.
+      sharedOutdoor: isSharedOutdoor(a),
     }))
     .filter((a) => a.sport !== null)
     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
@@ -216,7 +223,7 @@ export function shapeFromPolyline(encoded) {
 /** Newest first, only activities with a usable track. */
 export function buildRoutes(raw) {
   return normalizeActivities(raw)
-    .filter((a) => a.polyline && a.publicOutdoor)
+    .filter((a) => a.polyline && a.sharedOutdoor)
     .map((a) => ({
       sport: a.sport,
       date: a.date,
@@ -262,13 +269,13 @@ function cellAreaKm2(c) {
 }
 
 /**
- * Grid cells crossed by public outdoor tracks, with how many activities of each sport crossed
+ * Grid cells crossed by shared (Everyone or Followers) outdoor tracks, with how many activities of each sport crossed
  * them. Only cell bounds leave the pipeline: the GPS tracks themselves are never published.
  */
 export function buildTerritory(raw) {
   const cells = new Map();
   for (const a of normalizeActivities(raw)) {
-    if (!a.polyline || !a.publicOutdoor) continue;
+    if (!a.polyline || !a.sharedOutdoor) continue;
     const pts = decodePolyline(a.polyline);
     const seen = new Set();
     const visit = (lat, lng) => {

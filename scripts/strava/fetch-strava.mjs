@@ -73,6 +73,12 @@ async function loadActivities() {
   return fetchFromStrava();
 }
 
+/**
+ * Bump when transform.mjs changes what it derives from the same activities (e.g. a filter rule),
+ * so the next sync rebuilds the snapshot even if no activity changed.
+ */
+const PIPELINE_VERSION = 2;
+
 /** Hash of the per-activity fields the pipeline uses, so unrelated Strava changes do not trigger a commit. */
 function sourceHash(raw) {
   const stable = raw
@@ -89,7 +95,9 @@ function sourceHash(raw) {
       a.trainer ?? null,
     ])
     .sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0));
-  return createHash('sha256').update(JSON.stringify(stable)).digest('hex');
+  return createHash('sha256')
+    .update(JSON.stringify([PIPELINE_VERSION, stable]))
+    .digest('hex');
 }
 
 function previousHash() {
