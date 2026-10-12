@@ -1,0 +1,35 @@
+<p class="territory__note">{{ i18n.t('sportTerritoryNote') }}</p>
+@switch (state()) {
+  @case ('loading') {
+    <p class="territory__status" role="status">{{ i18n.t('sportTerritoryLoading') }}</p>
+  }
+  @case ('pending') {
+    <p class="territory__status">{{ i18n.t('sportTerritoryPending') }}</p>
+  }
+  @case ('error') {
+    <p class="territory__status" role="alert">{{ i18n.t('sportTerritoryError') }}</p>
+  }
+  @case ('ready') {
+    @if (isEmpty()) {
+      <p class="territory__status">{{ i18n.t('sportEmpty') }}</p>
+    } @else {
+      <ul class="territory__figures">
+        @for (f of figures(); track f.id) {
+          <li class="territory__figure">
+            <span class="territory__value">{{ f.value }}</span>
+            <span class="territory__label">{{ f.label }}</span>
+          </li>
+        }
+      </ul>
+      @if (coarse(); as c) {
+        <app-sport-territory-globe
+          [cells]="cells()"
+          [coarse]="c"
+          [fine]="fine()"
+          [color]="color()"
+        />
+      }
+      <p class="territory__hint">{{ i18n.t('sportGlobeHint') }}</p>
+    }
+  }
+}

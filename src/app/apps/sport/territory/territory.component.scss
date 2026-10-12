@@ -1,0 +1,56 @@
+@use '../../app-window-content' as window;
+
+// Fills the pane: figures and hint keep their height, the globe takes the rest.
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.territory {
+  &__note,
+  &__status,
+  &__hint {
+    @include window.secondary-text;
+    margin: 0 0 12px;
+  }
+
+  &__hint {
+    margin: 8px 0 0;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  &__figures {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  &__figure {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--surface-secondary);
+    border: 1px solid var(--hairline);
+  }
+
+  &__value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    @include window.secondary-text;
+    font-size: 12px;
+  }
+}

@@ -141,6 +141,11 @@
   // Inactive filter chip outline: >= 3:1 against --surface-secondary (non-text contrast).
   --sport-chip-border: rgb(255 255 255 / 0.32);
   --sport-past-year: rgb(255 255 255 / 0.28);
+  // Territory globe: unexplored land stays in a dim "fog", explored cells glow in the accent.
+  --sport-globe-ocean: #11161c;
+  --sport-globe-land: #2a3037;
+  --sport-globe-border: rgb(255 255 255 / 0.14);
+  --sport-globe-graticule: rgb(255 255 255 / 0.05);
 }
 
 :root:not([data-theme='dark']) {
@@ -172,4 +177,8 @@
   --sport-grid: rgb(0 0 0 / 0.07);
   --sport-chip-border: rgb(0 0 0 / 0.42);
   --sport-past-year: rgb(0 0 0 / 0.25);
+  --sport-globe-ocean: #e9eef3;
+  --sport-globe-land: #cdd4db;
+  --sport-globe-border: rgb(255 255 255 / 0.8);
+  --sport-globe-graticule: rgb(0 0 0 / 0.05);
 }

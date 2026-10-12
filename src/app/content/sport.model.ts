@@ -11,13 +11,6 @@ export interface SportTotals {
   activities: number;
 }
 
-export interface SportWeek {
-  /** ISO date (Monday) of the week. */
-  start: string;
-  /** Moving hours per sport that week, every key present (zero-filled). */
-  hours: Record<SportKey, number>;
-}
-
 /**
  * Everything the Sport app renders, precomputed by `scripts/strava/fetch-strava.mjs`.
  * The app only reads this; it never aggregates.
@@ -32,8 +25,6 @@ export interface SportStats {
   totals: Record<SportFilter, SportTotals>;
   /** ISO date -> moving minutes per sport, only days with activity. */
   days: Record<string, Partial<Record<SportKey, number>>>;
-  /** Continuous, zero-filled, oldest first. */
-  weeks: SportWeek[];
   /**
    * Filter -> year -> cumulative km at the end of each week of that year (index 0 = days 1-7).
    * Past years have 53 values; the current year stops at the current week.
@@ -48,4 +39,19 @@ export interface RouteShape {
   distanceKm: number;
   /** Flat [x0, y0, x1, y1, ...] in the unit square, y pointing down (SVG), 3 decimals. */
   points: number[];
+}
+
+export interface TerritoryCell {
+  /** [south, west, north, east] in degrees. */
+  bounds: [number, number, number, number];
+  areaKm2: number;
+  /** Activities that crossed the cell, per sport, in `SPORT_KEYS` order. */
+  counts: number[];
+}
+
+/** Grid cells crossed by shared (Everyone or Followers) outdoor tracks, built by `scripts/strava/transform.mjs`. */
+export interface Territory {
+  /** Approximate cell edge. */
+  cellKm: number;
+  cells: TerritoryCell[];
 }

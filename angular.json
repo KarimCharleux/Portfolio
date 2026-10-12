@@ -28,6 +28,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "countries-50m.json",
+                "input": "node_modules/world-atlas",
+                "output": "sport"
+              },
+              {
+                "glob": "countries-110m.json",
+                "input": "node_modules/world-atlas",
+                "output": "sport"
               }
             ],
             "styles": ["src/styles.scss"],
