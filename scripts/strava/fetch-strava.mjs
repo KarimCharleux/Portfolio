@@ -77,7 +77,7 @@ async function loadActivities() {
  * Bump when transform.mjs changes what it derives from the same activities (e.g. a filter rule),
  * so the next sync rebuilds the snapshot even if no activity changed.
  */
-const PIPELINE_VERSION = 2;
+const PIPELINE_VERSION = 3;
 
 /** Hash of the per-activity fields the pipeline uses, so unrelated Strava changes do not trigger a commit. */
 function sourceHash(raw) {

@@ -1,6 +1,5 @@
 // One-time setup: prints a Strava refresh token with scope read,activity:read_all.
-// `read_all` includes "Only You" activities: they count in the totals and calendar, but
-// transform.mjs never publishes their shape or territory.
+// `read_all` includes "Only You" activities: they count everywhere, routes and territory included.
 // 1. Create an app at https://www.strava.com/settings/api with
 //    "Authorization Callback Domain" = localhost
 // 2. STRAVA_CLIENT_ID=... STRAVA_CLIENT_SECRET=... node scripts/strava/authorize.mjs

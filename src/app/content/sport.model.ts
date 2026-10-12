@@ -49,7 +49,7 @@ export interface TerritoryCell {
   counts: number[];
 }
 
-/** Grid cells crossed by shared (Everyone or Followers) outdoor tracks, built by `scripts/strava/transform.mjs`. */
+/** Grid cells crossed by outdoor tracks (any visibility), built by `scripts/strava/transform.mjs`. */
 export interface Territory {
   /** Approximate cell edge. */
   cellKm: number;
