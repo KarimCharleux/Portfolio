@@ -64,6 +64,13 @@ async function fetchFromStrava() {
     if (batch.length === 0) break;
     activities.push(...batch);
   }
+  // No "only_me" here means the refresh token was granted without activity:read_all.
+  const byVisibility = {};
+  for (const a of activities) {
+    const v = a.visibility ?? (a.private ? 'private' : 'unknown');
+    byVisibility[v] = (byVisibility[v] ?? 0) + 1;
+  }
+  console.log(`Strava: ${activities.length} raw activities ${JSON.stringify(byVisibility)}.`);
   return activities;
 }
 
