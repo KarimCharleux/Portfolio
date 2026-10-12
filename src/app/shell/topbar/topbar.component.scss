@@ -8,14 +8,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  color: var(--text-primary);
+  background: transparent;
+  color: var(--menu-bar-text);
   font-size: 13px;
   font-weight: 400;
   z-index: 10000;
-  box-shadow: 0 0.5px 0 var(--hairline);
   animation: topbar-in 0.84s var(--ease-spring) both;
 
   @media (prefers-reduced-motion: reduce) {
