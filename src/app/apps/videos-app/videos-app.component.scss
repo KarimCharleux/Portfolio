@@ -5,7 +5,7 @@
   overflow: hidden;
   background: var(--videos-surface);
   color: #fff;
-  container-type: inline-size;
+  container-type: size;
   container-name: videos;
 
   &__stage {
@@ -16,12 +16,9 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        0deg,
-        rgb(0 0 0 / 0.9) 0%,
-        rgb(0 0 0 / 0.1) 50%,
-        rgb(0 0 0 / 0.45) 100%
-      );
+      background:
+        linear-gradient(270deg, rgb(0 0 0 / 0.55) 0%, transparent 35%),
+        linear-gradient(0deg, rgb(0 0 0 / 0.9) 0%, rgb(0 0 0 / 0.1) 50%, rgb(0 0 0 / 0.45) 100%);
       pointer-events: none;
     }
   }
@@ -207,7 +204,7 @@
     color: #fff;
     text-align: left;
     cursor: pointer;
-    opacity: 0.55;
+    opacity: 0.7;
     transition:
       opacity 0.3s,
       background-color 0.3s;
@@ -255,6 +252,23 @@
 
     &__title {
       font-size: 22px;
+    }
+  }
+
+  // Short window: bars at the top and info at the bottom would collide with the list and index.
+  @container videos (max-height: 420px) {
+    &__list,
+    &__index {
+      display: none;
+    }
+
+    &__title {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+
+    &__actions {
+      margin-top: 10px;
     }
   }
 }

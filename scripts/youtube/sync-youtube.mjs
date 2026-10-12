@@ -46,6 +46,7 @@ function decodeXml(text) {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
     .replace(/&amp;/g, '&');
 }
@@ -149,11 +150,18 @@ function cutClip(id, start, workDir, outPath) {
   );
 }
 
-async function downloadPoster(id, outPath) {
+/** Downloads the YouTube thumbnail, then re-encodes it smaller (960px wide) into `outPath`. */
+async function downloadPoster(id, workDir, outPath) {
   for (const quality of ['maxresdefault', 'hqdefault']) {
     const res = await fetch(`https://i.ytimg.com/vi/${id}/${quality}.jpg`);
     if (res.ok) {
-      writeFileSync(outPath, Buffer.from(await res.arrayBuffer()));
+      const rawPath = join(workDir, `${id}-poster.jpg`);
+      writeFileSync(rawPath, Buffer.from(await res.arrayBuffer()));
+      execFileSync(
+        'ffmpeg',
+        ['-loglevel', 'error', '-y', '-i', rawPath, '-vf', 'scale=960:-2', '-q:v', '5', outPath],
+        { stdio: 'inherit' },
+      );
       return;
     }
   }
@@ -193,7 +201,7 @@ async function main() {
         mkdirSync(rawDir);
         cutClip(entry.id, clipStart, rawDir, join(stagedDir, `${entry.id}.mp4`));
       }
-      await downloadPoster(entry.id, join(stagedDir, `${entry.id}.jpg`));
+      await downloadPoster(entry.id, workDir, join(stagedDir, `${entry.id}.jpg`));
       videos.push({ ...entry, duration: seconds, clipStart });
     }
 
@@ -203,6 +211,7 @@ async function main() {
     }
     const keep = new Set(videos.map((v) => v.id));
     for (const name of readdirSync(MEDIA_DIR)) {
+      if (!/\.(mp4|jpg)$/.test(name)) continue;
       const id = name.replace(/\.(mp4|jpg)$/, '');
       if (!keep.has(id)) rmSync(join(MEDIA_DIR, name));
     }

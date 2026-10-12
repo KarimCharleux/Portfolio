@@ -18,7 +18,7 @@ import {
   youtubeWatchUrl,
 } from '../../content/youtube-videos.data';
 
-/** Advance anyway if a clip has not started after this long (autoplay refused, poster shown). */
+/** Advance anyway this long after the browser refused autoplay (poster shown). */
 const FALLBACK_ADVANCE_MS = 6000;
 
 @Component({
@@ -132,20 +132,19 @@ export class VideosAppComponent {
       if (paused) {
         player.pause();
       } else {
-        player.play().catch(() => undefined);
+        player.play().catch(() => this.#armFallback(index));
       }
     });
 
     const next = players[(index + 1) % players.length]?.nativeElement;
     if (next) next.preload = 'auto';
+  }
 
-    if (!paused) {
-      this.#fallbackTimer = setTimeout(() => {
-        const player = players[index]?.nativeElement;
-        if (this.current() === index && !this.paused() && (!player || player.currentTime === 0)) {
-          this.#advance();
-        }
-      }, FALLBACK_ADVANCE_MS);
-    }
+  /** Autoplay was refused: show the poster, then move on rather than stall on a clip that never starts. */
+  #armFallback(index: number): void {
+    clearTimeout(this.#fallbackTimer);
+    this.#fallbackTimer = setTimeout(() => {
+      if (this.current() === index && !this.paused()) this.#advance();
+    }, FALLBACK_ADVANCE_MS);
   }
 }
