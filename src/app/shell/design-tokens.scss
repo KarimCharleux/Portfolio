@@ -104,6 +104,15 @@
   --terminal-error: #ff6b6b;
   --terminal-heading: #ffd479;
   --terminal-selection: rgb(106 196 255 / 0.32);
+
+  /* Videos app (Cinéma): dark in both themes, it is a video surface. */
+  --videos-surface: #000;
+  --videos-crossfade: 1s;
+  --videos-list-width: 210px;
+  --videos-inset: 32px;
+  --videos-glass: rgb(255 255 255 / 0.12);
+  --videos-text-secondary: rgb(255 255 255 / 0.7);
+  --videos-bar-track: rgb(255 255 255 / 0.25);
 }
 
 :root[data-theme='dark'] {

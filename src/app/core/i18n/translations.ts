@@ -11,6 +11,12 @@ export const TRANSLATIONS = {
   photos: { en: 'Photos', fr: 'Photos' },
   designWork: { en: 'Design Work', fr: 'Travaux de design' },
   videoProjects: { en: 'Video Projects', fr: 'Projets vidéo' },
+  videosWatch: { en: 'Watch on YouTube', fr: 'Regarder sur YouTube' },
+  videosPause: { en: 'Pause', fr: 'Mettre en pause' },
+  videosPlay: { en: 'Play', fr: 'Lecture' },
+  videosViews: { en: 'views', fr: 'vues' },
+  videosListLabel: { en: 'Latest videos', fr: 'Dernières vidéos' },
+  videosNewTab: { en: '(opens in a new tab)', fr: '(ouvre un nouvel onglet)' },
   links: { en: 'Links', fr: 'Liens' },
   allProjects: { en: 'All Projects', fr: 'Tous les projets' },
   messages: { en: 'Messages', fr: 'Messages' },
@@ -48,11 +54,6 @@ export const TRANSLATIONS = {
   designCaption: {
     en: 'Swap with real design work.',
     fr: 'À remplacer par un vrai travail de design.',
-  },
-  placeholderVideo: { en: 'Placeholder video', fr: 'Vidéo temporaire' },
-  videoCaption: {
-    en: 'Swap with a real video project.',
-    fr: 'À remplacer par un vrai projet vidéo.',
   },
   notesWhoTitle: { en: 'Who I am', fr: 'Qui je suis' },
   notesWhoLine1: {

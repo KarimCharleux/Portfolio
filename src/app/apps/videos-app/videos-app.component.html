@@ -1,0 +1,89 @@
+<section class="videos">
+  <div class="videos__stage">
+    @for (item of videos; track item.id) {
+      <div
+        class="videos__slide"
+        [class.videos__slide--current]="$index === current()"
+        [attr.aria-hidden]="$index === current() ? null : 'true'"
+      >
+        <video
+          #player
+          class="videos__player"
+          playsinline
+          disablepictureinpicture
+          preload="none"
+          [src]="clipSrc(item)"
+          [poster]="posterSrc(item)"
+          [muted]="true"
+          (timeupdate)="onTimeUpdate($index, player)"
+          (ended)="onEnded($index)"
+        ></video>
+      </div>
+    }
+  </div>
+
+  <div class="videos__bars">
+    @for (item of videos; track item.id) {
+      <button
+        type="button"
+        class="videos__bar"
+        [attr.aria-label]="item.title"
+        [attr.aria-current]="$index === current() ? 'true' : null"
+        (click)="goTo($index)"
+      >
+        <span class="videos__bar-track">
+          <span class="videos__bar-fill" [style.transform]="`scaleX(${barFill($index)})`"></span>
+        </span>
+      </button>
+    }
+  </div>
+
+  <div class="videos__info">
+    <p class="videos__index" aria-hidden="true">{{ indexLabel() }}</p>
+    <h2 class="videos__title">{{ video().title }}</h2>
+    <p class="videos__meta">{{ meta() }}</p>
+    <div class="videos__actions">
+      <a class="videos__watch" target="_blank" rel="noopener" [href]="watchUrl(video())">
+        <svg class="videos__watch-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M4 2.5v11l9-5.5z" fill="currentColor" />
+        </svg>
+        {{ i18n.t('videosWatch') }}
+        <span class="videos__sr-only">{{ i18n.t('videosNewTab') }}</span>
+      </a>
+      <button
+        type="button"
+        class="videos__toggle"
+        [attr.aria-label]="i18n.t(paused() ? 'videosPlay' : 'videosPause')"
+        (click)="togglePause()"
+      >
+        @if (paused()) {
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 2.5v11l9-5.5z" fill="currentColor" />
+          </svg>
+        } @else {
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <rect x="3.5" y="2.5" width="3" height="11" rx="1" fill="currentColor" />
+            <rect x="9.5" y="2.5" width="3" height="11" rx="1" fill="currentColor" />
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <ol class="videos__list" [attr.aria-label]="i18n.t('videosListLabel')">
+    @for (item of videos; track item.id) {
+      <li>
+        <button
+          type="button"
+          class="videos__item"
+          [class.videos__item--current]="$index === current()"
+          [attr.aria-current]="$index === current() ? 'true' : null"
+          (click)="goTo($index)"
+        >
+          <img class="videos__item-thumb" alt="" width="64" height="36" [src]="posterSrc(item)" />
+          <span class="videos__item-title">{{ item.title }}</span>
+        </button>
+      </li>
+    }
+  </ol>
+</section>

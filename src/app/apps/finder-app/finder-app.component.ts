@@ -8,7 +8,7 @@ import { NOTES_COUNT } from '../../content/notes.data';
 import { CODE_PROJECTS_COUNT } from '../../content/code-projects.data';
 import { PHOTOS_COUNT } from '../../content/photos.data';
 import { DESIGNS_COUNT } from '../../content/designs.data';
-import { VIDEOS_COUNT } from '../../content/videos.data';
+import { VIDEOS_COUNT } from '../../content/youtube-videos.data';
 import { SOCIAL_LINKS_COUNT } from '../../content/social-links.data';
 
 const CONTENT_COUNTS: Partial<Record<AppId, number>> = {

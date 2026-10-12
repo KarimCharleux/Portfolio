@@ -40,4 +40,17 @@ export interface Photo {
   height: number;
 }
 export type DesignWork = GridItem;
-export type Video = GridItem;
+/** One long-form @WodeFPV upload, as written by `scripts/youtube/sync-youtube.mjs`. */
+export interface YoutubeVideo {
+  id: string;
+  /** Original YouTube title: the video's real name, never translated. */
+  title: string;
+  /** `YYYY-MM-DD`. */
+  publishedAt: string;
+  /** View count at sync time. */
+  views: number;
+  /** Full video length, seconds. */
+  duration: number;
+  /** Where the 6 s clip starts in the full video, seconds. */
+  clipStart: number;
+}

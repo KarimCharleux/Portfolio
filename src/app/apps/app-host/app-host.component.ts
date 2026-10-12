@@ -7,12 +7,12 @@ import { FinderAppComponent } from '../finder-app/finder-app.component';
 import { AboutPortfolioComponent } from '../about-portfolio/about-portfolio.component';
 import { TerminalAppComponent } from '../terminal-app/terminal-app.component';
 import { NotesAppComponent } from '../notes-app/notes-app.component';
+import { VideosAppComponent } from '../videos-app/videos-app.component';
 import { SportAppComponent } from '../sport/sport-app/sport-app.component';
 import { PhotosAppComponent } from '../photos-app/photos-app.component';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
 import { DESIGNS } from '../../content/designs.data';
-import { VIDEOS } from '../../content/videos.data';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { Lang, TranslationKey } from '../../core/i18n/translations';
 
@@ -27,7 +27,6 @@ const GRID_SOURCES: Partial<
   Record<AppId, { headingKey: TranslationKey; source: Record<Lang, GridItem[]> }>
 > = {
   figma: { headingKey: 'designWork', source: DESIGNS },
-  youtube: { headingKey: 'videoProjects', source: VIDEOS },
 };
 
 @Component({
@@ -41,6 +40,7 @@ const GRID_SOURCES: Partial<
     NotesAppComponent,
     PhotosAppComponent,
     SportAppComponent,
+    VideosAppComponent,
   ],
   template: `
     @if (appId() === 'finder') {
@@ -53,6 +53,8 @@ const GRID_SOURCES: Partial<
       <app-notes />
     } @else if (appId() === 'photoshop') {
       <app-photos />
+    } @else if (appId() === 'youtube') {
+      <app-videos />
     } @else if (appId() === 'sport') {
       <!-- Deferred for the bundle budget (d3); incremental hydration keeps it prerendered. -->
       @defer (on immediate; hydrate on immediate) {
