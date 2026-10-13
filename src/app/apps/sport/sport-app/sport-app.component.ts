@@ -14,7 +14,8 @@ import { BreakpointService } from '../../../core/breakpoint/breakpoint.service';
 import { MobileNavService } from '../../../core/mobile-nav/mobile-nav.service';
 import { SPORT_FILTERS, SportFilter } from '../../../content/sport.model';
 import { SPORT_STATS } from '../../../content/sport-stats.data';
-import { SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
+import { SPORT_ICONS, SPORT_LABEL_KEYS, sportColor } from '../sport-palette/sport-palette';
+import { SportIconComponent } from '../sport-icon/sport-icon.component';
 import { SportBreakdownComponent } from '../sport-breakdown/sport-breakdown.component';
 import { CalendarHeatmapComponent } from '../calendar-heatmap/calendar-heatmap.component';
 import { OverviewComponent } from '../overview/overview.component';
@@ -23,19 +24,6 @@ import { RecordsComponent } from '../records/records.component';
 import { TerritoryComponent } from '../territory/territory.component';
 
 export type SportSection = 'overview' | 'calendar' | 'years' | 'records' | 'territory' | 'sports';
-
-/**
- * Active-chip ink class per filter, picked so text is >= 4.5:1 on the chip color.
- * White fails on all/run/ride/swim (and hike in dark); dark ink fails on hike (light) and walk.
- */
-const CHIP_INK_CLASS: Record<SportFilter, 'dark-ink' | 'hike-ink' | null> = {
-  all: 'dark-ink',
-  run: 'dark-ink',
-  ride: 'dark-ink',
-  swim: 'dark-ink',
-  hike: 'hike-ink',
-  walk: null,
-};
 
 const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon: string }> = [
   { id: 'overview', labelKey: 'sportOverview', icon: '◉' },
@@ -55,6 +43,7 @@ const SECTIONS: ReadonlyArray<{ id: SportSection; labelKey: TranslationKey; icon
     SportBreakdownComponent,
     RecordsComponent,
     TerritoryComponent,
+    SportIconComponent,
   ],
   templateUrl: './sport-app.component.html',
   styleUrl: './sport-app.component.scss',
@@ -73,7 +62,7 @@ export class SportAppComponent {
   );
   protected readonly labelKeys = SPORT_LABEL_KEYS;
   protected readonly color = sportColor;
-  protected readonly chipInk = CHIP_INK_CLASS;
+  protected readonly icons = SPORT_ICONS;
 
   readonly #section = signal<SportSection>('overview');
   protected readonly section = this.#section.asReadonly();

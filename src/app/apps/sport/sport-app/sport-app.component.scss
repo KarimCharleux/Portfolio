@@ -97,7 +97,10 @@
   &__title {
     @include window.heading;
     margin: 0;
-    flex: 1;
+    // Full row, never wrapped: the chips always sit on their own line below, so the
+    // layout stays identical across sections whatever the title length.
+    flex: 1 0 100%;
+    white-space: nowrap;
   }
 
   &__filter {
@@ -106,23 +109,28 @@
     gap: 4px;
   }
 
+  // Tinted pill: transparent at rest with the sport icon in its color, a light wash of
+  // that color when active. Text stays --text-primary, so it reads on every tint.
   &__chip {
     all: unset;
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     box-sizing: border-box;
     min-height: 28px;
-    padding: 4px 12px;
+    padding: 4px 12px 4px 10px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 500;
-    background: var(--surface-secondary);
     border: 1px solid var(--sport-chip-border);
     color: var(--text-primary);
     cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
 
     &:hover {
-      border-color: var(--text-secondary);
+      background: color-mix(in srgb, var(--chip-color) 8%, transparent);
     }
 
     &:focus-visible {
@@ -130,20 +138,17 @@
       outline-offset: 1px;
     }
 
-    &--active {
-      background: var(--chip-color);
+    &--active,
+    &--active:hover {
+      background: color-mix(in srgb, var(--chip-color) 18%, transparent);
       border-color: var(--chip-color);
-      color: var(--sport-chip-ink-light);
       font-weight: 600;
     }
+  }
 
-    &--dark-ink#{&}--active {
-      color: var(--sport-chip-ink-dark);
-    }
-
-    &--hike-ink#{&}--active {
-      color: var(--sport-hike-ink);
-    }
+  &__chip-icon {
+    font-size: 14px;
+    color: var(--chip-color);
   }
 
   &__view {

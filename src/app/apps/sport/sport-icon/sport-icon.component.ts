@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { SportKey } from '../../../content/sport.model';
 
-export type SportIconName = SportKey | 'trophy' | 'flag' | 'sparkles' | 'calendar';
+export type SportIconName = SportKey | 'grid' | 'trophy' | 'flag' | 'sparkles' | 'calendar';
 
 /** Original line icons on a 24px grid, stroked with `currentColor` (circles drawn as two arcs). */
 const ICONS: Record<SportIconName, readonly string[]> = {
@@ -35,6 +35,7 @@ const ICONS: Record<SportIconName, readonly string[]> = {
     'M16.5 8.5c1.6 0 2.4 1.8 2.4 4s-1 3.5-2.4 3.5-2.4-1.3-2.4-3.5.8-4 2.4-4z',
     'M15 18.5h3V20a1.5 1.5 0 0 1-3 0z',
   ],
+  grid: ['M4 4h6v6H4z', 'M14 4h6v6h-6z', 'M4 14h6v6H4z', 'M14 14h6v6h-6z'],
   trophy: [
     'M7 4h10v5a5 5 0 0 1-10 0z',
     'M7 6H4v1a3 3 0 0 0 3 3',

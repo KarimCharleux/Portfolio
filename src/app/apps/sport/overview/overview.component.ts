@@ -98,13 +98,14 @@ export class OverviewComponent {
     ];
   });
 
-  protected readonly equivalences = computed(() =>
-    equivalences(this.sport(), this.totals()).map((e) => ({
+  protected readonly equivalences = computed(() => {
+    const p = this.#progress();
+    return equivalences(this.sport(), this.totals()).map((e) => ({
       id: e.labelKey,
-      value: `${this.#one().format(e.value)}×`,
+      value: `${this.#one().format(e.value * p)}×`,
       label: this.i18n.t(e.labelKey),
-    })),
-  );
+    }));
+  });
 
   constructor() {
     afterNextRender(() => {
