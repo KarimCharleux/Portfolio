@@ -31,8 +31,6 @@ interface RecordCard {
   date: string;
   color: string;
   d: string;
-  start: { x: number; y: number };
-  end: { x: number; y: number };
 }
 
 function toPath(points: number[]): string {
@@ -44,7 +42,8 @@ function toPath(points: number[]): string {
 }
 
 /**
- * A few routes that tell a story (longest per sport, first, latest), each drawn in large.
+ * A trophy case of the routes that tell a story (longest per sport, first, latest): one
+ * medal each, the sport icon over the route's faint trace.
  * `routes.json` is newest first, so index 0 is the latest and the last index the first.
  */
 @Component({
@@ -67,7 +66,7 @@ export class RecordsComponent {
     () =>
       new Intl.DateTimeFormat(this.i18n.locale(), {
         day: 'numeric',
-        month: 'long',
+        month: 'short',
         year: 'numeric',
         timeZone: 'UTC',
       }),
@@ -99,7 +98,6 @@ export class RecordsComponent {
     hold(routes[routes.length - 1], 'sportRecordFirst');
 
     return [...held].map(([r, keys]) => {
-      const p = r.points;
       return {
         id: `${r.date}-${r.sport}-${r.distanceKm}`,
         kickers: keys.map((key) => ({ key, icon: RECORD_ICONS[key], label: this.i18n.t(key) })),
@@ -108,9 +106,7 @@ export class RecordsComponent {
         km: this.#km().format(r.distanceKm),
         date: this.#dateFormat().format(new Date(`${r.date}T00:00:00Z`)),
         color: sportColor(r.sport),
-        d: toPath(p),
-        start: { x: p[0], y: p[1] },
-        end: { x: p[p.length - 2], y: p[p.length - 1] },
+        d: toPath(r.points),
       };
     });
   });

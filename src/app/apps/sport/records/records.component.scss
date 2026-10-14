@@ -1,164 +1,124 @@
 @use '../../app-window-content' as window;
 
+// Trophy case: one medal per record, the sport icon embossed over the route's faint trace.
 .records {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 24px 12px;
 
   &__note,
   &__status {
     @include window.secondary-text;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
   }
 
-  &__card {
+  &__medal {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 16px;
-    border-radius: 14px;
-    background:
-      radial-gradient(
-        circle at 50% 35%,
-        color-mix(in srgb, var(--route-color) 14%, transparent),
-        transparent 70%
-      ),
-      var(--surface-secondary);
-    border: 1px solid var(--hairline);
+    align-items: center;
+    text-align: center;
     animation: records-in 0.5s var(--ease-spring) both;
     animation-delay: var(--delay);
   }
 
-  // Sport chip beside the figures, tinted with the route's own color.
-  &__badge {
-    grid-column: 2;
-    grid-row: 2 / span 2;
-    align-self: center;
+  // Double rim: solid sport-colored ring, a surface-colored gap, then a fainter inner ring.
+  &__disc {
+    position: relative;
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 104px;
+    height: 104px;
+    margin-bottom: 12px;
     border-radius: 50%;
-    font-size: 18px;
-    color: var(--route-color);
-    background: color-mix(in srgb, var(--route-color) 16%, var(--surface-secondary));
-    border: 1px solid color-mix(in srgb, var(--route-color) 35%, transparent);
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--route-color) 22%, var(--surface)) 0,
+      var(--surface-secondary) 72%
+    );
+    border: 3px solid var(--route-color);
+    box-shadow:
+      inset 0 0 0 3px var(--surface),
+      inset 0 0 0 4px color-mix(in srgb, var(--route-color) 45%, transparent);
+    transition: transform 0.3s var(--ease-spring);
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &__shape {
-    width: 100%;
-    max-height: 220px;
-    aspect-ratio: 1;
-    display: block;
+    position: absolute;
+    inset: 14px;
+    opacity: 0.35;
   }
 
   // pathLength="1" makes the dash run the whole route, so offset 1 -> 0 draws it in.
-  &__line,
-  &__glow {
+  &__line {
     fill: none;
     stroke: var(--route-color);
+    stroke-width: 0.04;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-dasharray: 1;
-    animation: records-draw 1.8s var(--ease-spring) both;
+    animation: records-draw 1.6s var(--ease-spring) both;
     animation-delay: var(--delay);
   }
 
-  &__line {
-    stroke-width: 0.016;
+  &__sport {
+    position: relative;
+    font-size: 36px;
+    color: var(--route-color);
   }
 
-  &__glow {
-    stroke-width: 0.055;
-    opacity: 0.18;
-  }
-
-  &__start {
-    fill: var(--surface-secondary);
-    stroke: var(--route-color);
-    stroke-width: 0.012;
-  }
-
-  &__end {
-    fill: var(--route-color);
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: records-pop 0.4s var(--ease-spring) both;
-    animation-delay: calc(var(--delay) + 1.4s);
-  }
-
-  &__details {
+  // Record-type pin on the medal's lower-right rim.
+  &__badge {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 2px 12px;
-
-    > :not(.records__badge) {
-      grid-column: 1;
-    }
-
-    // The record label runs the full width, above the badge.
-    > .records__kickers {
-      grid-column: 1 / -1;
-    }
-  }
-
-  &__kickers {
-    list-style: none;
-    margin: 0 0 2px;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 12px;
-  }
-
-  &__kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 16px;
     color: var(--sport-accent-text);
+    background: var(--surface-secondary);
+    border: 2px solid var(--surface);
+    animation: records-pop 0.4s var(--ease-spring) both;
+    animation-delay: calc(var(--delay) + 0.6s);
   }
 
   &__distance {
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
   }
 
   &__unit {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0;
     color: var(--text-secondary);
   }
 
-  &__meta {
+  &__caption,
+  &__date {
     @include window.secondary-text;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 14px;
-    margin-top: 4px;
   }
 
-  &__meta-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+  &__date {
+    font-size: 12px;
   }
 }
 
 @keyframes records-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(8px) scale(0.92);
   }
 }
 
@@ -180,10 +140,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .records__card,
+  .records__medal,
   .records__line,
-  .records__glow,
-  .records__end {
+  .records__badge {
     animation: none;
+  }
+
+  .records__disc {
+    transition: none;
   }
 }
