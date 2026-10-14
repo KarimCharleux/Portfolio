@@ -1,17 +1,17 @@
 {
-  "syncedAt": "2026-10-12",
+  "syncedAt": "2026-10-14",
   "videos": [
     {
       "id": "scZMp75Xlss",
-      "title": "Mountains | Cinematic FPV",
+      "title": "Mountains",
       "publishedAt": "2023-03-12",
-      "views": 624,
+      "views": 627,
       "duration": 121,
-      "clipStart": 42
+      "clipStart": 51
     },
     {
       "id": "129LTX7PnQ8",
-      "title": "Escape drone 2021 - FPV Chasing",
+      "title": "Escape drone",
       "publishedAt": "2021-09-04",
       "views": 625,
       "duration": 159,
@@ -19,35 +19,35 @@
     },
     {
       "id": "THm7vXgOwgA",
-      "title": "IFLIGHT PROTEK35 FPV x MTB - GoPro 8",
+      "title": "FPV x MTB",
       "publishedAt": "2021-02-06",
       "views": 1176,
       "duration": 180,
-      "clipStart": 62
+      "clipStart": 132
     },
     {
       "id": "u0NG_gI1jAM",
-      "title": "Cinematic FPV - Hero 6 Black",
+      "title": "Cinematic",
       "publishedAt": "2020-06-24",
       "views": 13962,
       "duration": 180,
-      "clipStart": 62
+      "clipStart": 114
     },
     {
       "id": "CaR3ttWnq-s",
-      "title": "FPV FREESTYLE IN ABANDONED AQUATIC PARK ! - Nazgul5",
+      "title": "Aquatic Park",
       "publishedAt": "2020-05-28",
-      "views": 12381,
+      "views": 12382,
       "duration": 178,
-      "clipStart": 62
+      "clipStart": 45
     },
     {
       "id": "DH33suA9wmQ",
-      "title": "Freestyle Forest - Nazgul5",
+      "title": "Freestyle Forest",
       "publishedAt": "2020-04-14",
-      "views": 5890,
+      "views": 5891,
       "duration": 207,
-      "clipStart": 72
+      "clipStart": 92
     }
   ]
 }

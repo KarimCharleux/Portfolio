@@ -83,10 +83,23 @@ export function parseTimecode(value, id) {
   throw new Error(`clips.json: invalid timecode ${JSON.stringify(value)} for ${id} (use "m:ss").`);
 }
 
+/**
+ * A clips.json entry is either a bare timecode or `{ "title": "...", "start": "m:ss" }`. The
+ * optional title replaces the YouTube title shown on the portfolio (see titleFor).
+ */
 export function clipStartFor(id, duration, config) {
+  const entry = config[id];
+  const timecode = entry !== null && typeof entry === 'object' ? entry.start : entry;
   const wanted =
-    id in config ? parseTimecode(config[id], id) : Math.floor(duration * DEFAULT_START_RATIO);
+    id in config ? parseTimecode(timecode, id) : Math.floor(duration * DEFAULT_START_RATIO);
   return Math.max(0, Math.min(wanted, duration - CLIP_SECONDS));
+}
+
+/** The clips.json title when one is set (non-empty), else the original YouTube title. */
+export function titleFor(id, youtubeTitle, config) {
+  const entry = config[id];
+  const custom = entry !== null && typeof entry === 'object' ? entry.title : undefined;
+  return typeof custom === 'string' && custom.trim() !== '' ? custom.trim() : youtubeTitle;
 }
 
 function readJson(path, fallback) {
@@ -202,7 +215,12 @@ async function main() {
         cutClip(entry.id, clipStart, rawDir, join(stagedDir, `${entry.id}.mp4`));
       }
       await downloadPoster(entry.id, workDir, join(stagedDir, `${entry.id}.jpg`));
-      videos.push({ ...entry, duration: seconds, clipStart });
+      videos.push({
+        ...entry,
+        title: titleFor(entry.id, entry.title, config),
+        duration: seconds,
+        clipStart,
+      });
     }
 
     mkdirSync(MEDIA_DIR, { recursive: true });
