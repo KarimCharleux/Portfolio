@@ -7,6 +7,7 @@ import {
   afterNextRender,
   computed,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -15,6 +16,22 @@ import { WindowManagerService } from '../../core/window-manager/window-manager.s
 import { ThemeService } from '../../core/theme/theme.service';
 import { I18nService } from '../../core/i18n/i18n.service';
 import { CursorService } from '../../core/cursor/cursor.service';
+
+/** Phosphor icons (regular weight) + Tabler's filled Apple logo, copied from `node_modules/@phosphor-icons/core` and `node_modules/@tabler/icons` at build time (see `angular.json` assets). */
+const GLYPHS = {
+  apple: 'topbar/brand-apple.svg',
+  light: 'topbar/sun.svg',
+  dark: 'topbar/moon.svg',
+  sound: 'topbar/speaker-high.svg',
+  soundOff: 'topbar/speaker-slash.svg',
+  bluetooth: 'topbar/bluetooth.svg',
+  bluetoothOff: 'topbar/bluetooth-slash.svg',
+  battery: 'topbar/battery-high.svg',
+  wifi: 'topbar/wifi-high.svg',
+  wifiOff: 'topbar/wifi-slash.svg',
+} as const;
+
+const glyph = (path: string): string => `url('/${path}')`;
 
 @Component({
   selector: 'app-topbar',
@@ -33,6 +50,25 @@ export class TopbarComponent {
 
   protected readonly darkMode = this.#theme.isDark;
 
+  protected readonly soundOn = signal(true);
+  protected readonly bluetoothOn = signal(true);
+  protected readonly wifiOn = signal(true);
+
+  protected readonly appleGlyph = glyph(GLYPHS.apple);
+  protected readonly themeGlyph = computed(() =>
+    glyph(this.darkMode() ? GLYPHS.dark : GLYPHS.light),
+  );
+  protected readonly batteryGlyph = glyph(GLYPHS.battery);
+  protected readonly soundGlyph = computed(() =>
+    glyph(this.soundOn() ? GLYPHS.sound : GLYPHS.soundOff),
+  );
+  protected readonly bluetoothGlyph = computed(() =>
+    glyph(this.bluetoothOn() ? GLYPHS.bluetooth : GLYPHS.bluetoothOff),
+  );
+  protected readonly wifiGlyph = computed(() =>
+    glyph(this.wifiOn() ? GLYPHS.wifi : GLYPHS.wifiOff),
+  );
+
   constructor() {
     const platformId = inject(PLATFORM_ID);
     if (!isPlatformBrowser(platformId)) {
@@ -43,6 +79,16 @@ export class TopbarComponent {
     const reportNotchRect = () =>
       this.#cursor.setNotchRect(this.notch().nativeElement.getBoundingClientRect());
     afterNextRender(() => {
+      // Warm the cache so the first toggle doesn't flash an empty mask while the other SVG loads.
+      for (const path of [
+        GLYPHS.light,
+        GLYPHS.dark,
+        GLYPHS.soundOff,
+        GLYPHS.bluetoothOff,
+        GLYPHS.wifiOff,
+      ]) {
+        new Image().src = `/${path}`;
+      }
       reportNotchRect();
       window.addEventListener('resize', reportNotchRect);
       destroyRef.onDestroy(() => {
@@ -56,6 +102,8 @@ export class TopbarComponent {
     this.i18n.t(this.#windowManager.frontmost()?.titleKey ?? 'siteOwner'),
   );
 
+  // macOS separates the date and time with plain spaces ("mer. 14 oct. 11:43",
+  // "Wed Oct 14 11:43 AM"), where Intl inserts commas: drop them from the literals.
   protected readonly formattedTime = computed(() =>
     new Intl.DateTimeFormat(this.i18n.locale(), {
       weekday: 'short',
@@ -63,8 +111,23 @@ export class TopbarComponent {
       month: 'short',
       hour: '2-digit',
       minute: '2-digit',
-    }).format(this.#clock.now()),
+    })
+      .formatToParts(this.#clock.now())
+      .map((part) => (part.type === 'literal' ? part.value.replace(',', '') : part.value))
+      .join(''),
   );
+
+  toggleSound(): void {
+    this.soundOn.update((on) => !on);
+  }
+
+  toggleBluetooth(): void {
+    this.bluetoothOn.update((on) => !on);
+  }
+
+  toggleWifi(): void {
+    this.wifiOn.update((on) => !on);
+  }
 
   toggleTheme(): void {
     this.#theme.toggle();

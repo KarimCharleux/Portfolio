@@ -7,6 +7,21 @@
   --menu-bar-item-size: 22px;
   --menu-bar-text: #000;
 
+  // Menu-bar glyphs (Phosphor icons): one size + vertical nudge per icon, tweak freely.
+  // The stroke scales with the size, so icons that should look equally thick share a size.
+  --menu-bar-apple-size: 18px;
+  --menu-bar-apple-offset-y: 0px;
+  --menu-bar-theme-size: 15px;
+  --menu-bar-theme-offset-y: 0px;
+  --menu-bar-sound-size: 15px;
+  --menu-bar-sound-offset-y: 0px;
+  --menu-bar-bluetooth-size: 15px;
+  --menu-bar-bluetooth-offset-y: 0px;
+  --menu-bar-battery-size: 18px;
+  --menu-bar-battery-offset-y: 0px;
+  --menu-bar-wifi-size: 18px;
+  --menu-bar-wifi-offset-y: 0px;
+
   --traffic-light-diameter: 14px;
   --traffic-light-gap: 8px;
   --traffic-light-close: #ff5f57;

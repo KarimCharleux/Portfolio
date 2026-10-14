@@ -30,6 +30,16 @@
                 "input": "public"
               },
               {
+                "glob": "brand-apple.svg",
+                "input": "node_modules/@tabler/icons/icons/filled",
+                "output": "topbar"
+              },
+              {
+                "glob": "{sun,moon,speaker-high,speaker-slash,bluetooth,bluetooth-slash,battery-high,wifi-high,wifi-slash}.svg",
+                "input": "node_modules/@phosphor-icons/core/assets/regular",
+                "output": "topbar"
+              },
+              {
                 "glob": "countries-50m.json",
                 "input": "node_modules/world-atlas",
                 "output": "sport"

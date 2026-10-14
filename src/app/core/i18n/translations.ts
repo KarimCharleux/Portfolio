@@ -93,6 +93,10 @@ export const TRANSLATIONS = {
 
   langToggleLabel: { en: 'Switch language', fr: 'Changer de langue' },
   toggleDarkMode: { en: 'Toggle dark mode', fr: 'Changer de thème' },
+  menuBarSound: { en: 'Sound', fr: 'Son' },
+  menuBarBluetooth: { en: 'Bluetooth', fr: 'Bluetooth' },
+  menuBarWifi: { en: 'Wi-Fi', fr: 'Wi-Fi' },
+  menuBarBattery: { en: 'Battery 75%', fr: 'Batterie 75 %' },
   windowClose: { en: 'Close', fr: 'Fermer' },
   windowMinimize: { en: 'Minimize', fr: 'Réduire' },
   windowZoom: { en: 'Zoom', fr: 'Zoomer' },
