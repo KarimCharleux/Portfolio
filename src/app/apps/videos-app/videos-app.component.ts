@@ -10,6 +10,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { siYoutube } from 'simple-icons';
 import { I18nService } from '../../core/i18n/i18n.service';
 import {
   YOUTUBE_VIDEOS,
@@ -35,6 +36,8 @@ export class VideosAppComponent {
   protected readonly clipSrc = youtubeClipSrc;
   protected readonly posterSrc = youtubePosterSrc;
   protected readonly watchUrl = youtubeWatchUrl;
+  /** Official YouTube mark (path and brand red) from simple-icons, never hand-typed. */
+  protected readonly youtubeMark = siYoutube;
 
   readonly #current = signal(0);
   protected readonly current = this.#current.asReadonly();

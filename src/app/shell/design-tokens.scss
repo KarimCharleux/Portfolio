@@ -108,7 +108,15 @@
   /* Videos app (Cinéma): dark in both themes, it is a video surface. */
   --videos-surface: #000;
   --videos-crossfade: 1s;
-  --videos-list-width: 210px;
+  /* Up Next rail: single-line titles, never reflowed while animating; rows hug their title. */
+  --videos-list-width: 260px;
+  --videos-thumb-width: 72px;
+  --videos-item-radius: 14px;
+  --videos-list-duration: 0.5s;
+  --videos-rise-duration: 0.6s;
+  --videos-rise-stagger: 70ms;
+  /* iOS sheet curve: quick start, long soft settle, no overshoot. */
+  --videos-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --videos-inset: 32px;
   --videos-glass: rgb(255 255 255 / 0.12);
   --videos-text-secondary: rgb(255 255 255 / 0.7);
