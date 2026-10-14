@@ -1,12 +1,13 @@
 <div class="photos">
-  <div class="photos__masonry" [inert]="!!selectedPhoto()">
+  <div
+    #masonry
+    class="photos__masonry"
+    [class.photos__masonry--dragging]="dragging()"
+    [inert]="!!selectedPhoto()"
+  >
     @for (column of columns; track $index) {
       <div class="photos__column" (focusin)="onColumnFocusIn($event)">
-        <div
-          class="photos__column-track"
-          [class.photos__column-track--reverse]="column.reverse"
-          [style.animation-duration.s]="column.durationS"
-        >
+        <div #track class="photos__column-track">
           @for (photo of column.photos; track photo.id) {
             <button type="button" class="photos__tile" (click)="open(photo)">
               <img

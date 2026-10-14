@@ -24,6 +24,14 @@
   inset: calc(var(--window-titlebar-height)) var(--photos-gap) var(--photos-gap);
   border-radius: 6px;
   overflow: hidden;
+  // Vertical drags scroll the gallery (handled in JS), not the page/shell around it.
+  touch-action: none;
+  user-select: none;
+
+  &--dragging,
+  &--dragging .photos__tile {
+    cursor: grabbing;
+  }
 }
 
 .photos__column {
@@ -41,25 +49,9 @@
   flex-direction: column;
   gap: var(--photos-gap);
   width: 100%;
-  animation-name: photos-scroll-loop;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-
-  // Mouse convenience (:hover) and keyboard equivalent (:focus-within, since the tile that
-  // receives focus is a descendant, not this element itself) both pause the loop so its
-  // content can actually be read/aimed at.
-  &:hover,
-  &:focus-within {
-    animation-play-state: paused;
-  }
-
-  &--reverse {
-    animation-direction: reverse;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
+  // translateY is driven per frame by PhotosAppComponent's scroll loop (ambient drift, wheel
+  // and drag inertia); see #startScrollLoop.
+  will-change: transform;
 }
 
 @container photos (min-width: 420px) {
@@ -68,7 +60,7 @@
     // inner `.photos__column-track` supplies its own `display: flex`. Reintroducing `display:
     // flex` here would make this column a one-item flex row, whose default `align-items:
     // stretch` re-stretches `.photos__column-track` to the column's clipped height instead of
-    // its own content height — silently breaking the loop-seam fix above for this column only.
+    // its own content height — silently breaking the loop length #startScrollLoop measures for this column only.
     display: block;
   }
 }
@@ -76,21 +68,6 @@
 @container photos (min-width: 740px) {
   .photos__column:nth-child(n + 4) {
     display: block;
-  }
-}
-
-@keyframes photos-scroll-loop {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    // -50% of the doubled track's height overshoots the true loop point by half a gap: the
-    // doubled list has 2n items but only 2n-1 gaps (the seam between the two copies reuses one
-    // gap), so -50% lands short of "one copy plus its trailing gap" by exactly gap/2. Deriving
-    // the correction from --photos-gap (rather than a hardcoded half-value) keeps it correct
-    // automatically if the gap ever changes.
-    transform: translateY(calc(-50% - (var(--photos-gap) / 2)));
   }
 }
 
