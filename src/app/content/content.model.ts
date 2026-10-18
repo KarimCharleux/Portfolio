@@ -54,3 +54,16 @@ export interface YoutubeVideo {
   /** Where the 6 s clip starts in the full video, seconds. */
   clipStart: number;
 }
+
+export type CareerKind = 'work' | 'school';
+
+/** One career step. Dates are `YYYY-MM` month strings; `end: null` means ongoing. */
+export interface CareerStep {
+  id: string;
+  kind: CareerKind;
+  start: string;
+  end: string | null;
+  title: string;
+  org: string;
+  note?: string;
+}

@@ -23,6 +23,11 @@ export const ROUTE_SEO: Partial<Record<AppId, RouteSeoEntry>> = {
     description:
       "Qui est Karim Charleux, ce qu'il fait et sur quoi il travaille en ce moment, présenté dans l'app Notes de son bureau interactif.",
   },
+  calendar: {
+    title: 'Karim Charleux · Parcours',
+    description:
+      "Le parcours de Karim Charleux, d'Air France à Polytech Nice Sophia et l'IAE Nice : expériences et formations sur une frise, dans l'app Calendrier de son bureau interactif.",
+  },
   vscode: {
     title: 'Karim Charleux · Projets de code',
     description:

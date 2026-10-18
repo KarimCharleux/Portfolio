@@ -1,0 +1,172 @@
+@use '../app-window-content' as window;
+
+.calendar {
+  @include window.container;
+
+  &__heading {
+    @include window.heading;
+    margin-bottom: 24px;
+  }
+
+  &__range {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  // Two thin tracks (work, school) over a year ruler; the today line is laid over
+  // both tracks, offset by the label column.
+  &__timeline {
+    --label-width: 52px;
+
+    position: relative;
+    display: grid;
+    row-gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: var(--label-width) 1fr;
+    align-items: center;
+  }
+
+  &__track-label {
+    @include window.secondary-text;
+    font-size: 12px;
+  }
+
+  &__track {
+    display: grid;
+    gap: 3px;
+  }
+
+  &__lane {
+    position: relative;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--career-track);
+  }
+
+  &__bar {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 3px;
+    background: var(--kind-color);
+    transition: opacity 0.2s;
+
+    &--dimmed {
+      opacity: 0.2;
+    }
+  }
+
+  &__years {
+    position: relative;
+    height: 14px;
+  }
+
+  &__year {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__today {
+    position: absolute;
+    top: -4px;
+    bottom: 20px;
+    left: calc(var(--label-width) + (100% - var(--label-width)) * var(--today-at) / 100);
+    width: 2px;
+    border-radius: 1px;
+    background: var(--career-today);
+    pointer-events: none;
+  }
+
+  &__columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px 40px;
+  }
+
+  &__column-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--kind-color);
+    }
+  }
+
+  &__step {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    gap: 12px;
+    margin: 0 -10px;
+    padding: 12px 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+
+    & + & {
+      border-top: 1px solid var(--hairline);
+    }
+
+    &--active {
+      background: var(--career-hover);
+    }
+  }
+
+  &__when {
+    @include window.secondary-text;
+    margin: 2px 0 0;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__now {
+    color: var(--career-today-text);
+    font-weight: 500;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  &__org {
+    @include window.secondary-text;
+    margin: 1px 0 0;
+  }
+
+  &__note {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  [data-kind='work'] {
+    --kind-color: var(--career-work);
+  }
+
+  [data-kind='school'] {
+    --kind-color: var(--career-school);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__bar,
+    &__step {
+      transition: none;
+    }
+  }
+}

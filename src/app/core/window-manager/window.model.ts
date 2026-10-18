@@ -11,6 +11,7 @@ export type AppId =
   | 'messages'
   | 'terminal'
   | 'sport'
+  | 'calendar'
   | 'soluxia'
   | 'trash'
   | 'about';

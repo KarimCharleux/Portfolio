@@ -17,11 +17,22 @@ import { DockAppDef } from './dock-app.model';
  */
 const TERMINAL_WINDOW = { width: 648, height: 442 };
 
+/** Timeline + two columns of career steps read best at this width without scrolling. */
+const CALENDAR_WINDOW = { width: 880, height: 640 };
+
 /** Sidebar (200px) + charts need more room than the 720x480 default. */
 const SPORT_WINDOW = { width: 960, height: 620 };
 
 export const DOCK_APPS: DockAppDef[] = [
   { id: 'notes', labelKey: 'dockNotes', icon: 'notes', pinnedMobile: true, tooltip: 'aboutMe' },
+  {
+    id: 'calendar',
+    labelKey: 'dockCalendar',
+    icon: 'calendar',
+    pinnedMobile: false,
+    tooltip: 'career',
+    windowSize: CALENDAR_WINDOW,
+  },
   {
     id: 'soluxia',
     labelKey: 'dockSoluxia',

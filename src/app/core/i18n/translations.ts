@@ -24,6 +24,7 @@ export const TRANSLATIONS = {
   trash: { en: 'Trash', fr: 'Corbeille' },
   sportStats: { en: 'Sport', fr: 'Sport' },
   soluxiaWeb: { en: 'My web agency', fr: 'Mon agence web' },
+  career: { en: 'Career', fr: 'Parcours' },
 
   // App names as shown in the dock, the mobile home screen, Finder rows and window titles.
   // Brand names stay identical across locales but still go through the table so every
@@ -34,6 +35,7 @@ export const TRANSLATIONS = {
   dockFigma: { en: 'Figma', fr: 'Figma' },
   dockYoutube: { en: 'YouTube', fr: 'YouTube' },
   dockSport: { en: 'Sport', fr: 'Sport' },
+  dockCalendar: { en: 'Calendar', fr: 'Calendrier' },
   dockSafari: { en: 'Safari', fr: 'Safari' },
   dockFinder: { en: 'Finder', fr: 'Finder' },
   dockMessages: { en: 'Messages', fr: 'Messages' },
@@ -90,6 +92,53 @@ export const TRANSLATIONS = {
     en: 'Running a drone FPV YouTube channel for 8 years now (WodeFPV). Coding all day makes you want to fly a little.',
     fr: 'Chaîne YouTube drone FPV ouverte depuis 8 ans (WodeFPV). Coder toute la journée, ça donne envie de voler un peu.',
   },
+
+  // Calendar app: career timeline (two tracks) and the two columns of steps under it.
+  careerToday: { en: 'today', fr: "aujourd'hui" },
+  careerNowShort: { en: 'now', fr: 'auj.' },
+  careerMonths: { en: 'mo', fr: 'mois' },
+  careerTimeline: { en: 'Career timeline', fr: 'Frise du parcours' },
+  careerWork: { en: 'Experience', fr: 'Expériences' },
+  careerSchool: { en: 'Education', fr: 'Formations' },
+  careerTrackWork: { en: 'Work', fr: 'Pro' },
+  careerTrackSchool: { en: 'School', fr: 'Études' },
+  careerAfCdiTitle: { en: 'Software Engineer', fr: 'Ingénieur logiciel' },
+  careerAfCdiOrg: { en: 'Air France · Full-time', fr: 'Air France · CDI' },
+  careerAfCdiNote: {
+    en: 'Angular, GraphQL, Java / Spring Boot.',
+    fr: 'Angular, GraphQL, Java / Spring Boot.',
+  },
+  careerSoluxiaTitle: { en: 'Cofounder', fr: 'Cofondateur' },
+  careerSoluxiaOrg: { en: 'Soluxia Web', fr: 'Soluxia Web' },
+  careerSoluxiaNote: {
+    en: 'Helping small businesses go digital, with Damien.',
+    fr: 'Digitalisation des PME, avec Damien.',
+  },
+  careerAfApprenticeTitle: { en: 'Apprentice Engineer', fr: 'Ingénieur en alternance' },
+  careerAfApprenticeOrg: { en: 'Air France', fr: 'Air France' },
+  careerAfApprenticeNote: {
+    en: '3 internal hackathons, 3 wins.',
+    fr: '3 hackathons internes, 3 prix.',
+  },
+  careerVietnamTitle: { en: 'Internship', fr: 'Stage' },
+  careerVietnamOrg: { en: 'VKU · Da Nang, Vietnam', fr: 'VKU · Da Nang, Vietnam' },
+  careerVietnamNote: {
+    en: 'GreenShop, an eco-friendly e-commerce platform.',
+    fr: 'GreenShop, e-commerce écoresponsable.',
+  },
+  careerDutInternTitle: { en: 'Web Developer Intern', fr: 'Stage développeur web' },
+  careerDutInternOrg: { en: 'Valence', fr: 'Valence' },
+  careerIaeTitle: { en: "Master's in Management (MAE)", fr: 'Master MAE' },
+  careerIaeOrg: { en: 'IAE Nice', fr: 'IAE Nice' },
+  careerIaeNote: { en: 'Dual degree in management.', fr: 'Double diplôme en management.' },
+  careerPolytechTitle: { en: 'Computer Science Engineering', fr: 'Ingénieur informatique' },
+  careerPolytechOrg: { en: 'Polytech Nice Sophia', fr: 'Polytech Nice Sophia' },
+  careerPolytechNote: {
+    en: 'Human-Machine Interface track.',
+    fr: 'Spécialité Interface Homme-Machine.',
+  },
+  careerDutTitle: { en: 'Computer Science Degree (DUT)', fr: 'DUT Informatique' },
+  careerDutOrg: { en: 'IUT Valence', fr: 'IUT de Valence' },
 
   langToggleLabel: { en: 'Switch language', fr: 'Changer de langue' },
   toggleDarkMode: { en: 'Toggle dark mode', fr: 'Changer de thème' },

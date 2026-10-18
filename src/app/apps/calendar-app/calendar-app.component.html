@@ -1,0 +1,78 @@
+<div class="calendar">
+  <h2 class="calendar__heading">
+    {{ i18n.t('career') }}
+    <span class="calendar__range">{{ firstYear() }} → {{ i18n.t('careerToday') }}</span>
+  </h2>
+
+  <div
+    class="calendar__timeline"
+    role="img"
+    [attr.aria-label]="i18n.t('careerTimeline')"
+    [style.--today-at]="todayLeft()"
+  >
+    @for (track of tracks(); track track.kind) {
+      <div class="calendar__row" [attr.data-kind]="track.kind">
+        <span class="calendar__track-label" aria-hidden="true">{{ i18n.t(track.trackKey) }}</span>
+        <div class="calendar__track">
+          @for (lane of track.lanes; track $index) {
+            <div class="calendar__lane">
+              @for (bar of lane; track bar.id) {
+                <div
+                  class="calendar__bar"
+                  [class.calendar__bar--dimmed]="hovered() !== null && hovered() !== bar.id"
+                  [style.left.%]="bar.left"
+                  [style.width.%]="bar.width"
+                  (mouseenter)="hovered.set(bar.id)"
+                  (mouseleave)="hovered.set(null)"
+                ></div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+    <div class="calendar__row" aria-hidden="true">
+      <span></span>
+      <div class="calendar__years">
+        @for (y of years(); track y.year) {
+          <span class="calendar__year" [style.left.%]="y.left">{{ y.year }}</span>
+        }
+      </div>
+    </div>
+    <span class="calendar__today" aria-hidden="true"></span>
+  </div>
+
+  <div class="calendar__columns">
+    @for (column of columns(); track column.kind) {
+      <section class="calendar__column" [attr.data-kind]="column.kind">
+        <h3 class="calendar__column-heading">{{ i18n.t(column.headingKey) }}</h3>
+        @for (item of column.steps; track item.step.id) {
+          <article
+            class="calendar__step"
+            [class.calendar__step--active]="hovered() === item.step.id"
+            (mouseenter)="hovered.set(item.step.id)"
+            (mouseleave)="hovered.set(null)"
+          >
+            <p class="calendar__when">
+              {{ item.from }}
+              @if (item.months !== null) {
+                · {{ item.months }} {{ i18n.t('careerMonths') }}
+              } @else if (item.to) {
+                → {{ item.to }}
+              } @else {
+                → <span class="calendar__now">{{ i18n.t('careerNowShort') }}</span>
+              }
+            </p>
+            <div>
+              <h4 class="calendar__title">{{ item.step.title }}</h4>
+              <p class="calendar__org">{{ item.step.org }}</p>
+              @if (item.step.note) {
+                <p class="calendar__note">{{ item.step.note }}</p>
+              }
+            </div>
+          </article>
+        }
+      </section>
+    }
+  </div>
+</div>

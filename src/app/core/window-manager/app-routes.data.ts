@@ -9,6 +9,7 @@ import { AppId } from './window.model';
 export const APP_ROUTE_SLUGS: Partial<Record<AppId, string>> = {
   about: '',
   notes: 'about-me',
+  calendar: 'career',
   vscode: 'projects',
   finder: 'all-projects',
   figma: 'design',

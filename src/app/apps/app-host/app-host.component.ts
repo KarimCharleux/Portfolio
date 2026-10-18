@@ -10,6 +10,7 @@ import { NotesAppComponent } from '../notes-app/notes-app.component';
 import { VideosAppComponent } from '../videos-app/videos-app.component';
 import { SportAppComponent } from '../sport/sport-app/sport-app.component';
 import { PhotosAppComponent } from '../photos-app/photos-app.component';
+import { CalendarAppComponent } from '../calendar-app/calendar-app.component';
 import { CODE_PROJECTS } from '../../content/code-projects.data';
 import { SOCIAL_LINKS } from '../../content/social-links.data';
 import { DESIGNS } from '../../content/designs.data';
@@ -36,6 +37,7 @@ const GRID_SOURCES: Partial<
     AppContentGridComponent,
     FinderAppComponent,
     AboutPortfolioComponent,
+    CalendarAppComponent,
     TerminalAppComponent,
     NotesAppComponent,
     PhotosAppComponent,
@@ -51,6 +53,8 @@ const GRID_SOURCES: Partial<
       <app-terminal />
     } @else if (appId() === 'notes') {
       <app-notes />
+    } @else if (appId() === 'calendar') {
+      <app-calendar />
     } @else if (appId() === 'photoshop') {
       <app-photos />
     } @else if (appId() === 'youtube') {
